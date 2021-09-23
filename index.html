@@ -22,7 +22,7 @@
 		let controller;
 		let loader; // we need to create a variable for a gltf model loader
 
-		let locationSet = false;
+		let locationSet = false; // Check wether the user has defined the inital position of the model
 
 		init();
 		animate();
@@ -45,48 +45,6 @@
 			light.position.set(0.5, 1, 0.25);
 			scene.add(light);
 
-			
-
-			// const light = new THREE.AmbientLight( 0x404040 ); // soft white light
-			// scene.add( light );
-
-
-      // // specify a model URL
-      // const modelUrl = 'https://irfangh.github.io/Models/Konsole_01_1_Beton.obj';
-
-			// //  OBJ loader
-			// const loader = new THREE.OBJLoader();
-      
-      // // load the model
-      // // loader takes in a few arguments loader(model url, onLoad callback, onProgress callback, onError callback)
-			// loader.load(
-			// 	// model URL
-			// 	modelUrl,
-			// 	// onLoad callback: what get's called once the full model has loaded
-			// 	function (modelObject) {
-      //     // gltf.scene contains the Three.js object group that represents the 3d object of the model
-			// 		// const model = gltf.scene;
-			// 		const sf = 1/100;
-			// 		modelObject.scale.set(sf, sf, sf);
-			// 		scene.add(modelObject);
-      //     console.log("Model added to scene");
-          
-      //     // you can optionally change the position of the model
-      //     modelObject.position.z = -1; // negative Z moves the model in the opposite direction the camera is facing
-      //     modelObject.position.y = 0; // positive Y moves the model up
-      //     //  gltf.scene.position.x = 10; // positive X moves hte model to the right
-
-			// 		modelObject.rotation.y = THREE.Math.degToRad(270);
-			// 	},
-			// 	// onProgress callback: optional function for showing progress on model load
-			// 	function (xhr) {
-		  //     console.log((xhr.loaded / xhr.total * 100) + '% loaded' );
-	    //   },
-			// 	// onError callback
-			// 	function (error) {
-			// 		console.error(error);
-			// 	}
-			// );
 
 			controller = renderer.xr.getController(0);
 			controller.addEventListener('select', onSelect);
@@ -102,6 +60,50 @@
 
 			window.addEventListener('resize', onWindowResize, false);
 		}
+
+    function placeModel(reticleFixed) {
+      // specify a model URL
+			const modelUrl = 'https://irfangh.github.io/Models/Konsole_01_1_Beton.obj';
+
+			//  OBJ loader
+			const loader = new THREE.OBJLoader();
+
+			var concreteMaterial = new THREE.MeshBasicMaterial( { color: "rgb(195,195,195)" } );
+
+			// load the model
+			// loader takes in a few arguments loader(model url, onLoad callback, onProgress callback, onError callback)
+			loader.load(
+				// model URL
+				modelUrl,
+				// onLoad callback: what get's called once the full model has loaded
+				function (modelObject) {
+
+					modelObject.traverse( function( child ) {
+            if ( child instanceof THREE.Mesh ) {
+                child.material = concreteMaterial;
+							}
+					} );
+
+					const sf = 2/100;
+					modelObject.scale.set(sf, sf, sf);
+					scene.add(modelObject);
+					console.log("Model added to scene");
+					
+					modelObject.position.setFromMatrixPosition(reticleFixed.matrix);
+					modelObject.quaternion.setFromRotationMatrix(reticleFixed.matrix);
+
+					modelObject.rotation.y = THREE.Math.degToRad(225);
+				},
+				// onProgress callback: optional function for showing progress on model load
+				function (xhr) {
+					console.log((xhr.loaded / xhr.total * 100) + '% loaded' );
+				},
+				// onError callback
+				function (error) {
+					console.error(error);
+				}
+			);
+    }
 
 		function addReticleToScene() {
         const geometry = new THREE.RingBufferGeometry(0.15, 0.2, 32).rotateX(
@@ -124,56 +126,10 @@
       function onSelect() {        
         if (reticle.visible) {
 					if (!locationSet){
-						// // cone added at the point of a hit test
-						// // replace the next lines to add your own object in space
-						// const geometry = new THREE.CylinderBufferGeometry(0, 0.05, 0.2, 32);
-						// const material = new THREE.MeshPhongMaterial({
-						// 	color: 0xffffff * Math.random()
-						// });
-						// const mesh = new THREE.Mesh(geometry, material);
-						
-						// // set the position of the cylinder based on where the reticle is          
-						// mesh.position.setFromMatrixPosition(reticle.matrix);
-						// mesh.quaternion.setFromRotationMatrix(reticle.matrix);
 
-						// scene.add(mesh); 
-
-						// specify a model URL
-						const modelUrl = 'https://irfangh.github.io/Models/Konsole_01_1_Beton.obj';
-
-						//  OBJ loader
-						const loader = new THREE.OBJLoader();
-
-						// load the model
-						// loader takes in a few arguments loader(model url, onLoad callback, onProgress callback, onError callback)
-						loader.load(
-							// model URL
-							modelUrl,
-							// onLoad callback: what get's called once the full model has loaded
-							function (modelObject) {
-								// gltf.scene contains the Three.js object group that represents the 3d object of the model
-								// const model = gltf.scene;
-								const sf = 1/100;
-								modelObject.scale.set(sf, sf, sf);
-								scene.add(modelObject);
-								console.log("Model added to scene");
-								
-								modelObject.position.setFromMatrixPosition(reticle.matrix);
-						    modelObject.quaternion.setFromRotationMatrix(reticle.matrix);
-
-								modelObject.rotation.y = THREE.Math.degToRad(225);
-							},
-							// onProgress callback: optional function for showing progress on model load
-							function (xhr) {
-								console.log((xhr.loaded / xhr.total * 100) + '% loaded' );
-							},
-							// onError callback
-							function (error) {
-								console.error(error);
-							}
-						);
-
+						placeModel(reticle);
 						locationSet = true;
+						
 					}
         }
       }
