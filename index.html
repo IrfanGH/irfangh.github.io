@@ -25,8 +25,8 @@
 				<li id="scene1">Initial geometry</li>
 				<li id="scene2">Reinforcement</li>
 			</ul>
-			<div id="endXR">End XR</div>
 		</div>
+		<div id="endXR">End XR</div>
 	</div>
 	<script type="module">
     import { ARButton } from 'https://unpkg.com/three@0.126.0/examples/jsm/webxr/ARButton.js';
@@ -62,8 +62,8 @@
 		});
 
 		document.getElementById("endXR").addEventListener("click", function(){
-			// location.reload(); 
-			currentSession.end();
+			location.reload(); 
+			// currentSession.end();
 		});
 
 		function init() {
@@ -224,6 +224,7 @@
 						placeModel(reticle);
 						locationSet = true;
 						document.getElementById("overlay-content").style.display = "block";
+						document.getElementById("endXR").style.display = "block";
 					}
         }
       }

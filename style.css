@@ -37,6 +37,7 @@ a, button, input, select {
 #overlay {
 	position: absolute;
 	width: 100%;
+	height: 100px;
 }
 
 #title {
@@ -78,10 +79,12 @@ a, button, input, select {
 }
 
 #endXR {
-	position: relative;
-	bottom: 10px;
+	position: absolute;
+	bottom: 0;
 	border-radius: 10px;
 	padding: 10px;
 	background-color: rgb(255, 255, 255);
 	color: #000;
+	left: calc(50% - 35px);
+	display: none;
 }
