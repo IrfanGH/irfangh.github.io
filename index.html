@@ -22,7 +22,8 @@
 		</p>
 		<div id="overlay-content">
 			<button class="xr-button" id="scene1">Initial geometry</button>
-			<button class="xr-button" id="scene2">Reinforcement Layout</button>
+			<button class="xr-button" id="scene2">Reinforcement</button>
+			<button class="xr-button" id="endXR">End XR</button>
 		</div>
 	</div>
 	<script type="module">
@@ -55,6 +56,10 @@
 		});
 		document.getElementById("scene1").addEventListener("click", function(){
 			scene = scene1;
+		});
+
+		document.getElementById("endXR").addEventListener("click", function(){
+			scene.dispose();
 		});
 
 		function init() {
@@ -273,7 +278,7 @@
 					if (!locationSet){
 						placeModel(reticle);
 						locationSet = true;
-						document.getElementById("overlay-content").display = "block";
+						document.getElementById("overlay-content").style.display = "block";
 					}
         }
       }
