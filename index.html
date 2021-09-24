@@ -86,11 +86,11 @@
 
 			document.body.appendChild( ARButton.createButton( renderer, {
 					requiredFeatures: ["hit-test"],
-					// optionalFeatures: [ 'dom-overlay', 'dom-overlay-for-handheld-ar' ],
-					// domOverlay: {
-					// 	root: document.getElementById("overlay")
-					//  }
-					 } )
+					optionalFeatures: [ 'dom-overlay', 'dom-overlay-for-handheld-ar' ],
+					domOverlay: {
+						root: document.getElementById("overlay")
+					 }
+					} )
 			);
 			// const button = ARButton.createButton(renderer, {
 			// 	requiredFeatures: ["hit-test"]
@@ -273,6 +273,7 @@
 					if (!locationSet){
 						placeModel(reticle);
 						locationSet = true;
+						document.getElementById("overlay-content").display = "block";
 					}
         }
       }

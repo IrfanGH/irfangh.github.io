@@ -34,11 +34,10 @@ a, button, input, select {
 	pointer-events: auto;
 }
 
-#overlay {
-  background-color: rgba(255, 255, 255, 0.90);
+#overlay-content {
+  background-color: rgba(0, 0, 0, 0.274);
   position: relative;
   padding: 0.5em;
   left: 0px;
-	position: absolute;
-	z-index: 99999;
+	display: none;
 }
