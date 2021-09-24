@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-	<title>XR Concrete Corbel</title>
+	<title>AR Concrete Corbel</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<meta name="author" content="ETH Zurich - kfm Research">
@@ -18,15 +18,15 @@
 <body>
 	<div id="overlay">
 		<div id="xrTitle">
-			XR Concrete Corbel
+			AR Concrete Corbel
 		</div>
 		<div id="xrUpperNav">
 			<ul id="sceneNavigation">
-				<li id="scene1">Initial geometry</li>
+				<li id="scene1" class="active">Initial geometry</li>
 				<li id="scene2">Reinforcement</li>
 			</ul>
 		</div>
-		<div id="xrLowerNav">End XR</div>
+		<div id="xrLowerNav">End AR</div>
 	</div>
 	<script type="module">
     import { ARButton } from 'https://unpkg.com/three@0.126.0/examples/jsm/webxr/ARButton.js';
@@ -56,9 +56,13 @@
 
 		document.getElementById("scene2").addEventListener("click", function(){
 			scene = scene2;
+			document.getElementById("scene2").classList.add("active");
+			document.getElementById("scene1").classList.remove("active");
 		});
 		document.getElementById("scene1").addEventListener("click", function(){
 			scene = scene1;
+			document.getElementById("scene1").classList.add("active");
+			document.getElementById("scene2").classList.remove("active");
 		});
 
 		document.getElementById("xrLowerNav").addEventListener("click", function(){
