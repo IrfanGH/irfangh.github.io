@@ -1,145 +1,387 @@
 <!DOCTYPE html>
-<html>
-  <body>
-    <div id="overlay">
-      <header>
-        <details open>
-          <summary>Barebones WebXR DOM Overlay</summary>
-          <p>
-            This sample demonstrates extremely simple use of an
-            "immersive-ar" session with no library dependencies, with an
-            optional DOM overlay. It doesn't render anything exciting, just
-            draws a rectangle with a slowly changing color to prove it's
-            working.
-            <a class="back" href="./index.html">Back</a>
-          </p>
-          <div id="session-info"></div>
-          <div id="warning-zone"></div>
-          <button id="xr-button" class="barebones-button" disabled>
-            XR not found
-          </button>
-        </details>
-      </header>
-    </div>
-    <main style="text-align: center;">
-      <p>Body content</p>
-    </main>
-    <script type="module">
-      // XR globals.
-      let xrButton = document.getElementById("xr-button");
-      let xrSession = null;
-      let xrRefSpace = null;
+<html lang="en">
 
-      // WebGL scene globals.
-      let gl = null;
+<head>
+	<title>XR Concrete Corbel</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<meta name="author" content="ETH Zurich - kfm Research">
+	<link type="text/css" rel="stylesheet" href="https://irfangh.github.io/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r126/three.js" crossorigin="anonymous"></script>
+  <!-- <script src="https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js"></script> -->
+	<script src="https://unpkg.com/three@0.126.0/examples/js/loaders/OBJLoader.js"></script>
+</head>
 
-      function checkSupportedState() {
-        navigator.xr.isSessionSupported("immersive-ar").then(supported => {
-          if (supported) {
-            xrButton.innerHTML = "Enter AR";
-          } else {
-            xrButton.innerHTML = "AR not found";
-          }
+<body>
+	<!-- <div style="z-index: 99999;position: absolute;margin-left: 50%; background: #fff; color: #000" id="hideShow">Hide / Show!</div>
+	<button id="scene1" style="z-index: 99999;position: absolute;">scene1</button>
+	<button id="scene2" style="z-index: 99999;position: absolute;margin-left: 10%;">scene2</button> -->
+	<div id="overlay">
+		<header>
+			<summary>Barebones WebXR DOM Overlay</summary>
+			<p>
+				This sample demonstrates [...]
+			</p>
+			<div id="session-info" />
+			<button id="xr-button" class="barebones-button" />
+		</header>
+	</div>
+	<script type="module">
+    import { ARButton } from 'https://unpkg.com/three@0.126.0/examples/jsm/webxr/ARButton.js';
 
-          xrButton.disabled = !supported;
-        });
+		let container;
+		let camera, scene, scene1, scene2, renderer;
+		let reticle;
+		let controller;
+		let loader; // we need to create a variable for a gltf model loader
+
+		let locationSet = false; // Check wether the user has defined the inital position of the model
+		let objHidden = true;
+
+		var concreteMaterial = new THREE.MeshBasicMaterial( { color: "rgb(195,195,195)" } );
+		var elastomerMaterial = new THREE.MeshBasicMaterial( { color: "rgb(0,0,0)" } );
+		var dimensioningMaterial = new THREE.MeshBasicMaterial( { color: "rgb(255,0,0)" } );
+		var reinforcementMaterial = new THREE.MeshBasicMaterial( { color: "rgb(84,37,37)" } );
+		var grayMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,155,155)" } );
+		var orangeMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,128,0)" } );
+
+		var activeScene = 1;
+
+
+		init();
+		animate();
+
+		// document.getElementById("scene2").addEventListener("click", function(){
+		// 	scene = scene2;
+		// });
+		// document.getElementById("scene1").addEventListener("click", function(){
+		// 	scene = scene1;
+		// });
+
+		function init() {
+			const container = document.createElement('div');
+			document.body.appendChild(container);
+
+			scene1 = new THREE.Scene();
+			scene2 = new THREE.Scene();
+
+			scene = scene1;
+
+			camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 40);
+
+			renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+			renderer.setPixelRatio(window.devicePixelRatio);
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			renderer.xr.enabled = true; // we have to enable the renderer for webxr
+			container.appendChild(renderer.domElement);
+
+			var light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
+			light.position.set(0.5, 1, 0.25);
+			scene.add(light);
+
+			controller = renderer.xr.getController(0);
+			controller.addEventListener('select', onSelect);
+			scene.add(controller);
+
+			addReticleToScene();
+
+			document.body.appendChild( ARButton.createButton( renderer, {
+					requiredFeatures: ["hit-test"],
+					optionalFeatures: [ 'dom-overlay', 'dom-overlay-for-handheld-ar' ],
+					domOverlay: {
+						root: document.getElementById("overlay")
+					} } )
+			);
+			// const button = ARButton.createButton(renderer, {
+			// 	requiredFeatures: ["hit-test"]
+			// });
+			// document.body.appendChild(button);
+			renderer.domElement.style.display = "none";
+
+			window.addEventListener('resize', onWindowResize, false);
+		}
+
+		function loadModel(url) {
+			return new Promise(resolve => {
+				// new THREE.GLTFLoader().load(url, resolve);
+				new THREE.OBJLoader().load(url, resolve);
+			});
+		}
+
+    function placeModel(reticleFixed) {
+
+			let model1_1, model1_2, model1_3;
+			let model2_1, model2_2, model2_3, model2_4, model2_5;
+
+			let p1_1 = loadModel('https://irfangh.github.io/Models/Konsole_01_1_Beton.obj').then(result => {  model1_1 = result; });
+			let p1_2 = loadModel('https://irfangh.github.io/Models/Konsole_01_2_Elastomer.obj').then(result => {  model1_2 = result; });
+			let p1_3 = loadModel('https://irfangh.github.io/Models/Konsole_01_3_Bemessung.obj').then(result => {  model1_3 = result; });
+			
+			let p2_1 = loadModel('https://irfangh.github.io/Models/Konsole_09_1_Stütze.obj').then(result => {  model2_1 = result; });
+			let p2_2 = loadModel('https://irfangh.github.io/Models/Konsole_09_2_Zugstrebe.obj').then(result => {  model2_2 = result; });
+			let p2_3 = loadModel('https://irfangh.github.io/Models/Konsole_09_3_Spaltzug.obj').then(result => {  model2_3 = result; });
+			let p2_4 = loadModel('https://irfangh.github.io/Models/Konsole_09_4_Konstruktiv.obj').then(result => {  model2_4 = result; });
+			let p2_5 = loadModel('https://irfangh.github.io/Models/Konsole_01_3_Bemessung.obj').then(result => {  model2_5 = result; });
+
+			//if all Promises resolved 
+			Promise.all([p1_1,p1_2,p1_3,p2_1,p2_2,p2_3,p2_4,p2_5]).then(() => {
+				// //do something to the model
+				// model1.position.set(0,0,0);
+				// model2.position.set(0,20,0);
+				// model3.position.set(0,50,0);
+				const sf = 1/100;
+				model1_1.scale.set(sf, sf, sf);
+				model1_2.scale.set(sf, sf, sf);
+				model1_3.scale.set(sf, sf, sf);
+				model2_1.scale.set(sf, sf, sf);
+				model2_2.scale.set(sf, sf, sf);
+				model2_3.scale.set(sf, sf, sf);
+				model2_4.scale.set(sf, sf, sf);
+				model2_5.scale.set(sf, sf, sf);
+				//add model to the scene
+				scene1.add(model1_1);
+				scene1.add(model1_2);
+				scene1.add(model1_3);
+				scene2.add(model2_1);
+				scene2.add(model2_2);
+				scene2.add(model2_3);
+				scene2.add(model2_4);
+				scene2.add(model2_5);
+
+
+				model1_1.position.setFromMatrixPosition(reticleFixed.matrix);
+				model1_1.quaternion.setFromRotationMatrix(reticleFixed.matrix);
+				model1_2.position.setFromMatrixPosition(reticleFixed.matrix);
+				model1_2.quaternion.setFromRotationMatrix(reticleFixed.matrix);
+				model1_3.position.setFromMatrixPosition(reticleFixed.matrix);
+				model1_3.quaternion.setFromRotationMatrix(reticleFixed.matrix);
+				model2_1.position.setFromMatrixPosition(reticleFixed.matrix);
+				model2_1.quaternion.setFromRotationMatrix(reticleFixed.matrix);
+				model2_2.position.setFromMatrixPosition(reticleFixed.matrix);
+				model2_2.quaternion.setFromRotationMatrix(reticleFixed.matrix);
+				model2_3.position.setFromMatrixPosition(reticleFixed.matrix);
+				model2_3.quaternion.setFromRotationMatrix(reticleFixed.matrix);
+				model2_4.position.setFromMatrixPosition(reticleFixed.matrix);
+				model2_4.quaternion.setFromRotationMatrix(reticleFixed.matrix);
+				model2_5.position.setFromMatrixPosition(reticleFixed.matrix);
+				model2_5.quaternion.setFromRotationMatrix(reticleFixed.matrix);
+
+				model1_1.rotation.y = THREE.Math.degToRad(225);
+				model1_2.rotation.y = THREE.Math.degToRad(225);
+				model1_3.rotation.y = THREE.Math.degToRad(225);
+
+				model2_1.rotation.y = THREE.Math.degToRad(225);
+				model2_2.rotation.y = THREE.Math.degToRad(225);
+				model2_3.rotation.y = THREE.Math.degToRad(225);
+				model2_4.rotation.y = THREE.Math.degToRad(225);
+				model2_5.rotation.y = THREE.Math.degToRad(225);
+
+
+				
+
+				model1_1.traverse( function( child ) {
+		      if ( child instanceof THREE.Mesh ) {
+		          child.material = concreteMaterial;
+						}
+				} );
+
+				model1_2.traverse( function( child ) {
+		      if ( child instanceof THREE.Mesh ) {
+		          child.material = elastomerMaterial;
+						}
+				} );
+
+				model1_3.traverse( function( child ) {
+		      if ( child instanceof THREE.Mesh ) {
+		          child.material = dimensioningMaterial;
+						}
+				} );
+
+				model2_1.traverse( function( child ) {
+		      if ( child instanceof THREE.Mesh ) {
+		          child.material = reinforcementMaterial;
+						}
+				} );
+				model2_2.traverse( function( child ) {
+		      if ( child instanceof THREE.Mesh ) {
+		          child.material = reinforcementMaterial;
+						}
+				} );
+				model2_2.traverse( function( child ) {
+		      if ( child instanceof THREE.Mesh ) {
+		          child.material = reinforcementMaterial;
+						}
+				} );
+				model2_3.traverse( function( child ) {
+		      if ( child instanceof THREE.Mesh ) {
+		          child.material = reinforcementMaterial;
+						}
+				} );
+				model2_4.traverse( function( child ) {
+		      if ( child instanceof THREE.Mesh ) {
+		          child.material = reinforcementMaterial;
+						}
+				} );
+				model2_5.traverse( function( child ) {
+		      if ( child instanceof THREE.Mesh ) {
+		          child.material = grayMaterial;
+						}
+				} );
+
+				// document.getElementById("hideShow").addEventListener("click", function(){
+				// 	if(objHidden) {
+				// 		objHidden = false;
+				// 		// code to show object
+
+				// 		model1_1.visible = true;
+				// 		model1_2.visible = true;
+				// 		model1_3.visible = true;
+				// 	} else {
+				// 		objHidden = true;
+				// 		// code to hide object
+						
+				// 		model1_1.visible = false;
+				// 		model1_2.visible = false;
+				// 		model1_3.visible = false;
+				// 	}
+				// });
+
+			});
+
+    }
+
+		function addReticleToScene() {
+        const geometry = new THREE.RingBufferGeometry(0.15, 0.2, 32).rotateX(
+          -Math.PI / 2
+        );
+        const material = new THREE.MeshBasicMaterial();
+
+        reticle = new THREE.Mesh(geometry, material);
+
+        // we will calculate the position and rotation of this reticle every frame manually
+        // in the render() function so matrixAutoUpdate is set to false
+        reticle.matrixAutoUpdate = false;
+        reticle.visible = false; // we start with the reticle not visible
+        scene.add(reticle);
+
+        // optional axis helper you can add to an object
+        // reticle.add(new THREE.AxesHelper(1));
       }
 
-      function initXR() {
-        if (!window.isSecureContext) {
-          let message = "WebXR unavailable due to insecure context";
-          document.getElementById("warning-zone").innerText = message;
+      function onSelect() {        
+        if (reticle.visible) {
+					if (locationSet){
+
+						
+						if (activeScene == 1){
+							scene = scene2;
+							activeScene = 2;
+						} else {
+							scene = scene1;
+							activeScene = 1;
+						}
+
+						
+
+						// if (activeScene == 2){
+						// 	model2_3.traverse( function( child ) {
+						// 	if ( child instanceof THREE.Mesh ) {
+						// 			child.material = orangeMaterial;
+						// 		}
+						// } );
+						// }
+
+					}
+					if (!locationSet){
+
+						placeModel(reticle);
+						locationSet = true;
+						
+					}
+					
         }
-
-        if (navigator.xr) {
-          xrButton.addEventListener("click", onButtonClicked);
-          navigator.xr.addEventListener("devicechange", checkSupportedState);
-          checkSupportedState();
-        }
       }
 
-      function onButtonClicked() {
-        if (!xrSession) {
-          // Ask for an optional DOM Overlay, see https://immersive-web.github.io/dom-overlays/
-          navigator.xr
-            .requestSession("immersive-ar", {
-              // optionalFeatures: ["dom-overlay"],
-              // domOverlay: { root: document.getElementById("overlay") }
-            })
-            .then(onSessionStarted, onRequestSessionError);
-        } else {
-          xrSession.end();
-        }
-      }
+		function onWindowResize() {
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
 
-      function onSessionStarted(session) {
-        xrSession = session;
-        xrButton.innerHTML = "Exit AR";
+			renderer.setSize(window.innerWidth, window.innerHeight);
+		}
 
-        // Show which type of DOM Overlay got enabled (if any)
-        if (session.domOverlayState) {
-          document.getElementById("session-info").innerHTML =
-            "DOM Overlay type: " + session.domOverlayState.type;
-        }
+		function animate() {
+			renderer.setAnimationLoop(render);
+		}
 
-        session.addEventListener("end", onSessionEnded);
-        let canvas = document.createElement("canvas");
-        gl = canvas.getContext("webgl", {
-          xrCompatible: true
-        });
-        session.updateRenderState({ baseLayer: new XRWebGLLayer(session, gl) });
-        session.requestReferenceSpace("local").then(refSpace => {
-          xrRefSpace = refSpace;
-          session.requestAnimationFrame(onXRFrame);
-        });
-      }
 
-      function onRequestSessionError(ex) {
-        alert("Failed to start immersive AR session.");
-        console.error(ex.message);
-      }
+		let hitTestSource = null;
+		let localSpace = null;
+		let hitTestSourceInitialized = false;
 
-      function onEndSession(session) {
-        session.end();
-      }
+		// This function gets called just once to initialize a hitTestSource
+		// The purpose of this function is to get a) a hit test source and b) a reference space
+		async function initializeHitTestSource() {
+			const session = renderer.xr.getSession(); // XRSession
+			
+			// Reference spaces express relationships between an origin and the world.
 
-      function onSessionEnded(event) {
-        xrSession = null;
-        xrButton.innerHTML = "Enter AR";
-        document.getElementById("session-info").innerHTML = "";
-        gl = null;
-      }
+			// For hit testing, we use the "viewer" reference space,
+			// which is based on the device's pose at the time of the hit test.
+			const viewerSpace = await session.requestReferenceSpace("viewer");
+			hitTestSource = await session.requestHitTestSource({ space: viewerSpace });
 
-      function onXRFrame(t, frame) {
-        let session = frame.session;
-        session.requestAnimationFrame(onXRFrame);
-        let pose = frame.getViewerPose(xrRefSpace);
+			// We're going to use the reference space of "local" for drawing things.
+			// which gives us stability in terms of the environment.
+			// read more here: https://developer.mozilla.org/en-US/docs/Web/API/XRReferenceSpace
+			localSpace = await session.requestReferenceSpace("local");
 
-        if (pose) {
-          gl.bindFramebuffer(
-            gl.FRAMEBUFFER,
-            session.renderState.baseLayer.framebuffer
-          );
+			// set this to true so we don't request another hit source for the rest of the session
+			hitTestSourceInitialized = true;
+			
+			// In case we close the AR session by hitting the button "End AR"
+			session.addEventListener("end", () => {
+				hitTestSourceInitialized = false;
+				hitTestSource = null;
+			});
+		}
 
-          // Update the clear color so that we can observe the color in the
-          // headset changing over time. Use a scissor rectangle to keep the AR
-          // scene visible.
-          const width = session.renderState.baseLayer.framebufferWidth;
-          const height = session.renderState.baseLayer.framebufferHeight;
-          gl.enable(gl.SCISSOR_TEST);
-          gl.scissor(width / 4, height / 4, width / 2, height / 2);
-          let time = Date.now();
-          gl.clearColor(
-            Math.cos(time / 2000),
-            Math.cos(time / 4000),
-            Math.cos(time / 6000),
-            0.5
-          );
-          gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-        }
-      }
+		// the callback from 'setAnimationLoop' can also return a timestamp
+		// and an XRFrame, which provides access to the information needed in
+		// order to render a single frame of animation for an XRSession describing
+		// a VR or AR sccene.
+		function render(timestamp, frame) {
+			if (frame) {
+				if (!locationSet){
+					// 1. create a hit test source once and keep it for all the frames
+					// this gets called only once
+					if (!hitTestSourceInitialized) {
+						initializeHitTestSource();
+					}
 
-      initXR();
-    </script>
-  </body>
+					// 2. get hit test results
+					if (hitTestSourceInitialized) {
+						// we get the hit test results for a particular frame
+						const hitTestResults = frame.getHitTestResults(hitTestSource);
+
+						// XRHitTestResults The hit test may find multiple surfaces. The first one in the array is the one closest to the camera.
+						if (hitTestResults.length > 0) {
+							const hit = hitTestResults[0];
+							// Get a pose from the hit test result. The pose represents the pose of a point on a surface.
+							const pose = hit.getPose(localSpace);
+
+							reticle.visible = true;
+							// Transform/move the reticle image to the hit test position
+							reticle.matrix.fromArray(pose.transform.matrix);
+						} else {
+							reticle.visible = false;
+						}
+					}
+				}
+				renderer.render(scene, camera);
+			}
+		}
+
+	</script>
+</body>
+
 </html>
