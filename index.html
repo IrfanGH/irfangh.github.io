@@ -55,7 +55,7 @@
 
 			renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 			renderer.setPixelRatio(window.devicePixelRatio);
-			renderer.setSize(window.innerWidth, window.innerHeight);
+			renderer.setSize(window.innerWidth, window.innerHeight - 100);
 			renderer.xr.enabled = true; // we have to enable the renderer for webxr
 			container.appendChild(renderer.domElement);
 
@@ -210,12 +210,18 @@
 
       function onSelect() {        
         if (reticle.visible) {
+					if (locationSet){
+
+					scene = scene2;
+
+					}
 					if (!locationSet){
 
 						placeModel(reticle);
 						locationSet = true;
 						
 					}
+					
         }
       }
 
