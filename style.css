@@ -57,6 +57,7 @@ a, button, input, select {
 	position: absolute;
 	z-index: 9999;
 	top: 45px;
+	height: 100%;
 }
 
 #sceneNavigation {
