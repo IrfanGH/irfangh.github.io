@@ -40,7 +40,7 @@ a, button, input, select {
 	height: 100px;
 }
 
-#title {
+#xrTitle {
 	padding: 10px;
 	width: 100%;
 	font-weight: 700;
@@ -49,7 +49,7 @@ a, button, input, select {
 	background-color: rgba(0, 0, 0, 0.445);
 }
 
-#overlay-content {
+#xrUpperNav {
   background-color: rgba(255, 255, 255, 0);
   position: relative;
   padding: 0.5em;
@@ -78,9 +78,8 @@ a, button, input, select {
 	border-radius: 10px;
 }
 
-#endXR {
+#xrLowerNav {
 	position: absolute;
-	bottom: 0;
 	border-radius: 10px;
 	padding: 10px;
 	background-color: rgb(255, 255, 255);
