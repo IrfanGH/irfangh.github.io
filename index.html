@@ -13,7 +13,7 @@
 </head>
 
 <body>
-	<button type="button" style="z-index: 999;position: absolute;margin-left: 50%;" id="hideShow">Hide / Show!</button>
+	<div style="z-index: 99999;position: absolute;margin-left: 50%; background: #fff; color: #000" id="hideShow">Hide / Show!</div>
 	<script type="module">
     import { ARButton } from 'https://unpkg.com/three@0.126.0/examples/jsm/webxr/ARButton.js';
 
@@ -126,69 +126,26 @@
 		          child.material = dimensioningMaterial;
 						}
 				} );
-				
-				//continue the process
-				// startRenderLoop();
-			});
 
-      // // specify a model URL
-			// const modelUrl = 'https://irfangh.github.io/Models/Konsole_01_1_Beton.obj';
+				document.getElementById("hideShow").addEventListener("click", function(){
+					if(objHidden) {
+						objHidden = false;
+						// code to show object
 
-			// //  OBJ loader
-			// const loader = new THREE.OBJLoader();
-
-			// var concreteMaterial = new THREE.MeshBasicMaterial( { color: "rgb(195,195,195)" } );
-
-			// // load the model
-			// // loader takes in a few arguments loader(model url, onLoad callback, onProgress callback, onError callback)
-			// loader.load(
-			// 	// model URL
-			// 	modelUrl,
-			// 	// onLoad callback: what get's called once the full model has loaded
-			// 	function (modelObject) {
-
-			// 		modelObject.traverse( function( child ) {
-      //       if ( child instanceof THREE.Mesh ) {
-      //           child.material = concreteMaterial;
-			// 				}
-			// 		} );
-
-			// 		const sf = 1/100;
-			// 		modelObject.scale.set(sf, sf, sf);
-			// 		scene.add(modelObject);
-			// 		console.log("Model added to scene");
-					
-			// 		modelObject.position.setFromMatrixPosition(reticleFixed.matrix);
-			// 		modelObject.quaternion.setFromRotationMatrix(reticleFixed.matrix);
-
-			// 		modelObject.rotation.y = THREE.Math.degToRad(225);
-
-
-			// 		document.getElementById("hideShow").addEventListener("click", function(){
-			// 		if(objHidden) {
-			// 			objHidden = false;
-			// 			// code to show object
-
-			// 			modelObject.visible = true;
-			// 		} else {
-			// 			objHidden = true;
-			// 			// code to hide object
+						model1.visible = true;
+						model2.visible = true;
+						model3.visible = true;
+					} else {
+						objHidden = true;
+						// code to hide object
 						
-			// 			modelObject.visible = false;
-			// 		}
-			// 	});
-			// 	},
-			// 	// onProgress callback: optional function for showing progress on model load
-			// 	function (xhr) {
-			// 		console.log((xhr.loaded / xhr.total * 100) + '% loaded' );
-			// 	},
-			// 	// onError callback
-			// 	function (error) {
-			// 		console.error(error);
-			// 	}
-			// );
+						model1.visible = false;
+						model2.visible = false;
+						model3.visible = false;
+					}
+				});
 
-
+			});
 
     }
 
