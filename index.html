@@ -14,11 +14,13 @@
 
 <body>
 	<div style="z-index: 99999;position: absolute;margin-left: 50%; background: #fff; color: #000" id="hideShow">Hide / Show!</div>
+	<button id="scene1" style="z-index: 99999;position: absolute;">scene1</button>
+	<button id="scene2" style="z-index: 99999;position: absolute;margin-left: 10%;">scene2</button>
 	<script type="module">
     import { ARButton } from 'https://unpkg.com/three@0.126.0/examples/jsm/webxr/ARButton.js';
 
 		let container;
-		let camera, scene, renderer;
+		let camera, scene, scene1, scene2, renderer;
 		let reticle;
 		let controller;
 		let loader; // we need to create a variable for a gltf model loader
@@ -33,11 +35,21 @@
 		init();
 		animate();
 
+		document.getElementById("scene2").addEventListener("click", function(){
+			scene = scene2;
+		});
+		document.getElementById("scene1").addEventListener("click", function(){
+			scene = scene1;
+		});
+
 		function init() {
 			const container = document.createElement('div');
 			document.body.appendChild(container);
 
-			scene = new THREE.Scene();
+			scene1 = new THREE.Scene();
+			scene2 = new THREE.Scene();
+
+			scene = scene1;
 
 			camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 40);
 
@@ -75,75 +87,104 @@
 
     function placeModel(reticleFixed) {
 
-			let model1, model2, model3;
+			let model1_1, model1_2, model1_3;
+			let model2_1, model2_2, model2_3, model2_4;
 
-			let p1 = loadModel('https://irfangh.github.io/Models/Konsole_01_1_Beton.obj').then(result => {  model1 = result; });
-			let p2 = loadModel('https://irfangh.github.io/Models/Konsole_01_2_Elastomer.obj').then(result => {  model2 = result; });
-			let p3 = loadModel('https://irfangh.github.io/Models/Konsole_01_3_Bemessung.obj').then(result => {  model3 = result; });
+			let p1_1 = loadModel('https://irfangh.github.io/Models/Konsole_01_1_Beton.obj').then(result => {  model1_1 = result; });
+			let p1_2 = loadModel('https://irfangh.github.io/Models/Konsole_01_2_Elastomer.obj').then(result => {  model1_2 = result; });
+			let p1_3 = loadModel('https://irfangh.github.io/Models/Konsole_01_3_Bemessung.obj').then(result => {  model1_3 = result; });
+
+			let p2_1 = loadModel('https://irfangh.github.io/Models/Konsole_09_1_Stütze.obj').then(result => {  model2_1 = result; });
+			let p2_2 = loadModel('https://irfangh.github.io/Models/Konsole_09_2_Zugstrebe.obj').then(result => {  model2_2 = result; });
+			let p2_3 = loadModel('https://irfangh.github.io/Models/Konsole_09_3_Spaltzug.obj').then(result => {  model2_3 = result; });
+			let p2_4 = loadModel('https://irfangh.github.io/Models/Konsole_09_4_Konstruktiv.obj').then(result => {  model2_4 = result; });
 
 			//if all Promises resolved 
-			Promise.all([p1,p2,p3]).then(() => {
+			Promise.all([p1_1,p1_2,p1_3,p2_1,p2_2,p2_3,p2_4]).then(() => {
 				// //do something to the model
 				// model1.position.set(0,0,0);
 				// model2.position.set(0,20,0);
 				// model3.position.set(0,50,0);
 				const sf = 1/100;
-				model1.scale.set(sf, sf, sf);
-				model2.scale.set(sf, sf, sf);
-				model3.scale.set(sf, sf, sf);
+				model1_1.scale.set(sf, sf, sf);
+				model1_2.scale.set(sf, sf, sf);
+				model1_3.scale.set(sf, sf, sf);
+				model2_1.scale.set(sf, sf, sf);
+				model2_2.scale.set(sf, sf, sf);
+				model2_3.scale.set(sf, sf, sf);
+				model2_4.scale.set(sf, sf, sf);
 				//add model to the scene
-				scene.add(model1);
-				scene.add(model2);
-				scene.add(model3);
+				scene1.add(model1_1);
+				scene1.add(model1_2);
+				scene1.add(model1_3);
+				scene2.add(model2_1);
+				scene2.add(model2_2);
+				scene2.add(model2_3);
+				scene2.add(model2_4);
 
-				model1.position.setFromMatrixPosition(reticleFixed.matrix);
-				model1.quaternion.setFromRotationMatrix(reticleFixed.matrix);
-				model2.position.setFromMatrixPosition(reticleFixed.matrix);
-				model2.quaternion.setFromRotationMatrix(reticleFixed.matrix);
-				model3.position.setFromMatrixPosition(reticleFixed.matrix);
-				model3.quaternion.setFromRotationMatrix(reticleFixed.matrix);
 
-				model1.rotation.y = THREE.Math.degToRad(225);
-				model2.rotation.y = THREE.Math.degToRad(225);
-				model3.rotation.y = THREE.Math.degToRad(225);
+				model1_1.position.setFromMatrixPosition(reticleFixed.matrix);
+				model1_1.quaternion.setFromRotationMatrix(reticleFixed.matrix);
+				model1_2.position.setFromMatrixPosition(reticleFixed.matrix);
+				model1_2.quaternion.setFromRotationMatrix(reticleFixed.matrix);
+				model1_3.position.setFromMatrixPosition(reticleFixed.matrix);
+				model1_3.quaternion.setFromRotationMatrix(reticleFixed.matrix);
+				model2_1.position.setFromMatrixPosition(reticleFixed.matrix);
+				model2_1.quaternion.setFromRotationMatrix(reticleFixed.matrix);
+				model2_2.position.setFromMatrixPosition(reticleFixed.matrix);
+				model2_2.quaternion.setFromRotationMatrix(reticleFixed.matrix);
+				model2_3.position.setFromMatrixPosition(reticleFixed.matrix);
+				model2_3.quaternion.setFromRotationMatrix(reticleFixed.matrix);
+				model2_4.position.setFromMatrixPosition(reticleFixed.matrix);
+				model2_4.quaternion.setFromRotationMatrix(reticleFixed.matrix);
+
+				model1_1.rotation.y = THREE.Math.degToRad(225);
+				model1_2.rotation.y = THREE.Math.degToRad(225);
+				model1_3.rotation.y = THREE.Math.degToRad(225);
+
+				model2_1.rotation.y = THREE.Math.degToRad(225);
+				model2_2.rotation.y = THREE.Math.degToRad(225);
+				model2_3.rotation.y = THREE.Math.degToRad(225);
+				model2_4.rotation.y = THREE.Math.degToRad(225);
+
 
 				
 
-				model1.traverse( function( child ) {
+				model1_1.traverse( function( child ) {
 		      if ( child instanceof THREE.Mesh ) {
 		          child.material = concreteMaterial;
 						}
 				} );
 
-				model2.traverse( function( child ) {
+				model1_2.traverse( function( child ) {
 		      if ( child instanceof THREE.Mesh ) {
 		          child.material = elastomerMaterial;
 						}
 				} );
 
-				model3.traverse( function( child ) {
+				model1_3.traverse( function( child ) {
 		      if ( child instanceof THREE.Mesh ) {
 		          child.material = dimensioningMaterial;
 						}
 				} );
 
-				document.getElementById("hideShow").addEventListener("click", function(){
-					if(objHidden) {
-						objHidden = false;
-						// code to show object
+				// document.getElementById("hideShow").addEventListener("click", function(){
+				// 	if(objHidden) {
+				// 		objHidden = false;
+				// 		// code to show object
 
-						model1.visible = true;
-						model2.visible = true;
-						model3.visible = true;
-					} else {
-						objHidden = true;
-						// code to hide object
+				// 		model1_1.visible = true;
+				// 		model1_2.visible = true;
+				// 		model1_3.visible = true;
+				// 	} else {
+				// 		objHidden = true;
+				// 		// code to hide object
 						
-						model1.visible = false;
-						model2.visible = false;
-						model3.visible = false;
-					}
-				});
+				// 		model1_1.visible = false;
+				// 		model1_2.visible = false;
+				// 		model1_3.visible = false;
+				// 	}
+				// });
 
 			});
 
