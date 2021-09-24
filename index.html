@@ -6,7 +6,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<meta name="author" content="ETH Zurich - kfm Research">
-	<link type="text/css" rel="stylesheet" href="https://irfangh.github.io/style.css">
+	<link type="text/css" rel="stylesheet" href="style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r126/three.js" crossorigin="anonymous"></script>
   <!-- <script src="https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js"></script> -->
 	<script src="https://unpkg.com/three@0.126.0/examples/js/loaders/OBJLoader.js"></script>
@@ -17,14 +17,13 @@
 	<button id="scene1" style="z-index: 99999;position: absolute;">scene1</button>
 	<button id="scene2" style="z-index: 99999;position: absolute;margin-left: 10%;">scene2</button> -->
 	<div id="overlay">
-		<header>
-			<summary>Barebones WebXR DOM Overlay</summary>
+		<div id="overlay-content">
 			<p>
-				This sample demonstrates [...]
+				XR Concrete Corbel example
 			</p>
-			<div id="session-info" />
-			<button id="xr-button" class="barebones-button" />
-		</header>
+			<button class="xr-button" id="scene1">Initial geometry</button>
+			<button class="xr-button" id="scene2">Reinforcement Layout</button>
+		</div>
 	</div>
 	<script type="module">
     import { ARButton } from 'https://unpkg.com/three@0.126.0/examples/jsm/webxr/ARButton.js';
@@ -51,12 +50,12 @@
 		init();
 		animate();
 
-		// document.getElementById("scene2").addEventListener("click", function(){
-		// 	scene = scene2;
-		// });
-		// document.getElementById("scene1").addEventListener("click", function(){
-		// 	scene = scene1;
-		// });
+		document.getElementById("scene2").addEventListener("click", function(){
+			scene = scene2;
+		});
+		document.getElementById("scene1").addEventListener("click", function(){
+			scene = scene1;
+		});
 
 		function init() {
 			const container = document.createElement('div');
@@ -87,10 +86,11 @@
 
 			document.body.appendChild( ARButton.createButton( renderer, {
 					requiredFeatures: ["hit-test"],
-					optionalFeatures: [ 'dom-overlay', 'dom-overlay-for-handheld-ar' ],
-					domOverlay: {
-						root: document.getElementById("overlay")
-					} } )
+					// optionalFeatures: [ 'dom-overlay', 'dom-overlay-for-handheld-ar' ],
+					// domOverlay: {
+					// 	root: document.getElementById("overlay")
+					//  }
+					 } )
 			);
 			// const button = ARButton.createButton(renderer, {
 			// 	requiredFeatures: ["hit-test"]
@@ -270,35 +270,10 @@
 
       function onSelect() {        
         if (reticle.visible) {
-					if (locationSet){
-
-						
-						if (activeScene == 1){
-							scene = scene2;
-							activeScene = 2;
-						} else {
-							scene = scene1;
-							activeScene = 1;
-						}
-
-						
-
-						// if (activeScene == 2){
-						// 	model2_3.traverse( function( child ) {
-						// 	if ( child instanceof THREE.Mesh ) {
-						// 			child.material = orangeMaterial;
-						// 		}
-						// } );
-						// }
-
-					}
 					if (!locationSet){
-
 						placeModel(reticle);
 						locationSet = true;
-						
 					}
-					
         }
       }
 
