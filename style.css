@@ -2,7 +2,7 @@ body {
 	margin: 0;
 	background-color: #000;
 	color: #fff;
-	font-family: Monospace;
+	font-family: 'Open Sans', sans-serif;
 	font-size: 16px;
 	line-height: 24px;
 	overscroll-behavior: none;
@@ -34,10 +34,35 @@ a, button, input, select {
 	pointer-events: auto;
 }
 
+#overlay {
+	position: absolute;
+}
+
+#title {
+	padding: 10px;
+	width: 100%;
+	font-weight: 700;
+	font-size: 20px;
+	text-align: center;
+	background-color: rgba(0, 0, 0, 0.445);
+}
+
 #overlay-content {
   background-color: rgba(255, 255, 255, 0.274);
   position: relative;
   padding: 0.5em;
   left: 0px;
 	display: none;
+	position: absolute;
+	z-index: 9999;
+	top: 45px;
+}
+
+
+.xr-button {
+	padding: 10px;
+	background-color: rgb(92, 29, 29);
+	display: inline-block;
+	margin: 10px;
+	border-radius: 10px;
 }

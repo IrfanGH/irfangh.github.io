@@ -7,23 +7,23 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<meta name="author" content="ETH Zurich - kfm Research">
 	<link type="text/css" rel="stylesheet" href="style.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet"> 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r126/three.js" crossorigin="anonymous"></script>
   <!-- <script src="https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js"></script> -->
 	<script src="https://unpkg.com/three@0.126.0/examples/js/loaders/OBJLoader.js"></script>
 </head>
 
 <body>
-	<!-- <div style="z-index: 99999;position: absolute;margin-left: 50%; background: #fff; color: #000" id="hideShow">Hide / Show!</div>
-	<button id="scene1" style="z-index: 99999;position: absolute;">scene1</button>
-	<button id="scene2" style="z-index: 99999;position: absolute;margin-left: 10%;">scene2</button> -->
 	<div id="overlay">
-		<p>
-			XR Concrete Corbel example
-		</p>
+		<div id="title">
+			XR Concrete Corbel
+		</div>
 		<div id="overlay-content">
-			<button class="xr-button" id="scene1">Initial geometry</button>
-			<button class="xr-button" id="scene2">Reinforcement</button>
-			<button class="xr-button" id="endXR">End XR</button>
+			<div class="xr-button" id="scene1">Initial geometry</div>
+			<div class="xr-button" id="scene2">Reinforcement</div>
+			<div class="xr-button" id="endXR">End XR</div>
 		</div>
 	</div>
 	<script type="module">
@@ -47,6 +47,7 @@
 
 		var activeScene = 1;
 
+		const sf = 1/100;
 
 		init();
 		animate();
@@ -59,7 +60,8 @@
 		});
 
 		document.getElementById("endXR").addEventListener("click", function(){
-			location.reload(); 
+			// location.reload(); 
+			currentSession.end();
 		});
 
 		function init() {
@@ -97,10 +99,6 @@
 					 }
 					} )
 			);
-			// const button = ARButton.createButton(renderer, {
-			// 	requiredFeatures: ["hit-test"]
-			// });
-			// document.body.appendChild(button);
 			renderer.domElement.style.display = "none";
 
 			window.addEventListener('resize', onWindowResize, false);
@@ -130,58 +128,22 @@
 
 			//if all Promises resolved 
 			Promise.all([p1_1,p1_2,p1_3,p2_1,p2_2,p2_3,p2_4,p2_5]).then(() => {
-				// //do something to the model
-				// model1.position.set(0,0,0);
-				// model2.position.set(0,20,0);
-				// model3.position.set(0,50,0);
-				const sf = 1/100;
-				model1_1.scale.set(sf, sf, sf);
-				model1_2.scale.set(sf, sf, sf);
-				model1_3.scale.set(sf, sf, sf);
-				model2_1.scale.set(sf, sf, sf);
-				model2_2.scale.set(sf, sf, sf);
-				model2_3.scale.set(sf, sf, sf);
-				model2_4.scale.set(sf, sf, sf);
-				model2_5.scale.set(sf, sf, sf);
-				//add model to the scene
-				scene1.add(model1_1);
-				scene1.add(model1_2);
-				scene1.add(model1_3);
-				scene2.add(model2_1);
-				scene2.add(model2_2);
-				scene2.add(model2_3);
-				scene2.add(model2_4);
-				scene2.add(model2_5);
 
-
-				model1_1.position.setFromMatrixPosition(reticleFixed.matrix);
-				model1_1.quaternion.setFromRotationMatrix(reticleFixed.matrix);
-				model1_2.position.setFromMatrixPosition(reticleFixed.matrix);
-				model1_2.quaternion.setFromRotationMatrix(reticleFixed.matrix);
-				model1_3.position.setFromMatrixPosition(reticleFixed.matrix);
-				model1_3.quaternion.setFromRotationMatrix(reticleFixed.matrix);
-				model2_1.position.setFromMatrixPosition(reticleFixed.matrix);
-				model2_1.quaternion.setFromRotationMatrix(reticleFixed.matrix);
-				model2_2.position.setFromMatrixPosition(reticleFixed.matrix);
-				model2_2.quaternion.setFromRotationMatrix(reticleFixed.matrix);
-				model2_3.position.setFromMatrixPosition(reticleFixed.matrix);
-				model2_3.quaternion.setFromRotationMatrix(reticleFixed.matrix);
-				model2_4.position.setFromMatrixPosition(reticleFixed.matrix);
-				model2_4.quaternion.setFromRotationMatrix(reticleFixed.matrix);
-				model2_5.position.setFromMatrixPosition(reticleFixed.matrix);
-				model2_5.quaternion.setFromRotationMatrix(reticleFixed.matrix);
-
-				model1_1.rotation.y = THREE.Math.degToRad(225);
-				model1_2.rotation.y = THREE.Math.degToRad(225);
-				model1_3.rotation.y = THREE.Math.degToRad(225);
-
-				model2_1.rotation.y = THREE.Math.degToRad(225);
-				model2_2.rotation.y = THREE.Math.degToRad(225);
-				model2_3.rotation.y = THREE.Math.degToRad(225);
-				model2_4.rotation.y = THREE.Math.degToRad(225);
-				model2_5.rotation.y = THREE.Math.degToRad(225);
-
-
+				const groupScene1 = new THREE.Group();
+				groupScene1.add(model1_1,model1_2,model1_3);
+				groupScene1.scale.set(sf, sf, sf);
+				groupScene1.position.setFromMatrixPosition(reticleFixed.matrix);
+				groupScene1.quaternion.setFromRotationMatrix(reticleFixed.matrix);
+				groupScene1.rotation.y = THREE.Math.degToRad(225);
+				scene1.add(groupScene1);
+				
+				const groupScene2 = new THREE.Group();
+				groupScene2.add(model2_1,model2_2,model2_3,model2_4,model2_5);
+				groupScene2.scale.set(sf, sf, sf);
+				groupScene2.position.setFromMatrixPosition(reticleFixed.matrix);
+				groupScene2.quaternion.setFromRotationMatrix(reticleFixed.matrix);
+				groupScene2.rotation.y = THREE.Math.degToRad(225);
+				scene1.add(groupScene2);
 				
 
 				model1_1.traverse( function( child ) {
@@ -232,25 +194,6 @@
 		          child.material = grayMaterial;
 						}
 				} );
-
-				// document.getElementById("hideShow").addEventListener("click", function(){
-				// 	if(objHidden) {
-				// 		objHidden = false;
-				// 		// code to show object
-
-				// 		model1_1.visible = true;
-				// 		model1_2.visible = true;
-				// 		model1_3.visible = true;
-				// 	} else {
-				// 		objHidden = true;
-				// 		// code to hide object
-						
-				// 		model1_1.visible = false;
-				// 		model1_2.visible = false;
-				// 		model1_3.visible = false;
-				// 	}
-				// });
-
 			});
 
     }
