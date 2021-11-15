@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>AR Concrete Corbel</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<meta name="author" content="ETH Zurich - kfm Research">
+	<link type="text/css" rel="stylesheet" href="style.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet"> 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r126/three.js" crossorigin="anonymous"></script>
+  <!-- <script src="https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js"></script> -->
+	<script src="https://unpkg.com/three@0.126.0/examples/js/loaders/OBJLoader.js"></script>
+	<link rel="icon" href="https://irfangh.github.io/assets/img/favicon/favicon_32x32.png" sizes="32x32" />
+	<link rel="icon" href="https://irfangh.github.io/assets/img/favicon/favicon_192x192.png" sizes="192x192" />
+	<link rel="apple-touch-icon" href="https://irfangh.github.io/assets/img/favicon/favicon_180x180.png" />
+	<meta name="msapplication-TileImage" content="https://irfangh.github.io/assets/img/favicon/favicon_270x270.png" />
+</head>
+
+<body>
+	<div id="overlay">
+		<div id="xrTitle">
+			AR Concrete Corbel
+		</div>
+		<div id="xrUpperNav">
+			<ul id="sceneNavigation">
+				<li id="scene1" class="active">Initial geometry</li>
+				<li id="scene2">Reinforcement</li>
+			</ul>
+		</div>
+		<div id="xrLowerNav">End AR</div>
+	</div>
+	<script type="module">
+    import { ARButton } from 'https://unpkg.com/three@0.126.0/examples/jsm/webxr/ARButton.js';
+
+		let container;
+		let camera, scene, scene1, scene2, renderer;
+		let reticle;
+		let controller;
+		let loader; // we need to create a variable for a gltf model loader
+
+		let locationSet = false; // Check wether the user has defined the inital position of the model
+		let objHidden = true;
+
+		var concreteMaterial = new THREE.MeshBasicMaterial( { color: "rgb(195,195,195)" } );
+		var elastomerMaterial = new THREE.MeshBasicMaterial( { color: "rgb(0,0,0)" } );
+		var dimensioningMaterial = new THREE.MeshBasicMaterial( { color: "rgb(255,0,0)" } );
+		var reinforcementMaterial = new THREE.MeshBasicMaterial( { color: "rgb(84,37,37)" } );
+		var grayMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,155,155)" } );
+		var orangeMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,128,0)" } );
+
+		var activeScene = 1;
+
+		const sf = 1/100;
+
+		init();
+		animate();
+
+		document.getElementById("scene2").addEventListener("click", function(){
+			scene = scene2;
+			document.getElementById("scene2").classList.add("active");
+			document.getElementById("scene1").classList.remove("active");
+		});
+		document.getElementById("scene1").addEventListener("click", function(){
+			scene = scene1;
+			document.getElementById("scene1").classList.add("active");
+			document.getElementById("scene2").classList.remove("active");
+		});
+
+		document.getElementById("xrLowerNav").addEventListener("click", function(){
+			location.reload(); 
+			// currentSession.end();
+		});
+
+		function init() {
+			const container = document.createElement('div');
+			document.body.appendChild(container);
+
+			scene1 = new THREE.Scene();
+			scene2 = new THREE.Scene();
+
+			scene = scene1;
+
+			camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 40);
+
+			renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+			renderer.setPixelRatio(window.devicePixelRatio);
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			renderer.xr.enabled = true; // we have to enable the renderer for webxr
+			container.appendChild(renderer.domElement);
+
+			var light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
+			light.position.set(0.5, 1, 0.25);
+			scene.add(light);
+
+			controller = renderer.xr.getController(0);
+			controller.addEventListener('select', onSelect);
+			scene.add(controller);
+
+			addReticleToScene();
+
+			document.body.appendChild( ARButton.createButton( renderer, {
+					requiredFeatures: ["hit-test"],
+					optionalFeatures: [ 'dom-overlay', 'dom-overlay-for-handheld-ar' ],
+					domOverlay: {
+						root: document.getElementById("overlay")
+					 }
+					} )
+			);
+			renderer.domElement.style.display = "none";
+
+			window.addEventListener('resize', onWindowResize, false);
+		}
+
+		function loadModel(url) {
+			return new Promise(resolve => {
+				// new THREE.GLTFLoader().load(url, resolve);
+				new THREE.OBJLoader().load(url, resolve);
+			});
+		}
+
+    function placeModel(reticleFixed) {
+
+			let model1_1, model1_2, model1_3;
+			let model2_1, model2_2, model2_3, model2_4, model2_5;
+
+			let p1_1 = loadModel('https://irfangh.github.io/Models/Konsole_01_1_Beton.obj').then(result => {  model1_1 = result; });
+			let p1_2 = loadModel('https://irfangh.github.io/Models/Konsole_01_2_Elastomer.obj').then(result => {  model1_2 = result; });
+			let p1_3 = loadModel('https://irfangh.github.io/Models/Konsole_01_3_Bemessung.obj').then(result => {  model1_3 = result; });
+			
+			let p2_1 = loadModel('https://irfangh.github.io/Models/Konsole_09_1_Stütze.obj').then(result => {  model2_1 = result; });
+			let p2_2 = loadModel('https://irfangh.github.io/Models/Konsole_09_2_Zugstrebe.obj').then(result => {  model2_2 = result; });
+			let p2_3 = loadModel('https://irfangh.github.io/Models/Konsole_09_3_Spaltzug.obj').then(result => {  model2_3 = result; });
+			let p2_4 = loadModel('https://irfangh.github.io/Models/Konsole_09_4_Konstruktiv.obj').then(result => {  model2_4 = result; });
+			let p2_5 = loadModel('https://irfangh.github.io/Models/Konsole_01_4_Umrahmung.obj').then(result => {  model2_5 = result; });
+
+			//if all Promises resolved 
+			Promise.all([p1_1,p1_2,p1_3,p2_1,p2_2,p2_3,p2_4,p2_5]).then(() => {
+
+				model1_1.traverse( function( child ) {
+		      if ( child instanceof THREE.Mesh ) {
+		          child.material = concreteMaterial;
+						}
+				} );
+
+				model1_2.traverse( function( child ) {
+		      if ( child instanceof THREE.Mesh ) {
+		          child.material = elastomerMaterial;
+						}
+				} );
+
+				model1_3.traverse( function( child ) {
+		      if ( child instanceof THREE.Mesh ) {
+		          child.material = dimensioningMaterial;
+						}
+				} );
+
+				model2_1.traverse( function( child ) {
+		      if ( child instanceof THREE.Mesh ) {
+		          child.material = reinforcementMaterial;
+						}
+				} );
+				model2_2.traverse( function( child ) {
+		      if ( child instanceof THREE.Mesh ) {
+		          child.material = reinforcementMaterial;
+						}
+				} );
+				model2_2.traverse( function( child ) {
+		      if ( child instanceof THREE.Mesh ) {
+		          child.material = reinforcementMaterial;
+						}
+				} );
+				model2_3.traverse( function( child ) {
+		      if ( child instanceof THREE.Mesh ) {
+		          child.material = reinforcementMaterial;
+						}
+				} );
+				model2_4.traverse( function( child ) {
+		      if ( child instanceof THREE.Mesh ) {
+		          child.material = reinforcementMaterial;
+						}
+				} );
+				model2_5.traverse( function( child ) {
+		      if ( child instanceof THREE.Mesh ) {
+		          child.material = grayMaterial;
+						}
+				} );
+
+				const groupScene1 = new THREE.Group();
+				groupScene1.add(model1_1,model1_2,model1_3);
+				groupScene1.scale.set(sf, sf, sf);
+				groupScene1.position.setFromMatrixPosition(reticleFixed.matrix);
+				groupScene1.quaternion.setFromRotationMatrix(reticleFixed.matrix);
+				groupScene1.rotation.y = THREE.Math.degToRad(225);
+				scene1.add(groupScene1);
+				
+				const groupScene2 = new THREE.Group();
+				groupScene2.add(model2_1,model2_2,model2_3,model2_4,model2_5);
+				groupScene2.scale.set(sf, sf, sf);
+				groupScene2.position.setFromMatrixPosition(reticleFixed.matrix);
+				groupScene2.quaternion.setFromRotationMatrix(reticleFixed.matrix);
+				groupScene2.rotation.y = THREE.Math.degToRad(225);
+				scene2.add(groupScene2);
+				
+			});
+
+    }
+
+		function addReticleToScene() {
+        const geometry = new THREE.RingBufferGeometry(0.15, 0.2, 32).rotateX(
+          -Math.PI / 2
+        );
+        const material = new THREE.MeshBasicMaterial();
+
+        reticle = new THREE.Mesh(geometry, material);
+
+        // we will calculate the position and rotation of this reticle every frame manually
+        // in the render() function so matrixAutoUpdate is set to false
+        reticle.matrixAutoUpdate = false;
+        reticle.visible = false; // we start with the reticle not visible
+        scene.add(reticle);
+
+        // optional axis helper you can add to an object
+        // reticle.add(new THREE.AxesHelper(1));
+      }
+
+      function onSelect() {        
+        if (reticle.visible) {
+					if (!locationSet){
+						placeModel(reticle);
+						locationSet = true;
+						document.getElementById("xrUpperNav").style.display = "block";
+						document.getElementById("xrLowerNav").style.display = "block";
+						var xrTitleHeight = document.getElementById("xrTitle").offsetHeight;
+						var xrLowerNavHeight = document.getElementById("xrLowerNav").offsetHeight;
+						document.getElementById("xrLowerNav").style.bottom = - window.innerHeight + xrTitleHeight*2 + xrLowerNavHeight + "px";
+					}
+        }
+      }
+
+		function onWindowResize() {
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+
+			renderer.setSize(window.innerWidth, window.innerHeight);
+		}
+
+		function animate() {
+			renderer.setAnimationLoop(render);
+		}
+
+
+		let hitTestSource = null;
+		let localSpace = null;
+		let hitTestSourceInitialized = false;
+
+		// This function gets called just once to initialize a hitTestSource
+		// The purpose of this function is to get a) a hit test source and b) a reference space
+		async function initializeHitTestSource() {
+			const session = renderer.xr.getSession(); // XRSession
+			
+			// Reference spaces express relationships between an origin and the world.
+
+			// For hit testing, we use the "viewer" reference space,
+			// which is based on the device's pose at the time of the hit test.
+			const viewerSpace = await session.requestReferenceSpace("viewer");
+			hitTestSource = await session.requestHitTestSource({ space: viewerSpace });
+
+			// We're going to use the reference space of "local" for drawing things.
+			// which gives us stability in terms of the environment.
+			// read more here: https://developer.mozilla.org/en-US/docs/Web/API/XRReferenceSpace
+			localSpace = await session.requestReferenceSpace("local");
+
+			// set this to true so we don't request another hit source for the rest of the session
+			hitTestSourceInitialized = true;
+			
+			// In case we close the AR session by hitting the button "End AR"
+			session.addEventListener("end", () => {
+				hitTestSourceInitialized = false;
+				hitTestSource = null;
+			});
+		}
+
+		// the callback from 'setAnimationLoop' can also return a timestamp
+		// and an XRFrame, which provides access to the information needed in
+		// order to render a single frame of animation for an XRSession describing
+		// a VR or AR sccene.
+		function render(timestamp, frame) {
+			if (frame) {
+				if (!locationSet){
+					// 1. create a hit test source once and keep it for all the frames
+					// this gets called only once
+					if (!hitTestSourceInitialized) {
+						initializeHitTestSource();
+					}
+
+					// 2. get hit test results
+					if (hitTestSourceInitialized) {
+						// we get the hit test results for a particular frame
+						const hitTestResults = frame.getHitTestResults(hitTestSource);
+
+						// XRHitTestResults The hit test may find multiple surfaces. The first one in the array is the one closest to the camera.
+						if (hitTestResults.length > 0) {
+							const hit = hitTestResults[0];
+							// Get a pose from the hit test result. The pose represents the pose of a point on a surface.
+							const pose = hit.getPose(localSpace);
+
+							reticle.visible = true;
+							// Transform/move the reticle image to the hit test position
+							reticle.matrix.fromArray(pose.transform.matrix);
+						} else {
+							reticle.visible = false;
+						}
+					}
+				}
+				renderer.render(scene, camera);
+			}
+		}
+
+	</script>
+</body>
+
+</html>
