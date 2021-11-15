@@ -65,8 +65,11 @@
 		id="scene"
 	>
 		<a-assets>
-				<a-asset-item id="01_Global_Geometrie-obj" src="https://irfangh.github.io/Models/01_Global_Geometrie.obj"></a-asset-item>
-				<a-asset-item id="01_Global_Geometrie-mtl" src="https://irfangh.github.io/Models/01_Global_Geometrie.mtl"></a-asset-item>
+			<a-asset-item
+				id="01_Global_Geometrie"
+				src="https://irfangh.github.io/Models/01_Global_Geometrie.gltf"
+			>
+			</a-asset-item>
 		</a-assets>
 
 		<a-marker
@@ -77,8 +80,8 @@
 			id="markerA"
 		>
 			<a-entity
-				id="first-model"
-				obj-model="obj: #01_Global_Geometrie-obj; mtl: #01_Global_Geometrie-mtl"
+				id="01_Global_Geometrie-model"
+				gltf-model="#01_Global_Geometrie"
 				position="0 0 -1"
 				scale="0.002 0.002 0.002"
 				rotation="0 180 0"
