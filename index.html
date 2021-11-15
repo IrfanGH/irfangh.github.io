@@ -65,11 +65,11 @@
 		id="scene"
 	>
 		<a-assets>
-			<a-asset-item
-				id="bowser"
-				src="https://irfangh.github.io/Models/Balken.gltf"
-			>
 			</a-asset-item>
+			<a-assets>
+				<a-asset-item id="01_Global_Geometrie-obj" src="https://irfangh.github.io/Models/01_Global_Geometrie.obj"></a-asset-item>
+				<a-asset-item id="01_Global_Geometrie-mtl" src="https://irfangh.github.io/Models/01_Global_Geometrie.mtl"></a-asset-item>
+			</a-assets>
 		</a-assets>
 
 		<a-marker
@@ -80,8 +80,8 @@
 			id="markerA"
 		>
 			<a-entity
-				id="bowser-model"
-				gltf-model="#bowser"
+				id="first-model"
+				obj-model="obj: #01_Global_Geometrie-obj; mtl: #01_Global_Geometrie-mtl"
 				position="0 0 -1"
 				scale="0.002 0.002 0.002"
 				rotation="0 180 0"
