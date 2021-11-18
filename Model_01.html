@@ -1,66 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-	<title>AR Torsionsbalken</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-	<meta name="author" content="ETH Zurich - kfm Research">
-	<link type="text/css" rel="stylesheet" href="style.css">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet"> 
+	<head>
+		<title>AR Torsionsbalken</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<meta name="author" content="ETH Zurich - kfm Research">
+		<link type="text/css" rel="stylesheet" href="style.css">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet"> 
 
-	<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+		<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+		<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 
-	<script src="https://raw.githack.com/fcor/arjs-gestures/master/dist/gestures.js"></script>
+		<script src="https://raw.githack.com/fcor/arjs-gestures/master/dist/gestures.js"></script>
 
-	<link rel="icon" href="https://irfangh.github.io/assets/img/favicon/favicon_32x32.png" sizes="32x32" />
-	<link rel="icon" href="https://irfangh.github.io/assets/img/favicon/favicon_192x192.png" sizes="192x192" />
-	<link rel="apple-touch-icon" href="https://irfangh.github.io/assets/img/favicon/favicon_180x180.png" />
-	<meta name="msapplication-TileImage" content="https://irfangh.github.io/assets/img/favicon/favicon_270x270.png" />
-  <body style="margin : 0px; overflow: hidden;">
-		<div class="buttons">
-			<a class="scene_link" href="https://irfangh.github.io/">Start</a>
-			<button id="switchButton" class="controllButton" style="background: #000;color: #fff;">Switch</button >
-		</div>
-    <a-scene
-			arjs
-			embedded
-			renderer="logarithmicDepthBuffer: true;"
-			vr-mode-ui="enabled: false"
-			gesture-detector
-			id="scene"
-		>
-			<a-assets>
-				<a-asset-item
-					id="01_Global_Geometrie"
-					src="https://irfangh.github.io/Models/01_Global_Geometrie.gltf"
-				>
-				</a-asset-item>
-			</a-assets>
+		<link rel="icon" href="https://irfangh.github.io/assets/img/favicon/favicon_32x32.png" sizes="32x32" />
+		<link rel="icon" href="https://irfangh.github.io/assets/img/favicon/favicon_192x192.png" sizes="192x192" />
+		<link rel="apple-touch-icon" href="https://irfangh.github.io/assets/img/favicon/favicon_180x180.png" />
+		<meta name="msapplication-TileImage" content="https://irfangh.github.io/assets/img/favicon/favicon_270x270.png" />
 
-			<a-marker
-				preset="hiro"
-				raycaster="objects: .clickable"
-				emitevents="true"
-				cursor="fuse: false; rayOrigin: mouse;"
-				id="markerA"
+		<link href="https://irfangh.github.io/style.css" rel="stylesheet">
+	</head>
+		<body style="margin : 0px; overflow: hidden;">
+			<div class="buttons">
+				<a class="scene_link" href="https://irfangh.github.io/">Start</a>
+				<button id="switchButton" class="controllButton" style="background: #000;color: #fff;">Switch</button >
+			</div>
+			<a-scene
+				arjs
+				embedded
+				renderer="logarithmicDepthBuffer: true;"
+				vr-mode-ui="enabled: false"
+				gesture-detector
+				id="scene"
 			>
-				<a-entity
-					id="01_Global_Geometrie-model"
-					gltf-model="#01_Global_Geometrie"
-					position="0 0 0"
-					scale="0.004 0.004 0.004"
-					rotation="90 180 0"
-					class="clickable"
-					gesture-handler
+				<a-assets>
+					<a-asset-item
+						id="01_Global_Geometrie"
+						src="https://irfangh.github.io/Models/01_Global_Geometrie.gltf"
+					>
+					</a-asset-item>
+				</a-assets>
+
+				<a-marker
+					preset="hiro"
+					raycaster="objects: .clickable"
+					emitevents="true"
+					cursor="fuse: false; rayOrigin: mouse;"
+					id="markerA"
 				>
-				</a-entity>
-			</a-marker>
-			<a-entity camera></a-entity>
-	</a-scene>
-</body>
+					<a-entity
+						id="01_Global_Geometrie-model"
+						gltf-model="#01_Global_Geometrie"
+						position="0 0 0"
+						scale="0.004 0.004 0.004"
+						rotation="90 180 0"
+						class="clickable"
+						gesture-handler
+					>
+					</a-entity>
+				</a-marker>
+				<a-entity camera></a-entity>
+		</a-scene>
+	</body>
 
 </html>
