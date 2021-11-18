@@ -73,16 +73,9 @@
 			cursor="fuse: false; rayOrigin: mouse;"
 			id="markerA"
 		>
-			<a-entity
-				id="02_WS_04_Fachwerk-model"
-				gltf-model="#02_WS_04_Fachwerk"
-				position="0 0 -0.30"
-				scale="0.4 0.4 0.4"
-				rotation="-90 -90 0"
-				class="clickable"
-				gesture-handler
-			>
-			</a-entity>
+			<a-entity line="start: 0 0 0; end: 1 0 0; color: red"
+			line__2="start: 0 0 0; end: 0 1 0; color: green"
+			line__3="start: 0 0 0; end: 0 0 1; color: blue"></a-entity>
 		</a-marker>
 		<a-entity camera></a-entity>
 </a-scene>
