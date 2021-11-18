@@ -1,88 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-	<title>AR Torsionsbalken</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-	<meta name="author" content="ETH Zurich - kfm Research">
-	<link type="text/css" rel="stylesheet" href="style.css">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet"> 
+	<head>
+		<title>AR Torsionsbalken</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<meta name="author" content="ETH Zurich - kfm Research">
+		<link type="text/css" rel="stylesheet" href="style.css">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet"> 
 
-	<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+		<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+		<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 
-	<script src="https://raw.githack.com/fcor/arjs-gestures/master/dist/gestures.js"></script>
+		<script src="https://raw.githack.com/fcor/arjs-gestures/master/dist/gestures.js"></script>
 
-	<link rel="icon" href="https://irfangh.github.io/assets/img/favicon/favicon_32x32.png" sizes="32x32" />
-	<link rel="icon" href="https://irfangh.github.io/assets/img/favicon/favicon_192x192.png" sizes="192x192" />
-	<link rel="apple-touch-icon" href="https://irfangh.github.io/assets/img/favicon/favicon_180x180.png" />
-	<meta name="msapplication-TileImage" content="https://irfangh.github.io/assets/img/favicon/favicon_270x270.png" />
-  <style>
-    .buttons {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 5em;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 10;
-    }
+		<link rel="icon" href="https://irfangh.github.io/assets/img/favicon/favicon_32x32.png" sizes="32x32" />
+		<link rel="icon" href="https://irfangh.github.io/assets/img/favicon/favicon_192x192.png" sizes="192x192" />
+		<link rel="apple-touch-icon" href="https://irfangh.github.io/assets/img/favicon/favicon_180x180.png" />
+		<meta name="msapplication-TileImage" content="https://irfangh.github.io/assets/img/favicon/favicon_270x270.png" />
 
-    .scene_link {
-      padding: 0.25em 1em;
-      border-radius: 4px;
-      border: none;
-      background: white;
-      color: black;
-      width: 4em;
-			margin: 0 1em;
-    }
-  </style>
-  <body style="margin : 0px; overflow: hidden;">
+		<link href="https://irfangh.github.io/style.css" rel="stylesheet">
+	</head>
+		<body style="margin : 0px; overflow: hidden;">
 			<div class="buttons">
-				<a class="scene_link" href="https://irfangh.github.io/">Home</a>
+				<a class="scene_link" href="https://irfangh.github.io/">Zurück</a>
+				<button id="switchButton" class="controllButton" style="background: #000;color: #fff;">Switch</button >
 			</div>
-    <a-scene
-		arjs
-		embedded
-		renderer="logarithmicDepthBuffer: true;"
-		vr-mode-ui="enabled: false"
-		gesture-detector
-		id="scene"
-	>
-		<a-assets>
-			<a-asset-item
-				id="03_TT_01_Scheibe_1"
-				src="https://irfangh.github.io/Models/03_TT_01_Scheibe_1.gltf"
+			<a-scene
+				arjs
+				embedded
+				renderer="logarithmicDepthBuffer: true;"
+				vr-mode-ui="enabled: false"
+				gesture-detector
+				id="scene"
 			>
-			</a-asset-item>
-		</a-assets>
+				<a-assets>
+					<a-asset-item
+						id="03_TT_01_Scheibe_1"
+						src="https://irfangh.github.io/Models/03_TT_01_Scheibe_1.gltf"
+					>
+					</a-asset-item>
+				</a-assets>
 
-		<a-marker
-			preset="hiro"
-			raycaster="objects: .clickable"
-			emitevents="true"
-			cursor="fuse: false; rayOrigin: mouse;"
-			id="markerA"
-		>
-			<a-entity
-				id="03_TT_01_Scheibe_1-model"
-				gltf-model="#03_TT_01_Scheibe_1"
-				position="0 0 0"
-				scale="0.004 0.004 0.004"
-				rotation="90 180 0"
-				class="clickable"
-				gesture-handler
-			>
-			</a-entity>
-		</a-marker>
-		<a-entity camera></a-entity>
-</a-scene>
-</body>
+				<a-marker
+					preset="hiro"
+					raycaster="objects: .clickable"
+					emitevents="true"
+					cursor="fuse: false; rayOrigin: mouse;"
+					id="markerA"
+				>
+					<a-entity
+						id="03_TT_01_Scheibe_1-model"
+						gltf-model="#03_TT_01_Scheibe_1"
+						position="0 0 0"
+						scale="0.004 0.004 0.004"
+						rotation="90 180 0"
+						class="clickable"
+						gesture-handler
+					>
+					</a-entity>
+				</a-marker>
+				<a-entity camera></a-entity>
+		</a-scene>
+	</body>
 
 </html>
