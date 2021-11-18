@@ -34,18 +34,17 @@
     }
 
     .scene_link {
-      padding: 0.25em 1em;
-      border-radius: 4px;
-      border: none;
-      background: white;
-      color: black;
-      width: 4em;
-			margin: 0 1em;
-    }
+			padding: 0.5em 1em;
+			border-radius: 0.5em;
+			border: none;
+			background: white;
+			color: black;
+		}
   </style>
   <body style="margin : 0px; overflow: hidden;">
 		<div class="buttons">
-			<a class="scene_link" href="https://irfangh.github.io/">Home</a>
+			<a class="scene_link" href="https://irfangh.github.io/">Start</a>
+			<button id="switchButton" class="scene_link" style="background: #000;color: #fff;">Switch</button >
 		</div>
     <a-scene
 			arjs
@@ -57,8 +56,8 @@
 		>
 			<a-assets>
 				<a-asset-item
-					id="UebungTorsion_3d_Verformung"
-					src="https://irfangh.github.io/Models/04_FEM_02_Verformung.gltf"
+					id="01_Global_Geometrie"
+					src="https://irfangh.github.io/Models/01_Global_Geometrie.gltf"
 				>
 				</a-asset-item>
 			</a-assets>
@@ -71,8 +70,8 @@
 				id="markerA"
 			>
 				<a-entity
-					id="UebungTorsion_3d_Verformung-model"
-					gltf-model="#UebungTorsion_3d_Verformung"
+					id="01_Global_Geometrie-model"
+					gltf-model="#01_Global_Geometrie"
 					position="0 0 0"
 					scale="0.004 0.004 0.004"
 					rotation="90 180 0"
