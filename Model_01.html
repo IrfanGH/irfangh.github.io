@@ -51,46 +51,46 @@
 				<a class="scene_link" href="https://irfangh.github.io/Model_04.html">Model 4</a>
 			</div>
     <a-scene
-		arjs
-		embedded
-		renderer="logarithmicDepthBuffer: true;"
-		vr-mode-ui="enabled: false"
-		gesture-detector
-		id="scene"
-	>
-		<a-assets>
-			<a-asset-item
-				id="UebungTorsion_3d_Geometrie"
-				src="https://irfangh.github.io/Models/UebungTorsion_3d_Geometrie.gltf"
-			>
-			</a-asset-item>
-			<a-asset-item
-				id="UebungTorsion_3d_Verformung"
-				src="https://irfangh.github.io/Models/UebungTorsion_3d_Verformung.gltf"
-			>
-			</a-asset-item>
-		</a-assets>
-
-		<a-marker
-			preset="hiro"
-			raycaster="objects: .clickable"
-			emitevents="true"
-			cursor="fuse: false; rayOrigin: mouse;"
-			id="markerA"
+			arjs
+			embedded
+			renderer="logarithmicDepthBuffer: true;"
+			vr-mode-ui="enabled: false"
+			gesture-detector
+			id="scene"
 		>
-			<a-entity
-				id="UebungTorsion_3d_Verformung-model"
-				gltf-model="#UebungTorsion_3d_Verformung"
-				position="0 0 0"
-				scale="0.4 0.4 0.4"
-				rotation="0 0 0"
-				class="clickable"
-				gesture-handler
+			<a-assets>
+				<a-asset-item
+					id="UebungTorsion_3d_Geometrie"
+					src="https://irfangh.github.io/Models/UebungTorsion_3d_Geometrie.gltf"
+				>
+				</a-asset-item>
+				<a-asset-item
+					id="UebungTorsion_3d_Verformung"
+					src="https://irfangh.github.io/Models/UebungTorsion_3d_Verformung.gltf"
+				>
+				</a-asset-item>
+			</a-assets>
+
+			<a-marker
+				preset="hiro"
+				raycaster="objects: .clickable"
+				emitevents="true"
+				cursor="fuse: false; rayOrigin: mouse;"
+				id="markerA"
 			>
-			</a-entity>
-		</a-marker>
-		<a-entity camera></a-entity>
-</a-scene>
+				<a-entity
+					id="UebungTorsion_3d_Geometrie-model"
+					gltf-model="#UebungTorsion_3d_Geometrie"
+					position="0 0 0"
+					scale="0.4 0.4 0.4"
+					rotation="0 0 0"
+					class="clickable"
+					gesture-handler
+				>
+				</a-entity>
+			</a-marker>
+			<a-entity camera></a-entity>
+	</a-scene>
 </body>
 
 </html>

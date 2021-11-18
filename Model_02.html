@@ -50,42 +50,42 @@
 				<a class="scene_link" href="https://irfangh.github.io/Model_03.html">Model 3</a>
 				<a class="scene_link" href="https://irfangh.github.io/Model_04.html">Model 4</a>
 			</div>
-    <a-scene
-		arjs
-		embedded
-		renderer="logarithmicDepthBuffer: true;"
-		vr-mode-ui="enabled: false"
-		gesture-detector
-		id="scene"
-	>
-		<a-assets>
-			<a-asset-item
-				id="UebungTorsion_3d_neigung_"
-				src="https://irfangh.github.io/Models/UebungTorsion_3d_neigung_.glb"
+			<a-scene
+				arjs
+				embedded
+				renderer="logarithmicDepthBuffer: true;"
+				vr-mode-ui="enabled: false"
+				gesture-detector
+				id="scene"
 			>
-			</a-asset-item>
-		</a-assets>
+			<a-assets>
+				<a-asset-item
+					id="UebungTorsion_3d_neigung_"
+					src="https://irfangh.github.io/Models/UebungTorsion_3d_neigung_.glb"
+				>
+				</a-asset-item>
+			</a-assets>
 
-		<a-marker
-			preset="hiro"
-			raycaster="objects: .clickable"
-			emitevents="true"
-			cursor="fuse: false; rayOrigin: mouse;"
-			id="markerA"
-		>
-			<a-entity
-				id="UebungTorsion_3d_neigung_-model"
-				gltf-model="#UebungTorsion_3d_neigung_"
-				position="0 0 0"
-				scale="0.4 0.4 0.4"
-				rotation="0 0 0"
-				class="clickable"
-				gesture-handler
+			<a-marker
+				preset="hiro"
+				raycaster="objects: .clickable"
+				emitevents="true"
+				cursor="fuse: false; rayOrigin: mouse;"
+				id="markerA"
 			>
-			</a-entity>
-		</a-marker>
-		<a-entity camera></a-entity>
-</a-scene>
+				<a-entity
+					id="UebungTorsion_3d_neigung_-model"
+					gltf-model="#UebungTorsion_3d_neigung_"
+					position="0 0 0"
+					scale="0.4 0.4 0.4"
+					rotation="0 0 0"
+					class="clickable"
+					gesture-handler
+				>
+				</a-entity>
+			</a-marker>
+			<a-entity camera></a-entity>
+	</a-scene>
 </body>
 
 </html>
