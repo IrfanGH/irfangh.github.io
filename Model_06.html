@@ -24,6 +24,9 @@
 		<link href="https://irfangh.github.io/style.css" rel="stylesheet">
 	</head>
 		<body style="margin : 0px; overflow: hidden;">
+			<div class="arjs-loader">
+				<div>Loading, please wait...</div>
+			</div>
 			<div class="buttons">
 				<a class="scene_link" href="https://irfangh.github.io/">Zurück</a>
 				<button id="switchButton" class="controllButton">Switch</button >
@@ -38,8 +41,23 @@
 			>
 				<a-assets>
 					<a-asset-item
-						id="06_Bewehrung"
-						src="https://irfangh.github.io/Models/06_Bewehrung.gltf"
+						id="06_01_Bewehrung_Torsionsbalken_Laengs"
+						src="https://irfangh.github.io/Models/06_01_Bewehrung_Torsionsbalken_Laengs.gltf"
+					>
+					</a-asset-item>
+					<a-asset-item
+						id="06_01_Bewehrung_Torsionsbalken_Horizontal"
+						src="https://irfangh.github.io/Models/06_01_Bewehrung_Torsionsbalken_Horizontal.gltf"
+					>
+					</a-asset-item>
+					<a-asset-item
+						id="06_01_Bewehrung_Torsionsbalken_Vertikal"
+						src="https://irfangh.github.io/Models/06_01_Bewehrung_Torsionsbalken_Vertikal.gltf"
+					>
+					</a-asset-item>
+					<a-asset-item
+						id="06_02_Bewehrung_Wandscheibe"
+						src="https://irfangh.github.io/Models/06_02_Bewehrung_Wandscheibe.gltf"
 					>
 					</a-asset-item>
 				</a-assets>
@@ -52,8 +70,35 @@
 					id="markerA"
 				>
 					<a-entity
-						id="06_Bewehrung-model"
-						gltf-model="#06_Bewehrung"
+						id="06_01_Bewehrung_Torsionsbalken_Laengs-model"
+						gltf-model="#06_01_Bewehrung_Torsionsbalken_Laengs"
+						position="0 0 0"
+						scale="0.004 0.004 0.004"
+						rotation="90 180 0"
+						class="clickable"
+						gesture-handler
+					>
+					<a-entity
+						id="06_01_Bewehrung_Torsionsbalken_Horizontal-model"
+						gltf-model="#06_01_Bewehrung_Torsionsbalken_Horizontal"
+						position="0 0 0"
+						scale="0.004 0.004 0.004"
+						rotation="90 180 0"
+						class="clickable"
+						gesture-handler
+					>
+					<a-entity
+						id="06_01_Bewehrung_Torsionsbalken_Vertikal-model"
+						gltf-model="#06_01_Bewehrung_Torsionsbalken_Vertikal"
+						position="0 0 0"
+						scale="0.004 0.004 0.004"
+						rotation="90 180 0"
+						class="clickable"
+						gesture-handler
+					>
+					<a-entity
+						id="06_02_Bewehrung_Wandscheibe-model"
+						gltf-model="#06_02_Bewehrung_Wandscheibe"
 						position="0 0 0"
 						scale="0.004 0.004 0.004"
 						rotation="90 180 0"
