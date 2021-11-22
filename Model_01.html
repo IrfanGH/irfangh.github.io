@@ -23,7 +23,7 @@
 
 		<link href="https://irfangh.github.io/style.css" rel="stylesheet">
 
-		<script>
+<!-- 		<script>
 			AFRAME.registerComponent('toggle-visible', {
 				init: function () {
 					// This will be called after the entity has properly attached and loaded.
@@ -32,18 +32,16 @@
 					function hidePlane() {
 						var entity1 = scene.querySelector('#planeToHide');
  					  entity1.object3D.visible = false;
-						 var entity2 = scene.querySelector('#01_Global_Geometrie-model');
-						 entity1.setAttribute('material', 'color', 'red');
 					}
 				}
 			});
 
-    </script>
+    </script> -->
 	</head>
 		<body style="margin : 0px; overflow: hidden;">
 			<div class="buttons">
 				<a class="scene_link" href="https://irfangh.github.io/">Zurück</a>
-				<button id="switchButton" class="controllButton">Switch</button >
+				<!--  <button id="switchButton" class="controllButton">Switch</button >-->
 			</div>
 			<a-scene
 				arjs
@@ -78,7 +76,7 @@
 						gesture-handler
 					>
 					</a-entity>
-					<a-plane id="planeToHide" height="1" width="1" position="0 -0.1 0" rotation="-90 0 0" color="#a0a0a0" toggle-visible></a-plane>
+					<a-plane height="1" width="1" position="0 -0.1 0" rotation="-90 0 0" color="#a0a0a0"></a-plane>
 					<a-plane height="3" width="3" position="0 -0.2 0" rotation="-90 0 0"></a-plane>
 					<!-- <a-entity line="start: 0 0 0; end: 1 0 0; color: red"
 										line__2="start: 0 0 0; end: 0 1 0; color: green"

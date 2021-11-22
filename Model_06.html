@@ -30,6 +30,13 @@
 					// This will be called after the entity has properly attached and loaded.
 					var loeaderElement = document.getElementById("loader-screen");
 					loeaderElement.style.display = "none";
+
+					document.querySelector('#switchButton').onclick = switchInfo;
+					
+					function switchInfo() {
+						var entity1 = scene.querySelector('#06_02_Bewehrung_Wandscheibe_Beschriftung-model');
+ 					  entity1.object3D.visible = true;
+					}
 				}
 			});
 
@@ -41,7 +48,7 @@
 			</div>
 			<div class="buttons">
 				<a class="scene_link" href="https://irfangh.github.io/">Zurück</a>
-				<!-- <button id="switchButton" class="controllButton">Switch</button > -->
+				<button id="switchButton" class="controllButton">Switch</button >
 			</div>
 			<a-scene
 				arjs
@@ -71,6 +78,11 @@
 					<a-asset-item
 						id="06_02_Bewehrung_Wandscheibe"
 						src="https://irfangh.github.io/Models/06_02_Bewehrung_Wandscheibe.gltf"
+					>
+					</a-asset-item>
+					<a-asset-item
+						id="06_02_Bewehrung_Wandscheibe_Beschriftung"
+						src="https://irfangh.github.io/Models/06_02_Bewehrung_Wandscheibe_Beschriftung.gltf"
 					>
 					</a-asset-item>
 				</a-assets>
@@ -116,6 +128,16 @@
 						scale="0.004 0.004 0.004"
 						rotation="90 180 0"
 						class="clickable"
+						gesture-handler
+					></a-entity>
+					<a-entity
+						id="06_02_Bewehrung_Wandscheibe_Beschriftung-model"
+						gltf-model="#06_02_Bewehrung_Wandscheibe_Beschriftung"
+						position="0 0 0"
+						scale="0.004 0.004 0.004"
+						rotation="90 180 0"
+						class="clickable"
+						visible="false"
 						gesture-handler
 					></a-entity>
 					<a-plane height="1" width="1" position="0 -0.1 0" rotation="-90 0 0" color="#a0a0a0"></a-plane>
