@@ -32,8 +32,9 @@
 					document.querySelector('#switchButton').onclick = switchInfo;
 					
 					function switchInfo() {
+						alert("ok");
 						var entity1 = scene.querySelector('#06_02_Bewehrung_Wandscheibe_Beschriftung-model');
- 					  entity1.object3D.visible = false;
+ 					  entity1.setAttribute('visible', false);
 					}
 				}
 			});
