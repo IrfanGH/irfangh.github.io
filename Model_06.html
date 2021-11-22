@@ -23,6 +23,8 @@
 
 		<link href="https://irfangh.github.io/style.css" rel="stylesheet">
 		<script>
+			var sceneEl = document.querySelector('a-scene')
+
 			AFRAME.registerComponent('load-info', {
 				init: function () {
 					// This will be called after the entity has properly attached and loaded.
@@ -32,8 +34,7 @@
 					document.querySelector('#switchButton').onclick = switchInfo;
 					
 					function switchInfo() {
-						alert("ok");
-						var entity1 = scene.querySelector('#06_02_Bewehrung_Wandscheibe_Beschriftung-model');
+						var entity1 = sceneEl.querySelector('#06_02_Bewehrung_Wandscheibe_Beschriftung-model');
  					  entity1.object3D.visible = false;
 
 						/* var sceneEl = document.querySelector('a-scene'); 
