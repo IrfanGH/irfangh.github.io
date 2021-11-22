@@ -24,7 +24,7 @@
 		<link href="https://irfangh.github.io/style.css" rel="stylesheet">
 		<script>
 			var sceneEl = document.querySelector('a-scene')
-
+			
 			AFRAME.registerComponent('load-info', {
 				init: function () {
 					// This will be called after the entity has properly attached and loaded.
@@ -34,11 +34,12 @@
 					document.querySelector('#switchButton').onclick = switchInfo;
 					
 					function switchInfo() {
-						var entity1 = sceneEl.querySelector('#06_02_Bewehrung_Wandscheibe_Beschriftung-model');
+						alert("ok");
+						var entity1 = scene.querySelector('#relevantElement');
  					  entity1.object3D.visible = false;
 
 						/* var sceneEl = document.querySelector('a-scene'); 
-						sce */neEl.querySelector('#06_02_Bewehrung_Wandscheibe_Beschriftung-model').setAttribute('visible', false);
+						sceneEl.querySelector('#06_02_Bewehrung_Wandscheibe_Beschriftung-model').setAttribute('visible', false);*/
 					}
 				}
 			});
@@ -134,7 +135,7 @@
 						gesture-handler
 					></a-entity>
 					<a-entity
-						id="06_02_Bewehrung_Wandscheibe_Beschriftung-model"
+						id="relevantElement"
 						gltf-model="#06_02_Bewehrung_Wandscheibe_Beschriftung"
 						position="0 0 0"
 						scale="0.004 0.004 0.004"
