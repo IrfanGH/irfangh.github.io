@@ -24,14 +24,6 @@
 		<link href="https://irfangh.github.io/style.css" rel="stylesheet">
 
 		<script>
-			AFRAME.registerComponent('load-info', {
-				init: function () {
-					// This will be called after the entity has properly attached and loaded.
-					var loeaderElement = document.getElementById("loader-screen");
-					loeaderElement.style.display = "none";
-				}
-			});
-
 			AFRAME.registerComponent('toggle-visible', {
 				init: function () {
 					// This will be called after the entity has properly attached and loaded.
@@ -58,7 +50,6 @@
 				vr-mode-ui="enabled: false"
 				gesture-detector
 				id="scene"
-				load-info
 			>
 				<a-assets>
 					<a-asset-item
