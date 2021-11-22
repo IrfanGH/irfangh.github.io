@@ -31,8 +31,10 @@
 					
 					function hidePlane() {
 						alert("ok");
-						/* var loeaderElement = document.getElementById("planeToHide");
-						loeaderElement.style.display = "none"; */
+						var entity1 = scene.querySelector('#planeToHide');
+ 					  entity1.object3D.visible = false;
+						/* var loaderElement = document.getElementById("planeToHide");
+						loaderElement.style.display = "none"; */
 					}
 				}
 			});
