@@ -33,8 +33,11 @@
 					
 					function switchInfo() {
 						alert("ok");
-						var sceneEl = document.querySelector('a-scene'); 
-						sceneEl.querySelector('#06_02_Bewehrung_Wandscheibe_Beschriftung-model').setAttribute('visible', false);
+						var entity1 = scene.querySelector('#06_02_Bewehrung_Wandscheibe_Beschriftung-model');
+ 					  entity1.object3D.visible = false;
+
+						/* var sceneEl = document.querySelector('a-scene'); 
+						sce */neEl.querySelector('#06_02_Bewehrung_Wandscheibe_Beschriftung-model').setAttribute('visible', false);
 					}
 				}
 			});
