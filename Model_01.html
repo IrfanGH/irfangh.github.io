@@ -26,16 +26,20 @@
 		<script>
       var sceneEl = document.querySelector('a-scene');
 
-			AFRAME.registerComponent('do-something-once-loaded', {
+			AFRAME.registerComponent('load-info', {
 				init: function () {
 					// This will be called after the entity has properly attached and loaded.
-					alert('I am ready!');
+					var loeaderElement = document.getElementById("loader-screen");
+					loeaderElement.style.display = "none";
 				}
 			});
 
     </script>
 	</head>
 		<body style="margin : 0px; overflow: hidden;">
+			<div class="arjs-loader" id="loader-screen">
+				<div>Modell wird geladen, bitte warten...</div>
+			</div>
 			<div class="buttons">
 				<a class="scene_link" href="https://irfangh.github.io/">Zurück</a>
 				<button id="switchButton" class="controllButton">Switch</button >
@@ -47,7 +51,7 @@
 				vr-mode-ui="enabled: false"
 				gesture-detector
 				id="scene"
-				do-something-once-loaded
+				load-info
 			>
 				<a-assets>
 					<a-asset-item
