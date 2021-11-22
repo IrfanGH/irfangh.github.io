@@ -23,8 +23,6 @@
 
 		<link href="https://irfangh.github.io/style.css" rel="stylesheet">
 		<script>
-      var sceneEl = document.querySelector('a-scene');
-
 			AFRAME.registerComponent('load-info', {
 				init: function () {
 					// This will be called after the entity has properly attached and loaded.
@@ -35,7 +33,7 @@
 					
 					function switchInfo() {
 						var entity1 = scene.querySelector('#06_02_Bewehrung_Wandscheibe_Beschriftung-model');
- 					  entity1.object3D.visible = true;
+ 					  entity1.object3D.visible = false;
 					}
 				}
 			});
@@ -137,7 +135,7 @@
 						scale="0.004 0.004 0.004"
 						rotation="90 180 0"
 						class="clickable"
-						visible="false"
+						visible="true"
 						gesture-handler
 					></a-entity>
 					<a-plane height="1" width="1" position="0 -0.1 0" rotation="-90 0 0" color="#a0a0a0"></a-plane>
