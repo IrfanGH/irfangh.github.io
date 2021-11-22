@@ -31,15 +31,13 @@
 					var loeaderElement = document.getElementById("loader-screen");
 					loeaderElement.style.display = "none";
 
+					document.querySelector('#switchButton').style.display = "block";
 					document.querySelector('#switchButton').onclick = switchInfo;
 					
 					function switchInfo() {
-						alert("ok");
 						var entity1 = scene.querySelector('#relevantElement');
- 					  entity1.object3D.visible = false;
-
-						/* var sceneEl = document.querySelector('a-scene'); 
-						sceneEl.querySelector('#06_02_Bewehrung_Wandscheibe_Beschriftung-model').setAttribute('visible', false);*/
+ 					  alert (entity1.getAttribute('visible'));
+						entity1.object3D.visible = true;
 					}
 				}
 			});
@@ -52,7 +50,7 @@
 			</div>
 			<div class="buttons">
 				<a class="scene_link" href="https://irfangh.github.io/">Zurück</a>
-				<button id="switchButton" class="controllButton">Switch</button >
+				<button id="switchButton" class="controllButton">Details</button >
 			</div>
 			<a-scene
 				arjs
@@ -141,6 +139,7 @@
 						scale="0.004 0.004 0.004"
 						rotation="90 180 0"
 						class="clickable"
+						visible="false"
 						gesture-handler
 					></a-entity>
 					<a-plane height="1" width="1" position="0 -0.1 0" rotation="-90 0 0" color="#a0a0a0"></a-plane>
