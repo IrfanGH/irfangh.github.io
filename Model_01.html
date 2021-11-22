@@ -30,11 +30,10 @@
 					document.querySelector('#switchButton').onclick = hidePlane;
 					
 					function hidePlane() {
-						alert("ok");
 						var entity1 = scene.querySelector('#planeToHide');
  					  entity1.object3D.visible = false;
-						/* var loaderElement = document.getElementById("planeToHide");
-						loaderElement.style.display = "none"; */
+						 var entity2 = scene.querySelector('#01_Global_Geometrie-model');
+						 entity1.setAttribute('material', 'color', 'red');
 					}
 				}
 			});
