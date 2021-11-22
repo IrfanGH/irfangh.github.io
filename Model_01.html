@@ -24,8 +24,6 @@
 		<link href="https://irfangh.github.io/style.css" rel="stylesheet">
 
 		<script>
-      var sceneEl = document.querySelector('a-scene');
-
 			AFRAME.registerComponent('load-info', {
 				init: function () {
 					// This will be called after the entity has properly attached and loaded.
@@ -37,7 +35,7 @@
 			AFRAME.registerComponent('toggle-visible', {
 				init: function () {
 					// This will be called after the entity has properly attached and loaded.
-					document.querySelector('#switchButton').onclick = displayDate;
+					document.querySelector('#switchButton').onclick = hidePlane;
 
 					function hidePlane() {
 						var loeaderElement = document.getElementById("planeToHide");
