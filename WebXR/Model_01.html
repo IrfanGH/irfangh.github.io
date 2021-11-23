@@ -116,8 +116,8 @@
 
 		function loadModel(url) {
 			return new Promise(resolve => {
-				//new THREE.GLTFLoader().load(url, resolve);
-				new THREE.OBJLoader().load(url, resolve);
+				new THREE.GLTFLoader().load(url, resolve);
+				/* new THREE.OBJLoader().load(url, resolve); */
 			});
 		}
 
@@ -126,8 +126,8 @@
 			let model1_1, model1_2, model1_3;
 			let model2_1, model2_2, model2_3, model2_4, model2_5;
 
-			/* let p1_1 = loadModel('https://irfangh.github.io/Models/01_Global_Geometrie.gltf').then(result => {  model1_1 = result; }); */
-			let p1_1 = loadModel('https://irfangh.github.io/Models/Konsole_01_1_Beton.obj').then(result => {  model1_1 = result; });
+			let p1_1 = loadModel('https://irfangh.github.io/Models/01_Global_Geometrie.gltf').then(result => {  model1_1 = result; });
+			/* let p1_1 = loadModel('https://irfangh.github.io/Models/Konsole_01_1_Beton.obj').then(result => {  model1_1 = result; }); */
 			/* let p1_2 = loadModel('https://irfangh.github.io/Models/Konsole_01_2_Elastomer.obj').then(result => {  model1_2 = result; });
 			let p1_3 = loadModel('https://irfangh.github.io/Models/Konsole_01_3_Bemessung.obj').then(result => {  model1_3 = result; });
 			
@@ -141,11 +141,11 @@
 			Promise.all([p1_1]).then(() => {
 			/* Promise.all([p1_1,p1_2,p1_3,p2_1,p2_2,p2_3,p2_4,p2_5]).then(() => { */
 
-				model1_1.traverse( function( child ) {
+				/* model1_1.traverse( function( child ) {
 		      if ( child instanceof THREE.Mesh ) {
 		          child.material = concreteMaterial;
 						}
-				} );
+				} ); */
 
 				/* model1_2.traverse( function( child ) {
 		      if ( child instanceof THREE.Mesh ) {
