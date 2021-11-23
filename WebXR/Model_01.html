@@ -11,7 +11,7 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet"> 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r126/three.js" crossorigin="anonymous"></script>
-  <!-- <script src="https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js"></script> -->
+  <script src="https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js"></script>
 	<script src="https://unpkg.com/three@0.126.0/examples/js/loaders/OBJLoader.js"></script>
 	<link rel="icon" href="https://irfangh.github.io/assets/img/favicon/favicon_32x32.png" sizes="32x32" />
 	<link rel="icon" href="https://irfangh.github.io/assets/img/favicon/favicon_192x192.png" sizes="192x192" />
@@ -116,7 +116,7 @@
 
 		function loadModel(url) {
 			return new Promise(resolve => {
-				// new THREE.GLTFLoader().load(url, resolve);
+				//new THREE.GLTFLoader().load(url, resolve);
 				new THREE.OBJLoader().load(url, resolve);
 			});
 		}
@@ -126,20 +126,22 @@
 			let model1_1, model1_2, model1_3;
 			let model2_1, model2_2, model2_3, model2_4, model2_5;
 
+			/* let p1_1 = loadModel('https://irfangh.github.io/Models/01_Global_Geometrie.gltf').then(result => {  model1_1 = result; }); */
 			let p1_1 = loadModel('https://irfangh.github.io/Models/Konsole_01_1_Beton.obj').then(result => {  model1_1 = result; });
-			let p1_2 = loadModel('https://irfangh.github.io/Models/Konsole_01_2_Elastomer.obj').then(result => {  model1_2 = result; });
+			/* let p1_2 = loadModel('https://irfangh.github.io/Models/Konsole_01_2_Elastomer.obj').then(result => {  model1_2 = result; });
 			let p1_3 = loadModel('https://irfangh.github.io/Models/Konsole_01_3_Bemessung.obj').then(result => {  model1_3 = result; });
 			
 			let p2_1 = loadModel('https://irfangh.github.io/Models/Konsole_09_1_Stütze.obj').then(result => {  model2_1 = result; });
 			let p2_2 = loadModel('https://irfangh.github.io/Models/Konsole_09_2_Zugstrebe.obj').then(result => {  model2_2 = result; });
 			let p2_3 = loadModel('https://irfangh.github.io/Models/Konsole_09_3_Spaltzug.obj').then(result => {  model2_3 = result; });
 			let p2_4 = loadModel('https://irfangh.github.io/Models/Konsole_09_4_Konstruktiv.obj').then(result => {  model2_4 = result; });
-			let p2_5 = loadModel('https://irfangh.github.io/Models/Konsole_01_4_Umrahmung.obj').then(result => {  model2_5 = result; });
+			let p2_5 = loadModel('https://irfangh.github.io/Models/Konsole_01_4_Umrahmung.obj').then(result => {  model2_5 = result; }); */
 
 			//if all Promises resolved 
-			Promise.all([p1_1,p1_2,p1_3,p2_1,p2_2,p2_3,p2_4,p2_5]).then(() => {
+			Promise.all([p1_1]).then(() => {
+			/* Promise.all([p1_1,p1_2,p1_3,p2_1,p2_2,p2_3,p2_4,p2_5]).then(() => { */
 
-				model1_1.traverse( function( child ) {
+				/* model1_1.traverse( function( child ) {
 		      if ( child instanceof THREE.Mesh ) {
 		          child.material = concreteMaterial;
 						}
@@ -186,23 +188,25 @@
 		      if ( child instanceof THREE.Mesh ) {
 		          child.material = grayMaterial;
 						}
-				} );
+				} ); */
 
+				
 				const groupScene1 = new THREE.Group();
-				groupScene1.add(model1_1,model1_2,model1_3);
+				groupScene1.add(model1_1);
+				/* groupScene1.add(model1_1,model1_2,model1_3); */
 				groupScene1.scale.set(sf, sf, sf);
 				groupScene1.position.setFromMatrixPosition(reticleFixed.matrix);
 				groupScene1.quaternion.setFromRotationMatrix(reticleFixed.matrix);
 				groupScene1.rotation.y = THREE.Math.degToRad(225);
 				scene1.add(groupScene1);
 				
-				const groupScene2 = new THREE.Group();
+				/* const groupScene2 = new THREE.Group();
 				groupScene2.add(model2_1,model2_2,model2_3,model2_4,model2_5);
 				groupScene2.scale.set(sf, sf, sf);
 				groupScene2.position.setFromMatrixPosition(reticleFixed.matrix);
 				groupScene2.quaternion.setFromRotationMatrix(reticleFixed.matrix);
 				groupScene2.rotation.y = THREE.Math.degToRad(225);
-				scene2.add(groupScene2);
+				scene2.add(groupScene2); */
 				
 			});
 
