@@ -22,10 +22,23 @@
 		<meta name="msapplication-TileImage" content="https://irfangh.github.io/assets/img/favicon/favicon_270x270.png" />
 
 		<link href="https://irfangh.github.io/style.css" rel="stylesheet">
+		<script>
+			AFRAME.registerComponent('load-info', {
+				init: function () {
+					// This will be called after the entity has properly attached and loaded.
+					var loaderElement = document.getElementById("loader-screen");
+					loaderElement.style.display = "none";
+				}
+			});
+
+    </script>
 	</head>
 		<body style="margin : 0px; overflow: hidden;">
+			<div class="arjs-loader" id="loader-screen">
+				<div>Modell wird geladen, bitte warten...</div>
+			</div>
 			<div class="buttons">
-				<a class="scene_link" href="https://irfangh.github.io/">Zurück</a>
+				<a class="scene_link" href="https://irfangh.github.io/Marker/">Zurück</a>
 				<!-- <button id="switchButton" class="controllButton">Switch</button > -->
 			</div>
 			<a-scene
@@ -35,11 +48,12 @@
 				vr-mode-ui="enabled: false"
 				gesture-detector
 				id="scene"
+				load-info
 			>
 				<a-assets>
 					<a-asset-item
-						id="03_TT_01_Scheibe_1"
-						src="https://irfangh.github.io/Models/03_TT_01_Scheibe_1.gltf"
+						id="05_FEM_Verformung"
+						src="https://irfangh.github.io/Models/05_FEM_Verformung.gltf"
 					>
 					</a-asset-item>
 				</a-assets>
@@ -52,8 +66,8 @@
 					id="markerA"
 				>
 					<a-entity
-						id="03_TT_01_Scheibe_1-model"
-						gltf-model="#03_TT_01_Scheibe_1"
+						id="05_FEM_Verformung-model"
+						gltf-model="#05_FEM_Verformung"
 						position="0 0 0"
 						scale="0.004 0.004 0.004"
 						rotation="90 180 0"
