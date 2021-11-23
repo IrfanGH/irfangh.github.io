@@ -22,8 +22,21 @@
 		<meta name="msapplication-TileImage" content="https://irfangh.github.io/assets/img/favicon/favicon_270x270.png" />
 
 		<link href="https://irfangh.github.io/style.css" rel="stylesheet">
+		<script>
+			AFRAME.registerComponent('load-info', {
+				init: function () {
+					// This will be called after the entity has properly attached and loaded.
+					var loaderElement = document.getElementById("loader-screen");
+					loaderElement.style.display = "none";
+				}
+			});
+
+    </script>
 	</head>
 		<body style="margin : 0px; overflow: hidden;">
+			<div class="arjs-loader" id="loader-screen">
+				<div>Modell wird geladen, bitte warten...</div>
+			</div>
 			<div class="buttons">
 				<a class="scene_link" href="https://irfangh.github.io/">Zurück</a>
 				<!-- <button id="switchButton" class="controllButton">Switch</button > -->
@@ -35,6 +48,7 @@
 				vr-mode-ui="enabled: false"
 				gesture-detector
 				id="scene"
+				load-info
 			>
 				<a-assets>
 					<a-asset-item
