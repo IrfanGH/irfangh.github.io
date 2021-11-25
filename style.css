@@ -115,6 +115,18 @@ a, button, input, select {
 	height: 100%;
 }
 
+#xrLowerNav {
+	position: absolute;
+	display: none;
+	left: calc(50% - 35px);
+	/* padding: 10px; */
+/* 	background-color: rgb(251, 208, 177);
+	color: #000; */
+	margin: 10px;
+/* 	border-radius: 10px;
+	border: 2px solid rgb(242, 143, 70); */
+}
+
 #sceneNavigation {
 	list-style: none;
 	padding: 0;
@@ -137,14 +149,4 @@ a, button, input, select {
 	background: #b3cde8;
 }
 
-#xrLowerNav {
-	position: absolute;
-	display: none;
-	left: calc(50% - 35px);
-	padding: 10px;
-	background-color: rgb(251, 208, 177);
-	color: #000;
-	margin: 10px;
-	border-radius: 10px;
-	border: 2px solid rgb(242, 143, 70);
-}
+
