@@ -11,7 +11,7 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet"> 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r126/three.js" crossorigin="anonymous"></script>
-  <!-- <script src="https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js"></script> -->
+  <script src="https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js"></script>
 	<script src="https://unpkg.com/three@0.126.0/examples/js/loaders/OBJLoader.js"></script>
 	<link rel="icon" href="https://irfangh.github.io/assets/img/favicon/favicon_32x32.png" sizes="32x32" />
 	<link rel="icon" href="https://irfangh.github.io/assets/img/favicon/favicon_192x192.png" sizes="192x192" />
@@ -22,7 +22,7 @@
 <body>
 	<div id="overlay">
 		<div id="xrTitle">
-			AR Concrete Corbel
+			AR Torsionsbalken
 		</div>
 		<div id="xrUpperNav">
 			<ul id="sceneNavigation">
@@ -53,7 +53,7 @@
 
 		var activeScene = 1;
 
-		const sf = 1/100;
+		const sf = 1/1000;
 
 		init();
 		animate();
@@ -99,6 +99,8 @@
 			controller.addEventListener('select', onSelect);
 			scene.add(controller);
 
+		/* 	loadModels(); */
+
 			addReticleToScene();
 
 			document.body.appendChild( ARButton.createButton( renderer, {
@@ -114,6 +116,12 @@
 			window.addEventListener('resize', onWindowResize, false);
 		}
 
+	/* 	function loadModels() {
+			console.log("Modelle werden geladen...");
+
+			console.log("Modelle wurden erfoglreich geladen.");
+		} */
+
 		function loadModel(url) {
 			return new Promise(resolve => {
 				// new THREE.GLTFLoader().load(url, resolve);
@@ -123,7 +131,52 @@
 
     function placeModel(reticleFixed) {
 
-			let model1_1, model1_2, model1_3;
+
+      // specify a model URL
+      // const modelUrl = 'https://raw.githubusercontent.com/immersive-web/webxr-samples/main/media/gltf/space/space.gltf';
+      const modelUrl = 'https://irfangh.github.io/Models/01_Global_Geometrie.gltf';
+      
+			// create a GLTF loader object. GLTF is a 3D model format usually called the "JPEG of 3D" because it is
+      // fast and efficient to use, which is ideal for the web
+			loader = new THREE.GLTFLoader();
+      const groupScene1 = new THREE.Group();
+      // learn about other types of 3D model formats you can use here: 
+      // https://threejs.org/docs/#manual/en/introduction/Loading-3D-models
+      
+      // load the model
+      // loader takes in a few arguments loader(model url, onLoad callback, onProgress callback, onError callback)
+			loader.load(
+				// model URL
+				modelUrl,
+				// onLoad callback: what get's called once the full model has loaded
+				function (gltf) {
+          // gltf.scene contains the Three.js object group that represents the 3d object of the model
+					const model = gltf.scene;
+					groupScene1.add(model);
+					
+				},
+				// onProgress callback: optional function for showing progress on model load
+				function (xhr) {
+		      console.log((xhr.loaded / xhr.total * 100) + '% loaded' );
+	      },
+				// onError callback
+				function (error) {
+					console.error(error);
+				}
+			);
+
+			groupScene1.scale.set(sf, sf, sf);
+			groupScene1.position.setFromMatrixPosition(reticleFixed.matrix);
+			groupScene1.quaternion.setFromRotationMatrix(reticleFixed.matrix);
+			groupScene1.rotation.y = THREE.Math.degToRad(0);
+			scene.add(groupScene1);
+			
+			/* gltf.scene.scale.set(sf, sf, sf);
+			scene.add(model); */
+			console.log("Model added to scene");
+			
+
+			/* let model1_1, model1_2, model1_3;
 			let model2_1, model2_2, model2_3, model2_4, model2_5;
 
 			let p1_1 = loadModel('https://irfangh.github.io/Models/Konsole_01_1_Beton.obj').then(result => {  model1_1 = result; });
@@ -204,7 +257,7 @@
 				groupScene2.rotation.y = THREE.Math.degToRad(225);
 				scene2.add(groupScene2);
 				
-			});
+			}); */
 
     }
 
