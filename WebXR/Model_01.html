@@ -57,7 +57,7 @@
 
 		var activeScene = 1;
 
-		const sf = 1/100;
+		const sf = 1/1000;
 
 		init();
 		animate();
@@ -72,12 +72,6 @@
 			document.getElementById("scene2").classList.add("active");
 			document.getElementById("scene1").classList.remove("active");
 		});
-
-
-		/* document.getElementById("xrLowerNav").addEventListener("click", function(){
-			location.reload(); 
-			// currentSession.end();
-		}); */
 
 		async function init() {
 
@@ -109,18 +103,25 @@
 			scene.add(controller);
 
 			groupScene1 = new THREE.Group();
+
+			
 			console.log("Modelle werden geladen...");
 
 			const gltfLoader = new THREE.GLTFLoader().setPath( 'https://irfangh.github.io/Models/' );
-
-			const [ gltf ] = await Promise.all( [
+			const [ gltf1, gltf2, gltf3, gltf4 ] = await Promise.all( [
 				gltfLoader.loadAsync( '06_01_Bewehrung_Torsionsbalken_Horizontal.gltf' ),
+				gltfLoader.loadAsync( '06_01_Bewehrung_Torsionsbalken_Laengs.gltf' ),
+				gltfLoader.loadAsync( '06_01_Bewehrung_Torsionsbalken_Vertikal.gltf' ),
+				gltfLoader.loadAsync( '06_02_Bewehrung_Wandscheibe.gltf' ),
 			] );
 
 			loaderElement.style.display = "none";
 			console.log("Modelle wurden geladen.");
 
-			groupScene1.add( gltf.scene );		
+			groupScene1.add( gltf1.scene );
+			groupScene1.add( gltf2.scene );	
+			groupScene1.add( gltf3.scene );	
+			groupScene1.add( gltf4.scene );			
 			
 
 			/* document.querySelector('#switchButton').style.display = "block";
