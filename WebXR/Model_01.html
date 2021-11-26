@@ -200,6 +200,7 @@
 					if (!locationSet){
 						placeModel(reticle);
 						locationSet = true;
+						reticle.visible = false; // we end with the reticle not visible
 						document.getElementById("xrUpperNav").style.display = "block";
 						document.getElementById("xrLowerNav").style.display = "block";
 						var xrTitleHeight = document.getElementById("xrTitle").offsetHeight;
