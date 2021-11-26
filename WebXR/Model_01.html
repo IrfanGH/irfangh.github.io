@@ -160,8 +160,6 @@
 			b.setComponent(1,0);
 			console.log("a",a);
 			console.log("b",b);
-			c.crossVectors(z,b);
-			console.log("c",c);
 			
 			var angle = z.angleTo(b);
 			console.log("angle",angle);
@@ -169,8 +167,8 @@
 			groupScene1.scale.set(sf, sf, sf);
 			groupScene1.position.setFromMatrixPosition(fixedReticle.matrix);
 			/* groupScene1.quaternion.setFromRotationMatrix(camera.matrix); */
-			groupScene1.rotateOnWorldAxis(c.normalize(), angle);
-			groupScene1.rotation.y = THREE.Math.degToRad(0);
+			groupScene1.rotateOnWorldAxis(c, angle);
+			/* groupScene1.rotation.y = THREE.Math.degToRad(0); */
 			scene.add(groupScene1);
 			
 			console.log(fixedReticle.matrix);
