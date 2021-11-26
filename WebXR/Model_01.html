@@ -21,6 +21,9 @@
 
 <body>
 	<div id="overlay">
+		<div class="arjs-loader" id="loader-screen">
+			<div>Modell wird geladen, bitte warten...</div>
+		</div>
 		<div id="xrTitle">
 			AR Torsionsbalken
 		</div>
@@ -77,6 +80,10 @@
 		}); */
 
 		async function init() {
+
+			var loaderElement = document.getElementById("loader-screen");
+			loaderElement.style.display = "block";
+
 			const container = document.createElement('div');
 			document.body.appendChild(container);
 
@@ -107,18 +114,28 @@
 			const gltfLoader = new THREE.GLTFLoader().setPath( 'https://irfangh.github.io/Models/' );
 
 			const [ gltf ] = await Promise.all( [
-				gltfLoader.loadAsync( '01_Global_Geometrie.gltf' ),
+				gltfLoader.loadAsync( '06_01_Bewehrung_Torsionsbalken_Horizontal.gltf' ),
 			] );
 
+			loaderElement.style.display = "none";
 			console.log("Modelle wurden geladen.");
 
-			groupScene1.add( gltf.scene );
+			groupScene1.add( gltf.scene );		
+			
+
+			/* document.querySelector('#switchButton').style.display = "block";
+			document.querySelector('#switchButton').onclick = switchInfo; */
+			
+			/* function switchInfo() {
+				var entity1 = scene.querySelector('#relevantElement');
+				entity1.object3D.visible = true;
+			} */
 
 			addReticleToScene();
 
 			document.body.appendChild( ARButton.createButton( renderer, {
 					requiredFeatures: ["hit-test"],
-					optionalFeatures: [ 'dom-overlay', 'dom-overlay-for-handheld-ar' ],
+					optionalFeatures: [ 'dom-overlay' ],
 					domOverlay: {
 						root: document.getElementById("overlay")
 					}
