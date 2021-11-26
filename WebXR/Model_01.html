@@ -179,9 +179,10 @@
     }
 
 		function addReticleToScene() {
-        const geometry = new THREE.RingBufferGeometry(0.05, 0.1, 32).rotateX(
+        /* const geometry = new THREE.RingBufferGeometry(0.05, 0.1, 32).rotateX(
           -Math.PI / 2
-        );
+        ); */
+				const geometry = new THREE.OctahedronGeometry();
         const material = new THREE.MeshBasicMaterial();
 
         reticle = new THREE.Mesh(geometry, material);
