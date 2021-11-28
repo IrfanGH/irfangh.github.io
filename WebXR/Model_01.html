@@ -48,7 +48,11 @@
 		<div id="xrLowerNav-wrapper">
       <div id="xrLowerNav">
         <ul class="extended" id="listScenes">
-          <li>
+          <li id="scheibe1" class="active"><span>Scheibe 1</span></li>
+					<li id="scheibe2"><span>Scheibe 2</span></li>
+					<li id="scheibe3"><span>Scheibe 3</span></li>
+					<li id="scheibe4"><span>Scheibe 4</span></li>
+					<!-- <li>
             <span>Wandscheibe</span>
             <ul class="extendedSub">
               <li>A</li><li>B</li><li>C</li><li>D</li><li>E</li><li>F</li>
@@ -56,7 +60,7 @@
           </li>
           <li>
             <span>Torsionsträger</span>
-          </li>
+          </li> -->
         </ul>
         <ul class="extended" id="listSettings">
           <li>
@@ -75,19 +79,50 @@
           </li>
         </ul>
         <ul id="icons">
-          <li id="iconScenes"><i class="bi bi-chevron-left"></i></li>
-          <li id="iconSettings"><i class="bi bi-card-list"></i></li>
-          <li><i class="bi bi-gear"></i></li>
+          <li id="iconBack"><i class="bi bi-chevron-left"></i></li>
+          <li id="iconScenes"><i class="bi bi-card-list"></i></li>
+          <li id="iconSettings"><i class="bi bi-gear"></i></li>
         </ul>
       </div>
     </div>
 	</div>
 	<script type="module">
+
+		jQuery( "#iconBack" ).click(function() {
+			window.location.href = "https://irfangh.github.io/WebXR/";
+		});
+		jQuery( "#iconScenes").click(function() {
+			jQuery( ".extended#listSettings").hide();
+			jQuery( ".extended#listScenes").toggle();
+		});
+		jQuery( "#iconSettings").click(function() {
+			jQuery( ".extended#listScenes").hide();
+			jQuery( ".extended#listSettings").toggle();
+		});
+
+
+		jQuery( "#scheibe1").click(function() {
+			jQuery( "#scheibe1").removeClass("active");
+			jQuery( "#scheibe2").removeClass("active");
+			jQuery( "#scheibe3").removeClass("active");
+			jQuery( "#scheibe4").removeClass("active");
+			jQuery( this).addClass("active");
+		});
+		jQuery( "#scheibe2").click(function() {
+			jQuery( "#scheibe1").removeClass("active");
+			jQuery( "#scheibe2").removeClass("active");
+			jQuery( "#scheibe3").removeClass("active");
+			jQuery( "#scheibe4").removeClass("active");
+			jQuery( this).addClass("active");
+		});
+		
+
+
     import { ARButton } from 'https://unpkg.com/three@0.126.0/examples/jsm/webxr/ARButton.js';
 
 		let container;
-		let camera, scene, scene1, scene2, renderer;
-		let groupScene1;
+		let camera, scene, scene1, scene2, scene3, scene4, renderer;
+		let groupScene1, groupScene2, groupScene3, groupScene4;
 		let reticle;
 		let controller;
 		let loader; // we need to create a variable for a gltf model loader
@@ -102,7 +137,7 @@
 		var grayMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,155,155)" } );
 		var orangeMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,128,0)" } );
 
-		var activeScene = 1;
+		var activeScene = 2;
 
 		const sf = 1/1000;
 
@@ -132,8 +167,10 @@
 
 			scene1 = new THREE.Scene();
 			scene2 = new THREE.Scene();
+			scene3 = new THREE.Scene();
+			scene4 = new THREE.Scene();
 
-			scene = scene1;
+			scene = scene2;
 
 			camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 40);
 
@@ -152,17 +189,20 @@
 			scene.add(controller);
 
 			groupScene1 = new THREE.Group();
+			groupScene2 = new THREE.Group();
+			groupScene3 = new THREE.Group();
+			groupScene4 = new THREE.Group();
 
 			
 			console.log("Modelle werden geladen...");
 
 			const gltfLoader = new THREE.GLTFLoader().setPath( 'https://irfangh.github.io/Models/' );
-			const [ gltf1 ] = await Promise.all( [
-			/* const [ gltf1, gltf2, gltf3, gltf4 ] = await Promise.all( [ */
-				gltfLoader.loadAsync( '01_Global_Geometrie.gltf' ),
-				/* gltfLoader.loadAsync( '06_01_Bewehrung_Torsionsbalken_Laengs.gltf' ),
-				gltfLoader.loadAsync( '06_01_Bewehrung_Torsionsbalken_Vertikal.gltf' ),
-				gltfLoader.loadAsync( '06_02_Bewehrung_Wandscheibe.gltf' ), */
+			/* const [ gltf1 ] = await Promise.all( [ */
+			const [ gltf1, gltf2, gltf3, gltf4 ] = await Promise.all( [
+				gltfLoader.loadAsync( '03_TT_01_Scheibe_1.gltf' ),
+				gltfLoader.loadAsync( '03_TT_02_Scheibe_2.gltf' ),
+				gltfLoader.loadAsync( '03_TT_03_Scheibe_3.gltf' ),
+				gltfLoader.loadAsync( '03_TT_04_Scheibe_4.gltf' ),
 			] );
 
 			loaderElement.style.display = "none";
@@ -171,9 +211,9 @@
 
 
 			groupScene1.add( gltf1.scene );
-			/* groupScene1.add( gltf2.scene );	
-			groupScene1.add( gltf3.scene );	
-			groupScene1.add( gltf4.scene );	 */		
+			groupScene2.add( gltf2.scene );	
+			groupScene3.add( gltf3.scene );	
+			groupScene4.add( gltf4.scene );	
 
 			addReticleToScene();
 
@@ -209,10 +249,25 @@
 			groupScene1.scale.set(sf, sf, sf);
 			groupScene1.position.setFromMatrixPosition(fixedReticle.matrix);
 			groupScene1.quaternion.setFromRotationMatrix(fixedReticle.matrix);
+
+			groupScene2.scale.set(sf, sf, sf);
+			groupScene2.position.setFromMatrixPosition(fixedReticle.matrix);
+			groupScene2.quaternion.setFromRotationMatrix(fixedReticle.matrix);
+
+			groupScene3.scale.set(sf, sf, sf);
+			groupScene3.position.setFromMatrixPosition(fixedReticle.matrix);
+			groupScene3.quaternion.setFromRotationMatrix(fixedReticle.matrix);
+
+			groupScene4.scale.set(sf, sf, sf);
+			groupScene4.position.setFromMatrixPosition(fixedReticle.matrix);
+			groupScene4.quaternion.setFromRotationMatrix(fixedReticle.matrix);
 			/* groupScene1.quaternion.setFromRotationMatrix(camera.matrix); */
 			/* groupScene1.rotateOnWorldAxis(c, angle); */
 			/* groupScene1.rotation.y = THREE.Math.degToRad(0); */
-			scene.add(groupScene1);
+			scene1.add(groupScene1);
+			scene2.add(groupScene2);
+			scene3.add(groupScene3);
+			scene4.add(groupScene4);
 			
 			console.log(fixedReticle.matrix);
 			
