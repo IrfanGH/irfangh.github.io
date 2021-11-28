@@ -116,15 +116,27 @@ a, button, input, select {
 }
 
 #xrUpperNav {
-  background-color: rgba(255, 255, 255, 0);
-  position: relative;
-  padding: 0.5em;
-  left: 0px;
-	display: none;
+	background-color: rgba(255, 255, 255, 0);
+	position: relative;
+	padding: 0.5em;
+	left: 0px;
+	/* display: none; */
 	position: absolute;
 	z-index: 9999;
 	top: 45px;
 	height: 100%;
+	text-align: center;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+#instructionOverlay {
+	color: #fff;
+	background: #000000c7;
+	border-radius: 10px;
+	text-align: center;
+	padding: 10px;
+	display: none;
 }
 
 #xrLowerNav {

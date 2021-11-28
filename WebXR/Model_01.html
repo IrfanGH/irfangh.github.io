@@ -17,23 +17,32 @@
 	<link rel="icon" href="https://irfangh.github.io/assets/img/favicon/favicon_192x192.png" sizes="192x192" />
 	<link rel="apple-touch-icon" href="https://irfangh.github.io/assets/img/favicon/favicon_180x180.png" />
 	<meta name="msapplication-TileImage" content="https://irfangh.github.io/assets/img/favicon/favicon_270x270.png" />
+	
 </head>
 
 <body>
 	<div class="arjs-loader" id="loader-screen">
-		<div>Modell wird geladen, bitte warten...</div>
+		<div>Modell wird geladen,<br>bitte warten...</div>
 	</div>
 	<div id="overlay">
 		<div id="xrTitle">
-			Concrete
+			<a href="https://irfangh.github.io/">Concrete</a>
+			<a href="https://irfangh.github.io/WebXR" id="endSession">X</a>
 		</div>
+
 		<div id="xrUpperNav">
-			<ul id="sceneNavigation">
+			<div id="instructionOverlay">
+				<span>Gerät bewegen, um zu starten.<br>Sobald eine Oberfläche erkannt wird, tippen sie auf den Bildschirm, um das Modell zu platzieren.</span>
+			</div>
+			<!-- <ul id="sceneNavigation">
 				<li id="scene1" class="active">Initial geometry</li>
 				<li id="scene2">Reinforcement</li>
-			</ul>
+			</ul> -->
+
 		</div>
-		<div id="xrLowerNav"><a class="scene_link" href="https://irfangh.github.io/WebXR/">Zurück</a></div>
+		<div id="xrLowerNav">
+			<!-- <a class="scene_link" href="https://irfangh.github.io/WebXR/">Zurück</a> -->
+		</div>
 	</div>
 	<script type="module">
     import { ARButton } from 'https://unpkg.com/three@0.126.0/examples/jsm/webxr/ARButton.js';
@@ -119,19 +128,12 @@
 			loaderElement.style.display = "none";
 			console.log("Modelle wurden geladen.");
 
+
+
 			groupScene1.add( gltf1.scene );
 			/* groupScene1.add( gltf2.scene );	
 			groupScene1.add( gltf3.scene );	
 			groupScene1.add( gltf4.scene );	 */		
-			
-
-			/* document.querySelector('#switchButton').style.display = "block";
-			document.querySelector('#switchButton').onclick = switchInfo; */
-			
-			/* function switchInfo() {
-				var entity1 = scene.querySelector('#relevantElement');
-				entity1.object3D.visible = true;
-			} */
 
 			addReticleToScene();
 
@@ -144,6 +146,9 @@
 					} )
 			);
 			renderer.domElement.style.display = "none";
+
+			var instructionElement = document.getElementById("instructionOverlay");
+			instructionElement.style.display = "inline-block";
 
 			window.addEventListener('resize', onWindowResize, false);
 		}
@@ -174,6 +179,8 @@
 			console.log(fixedReticle.matrix);
 			
 			console.log("Model added to scene");
+
+			instructionElement.style.display = "none";
 			
 			/* const groupScene1 = new THREE.Group();
 			groupScene1.add(model1_1,model1_2,model1_3);
