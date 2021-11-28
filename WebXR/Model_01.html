@@ -71,7 +71,9 @@
 		init();
 		animate();
 
-		document.getElementById("scene1").addEventListener("click", function(){
+		var instructionElement = document.getElementById("instructionOverlay");
+
+		/* document.getElementById("scene1").addEventListener("click", function(){
 			scene = scene1;
 			document.getElementById("scene1").classList.add("active");
 			document.getElementById("scene2").classList.remove("active");
@@ -80,7 +82,7 @@
 			scene = scene2;
 			document.getElementById("scene2").classList.add("active");
 			document.getElementById("scene1").classList.remove("active");
-		});
+		}); */
 
 		async function init() {
 
@@ -147,9 +149,6 @@
 			);
 			renderer.domElement.style.display = "none";
 
-			var instructionElement = document.getElementById("instructionOverlay");
-			instructionElement.style.display = "inline-block";
-
 			window.addEventListener('resize', onWindowResize, false);
 		}
 
@@ -180,7 +179,7 @@
 			
 			console.log("Model added to scene");
 
-			instructionElement.style.display = "none";
+			/* instructionElement.style.display = "none"; */
 			
 			/* const groupScene1 = new THREE.Group();
 			groupScene1.add(model1_1,model1_2,model1_3);
@@ -218,6 +217,7 @@
 
         // optional axis helper you can add to an object
         // reticle.add(new THREE.AxesHelper(1));
+				
       }
 
       function onSelect() {        
@@ -228,6 +228,7 @@
 						reticle.visible = false; // we end with the reticle not visible
 						document.getElementById("xrUpperNav").style.display = "block";
 						document.getElementById("xrLowerNav").style.display = "block";
+						instructionElement.style.display = "none";
 						var xrTitleHeight = document.getElementById("xrTitle").offsetHeight;
 						var xrLowerNavHeight = document.getElementById("xrLowerNav").offsetHeight;
 						document.getElementById("xrLowerNav").style.bottom = - window.innerHeight + xrTitleHeight*2 + xrLowerNavHeight + "px";
@@ -285,6 +286,9 @@
 		function render(timestamp, frame) {
 			if (frame) {
 				if (!locationSet){
+
+					instructionElement.style.display = "inline-block";
+
 					// 1. create a hit test source once and keep it for all the frames
 					// this gets called only once
 					if (!hitTestSourceInitialized) {
