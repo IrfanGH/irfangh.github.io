@@ -201,16 +201,16 @@
     }
 
 		function addReticleToScene() {
-        const geometry = new THREE.RingBufferGeometry(0.05, 0.1, 32).rotateX(
+        const reticleGeometry = new THREE.RingBufferGeometry(0.05, 0.1, 32).rotateX(
           -Math.PI / 2
         );
-        var material = new THREE.MeshBasicMaterial({
-						color: "rgb(87,171,78)",
-						transparent: true,
-						opacitiy: 0.3,
-				});
+        var reticleMaterial = new THREE.MeshBasicMaterial({color: "rgb(87,171,78)"});
 
-        reticle = new THREE.Mesh(geometry, material);
+        reticle = new THREE.Mesh(reticleGeometry, reticleMaterial);
+				// enable transparency
+				reticle.material.transparent = true;
+				// set opacity to 50%
+				reticle.material.opacity = 0.3; 
 
         // we will calculate the position and rotation of this reticle every frame manually
         // in the render() function so matrixAutoUpdate is set to false
