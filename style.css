@@ -101,6 +101,7 @@ a, button, input, select {
 	font-size: 20px;
 	text-align: center;
 	background-color: rgba(0, 0, 0, 0.445);
+	box-sizing: border-box;
 }
 
 #xrUpperNav {
