@@ -149,17 +149,6 @@
 
 		var instructionElement = document.getElementById("instructionOverlay");
 
-		/* document.getElementById("scene1").addEventListener("click", function(){
-			scene = scene1;
-			document.getElementById("scene1").classList.add("active");
-			document.getElementById("scene2").classList.remove("active");
-		});
-		document.getElementById("scene2").addEventListener("click", function(){
-			scene = scene2;
-			document.getElementById("scene2").classList.add("active");
-			document.getElementById("scene1").classList.remove("active");
-		}); */
-
 		async function init() {
 
 			var loaderElement = document.getElementById("loader-screen");
@@ -282,25 +271,6 @@
 			console.log(fixedReticle.matrix);
 			
 			console.log("Model added to scene");
-
-			/* instructionElement.style.display = "none"; */
-			
-			/* const groupScene1 = new THREE.Group();
-			groupScene1.add(model1_1,model1_2,model1_3);
-			groupScene1.scale.set(sf, sf, sf);
-			groupScene1.position.setFromMatrixPosition(fixedReticle.matrix);
-			groupScene1.quaternion.setFromRotationMatrix(fixedReticle.matrix);
-			groupScene1.rotation.y = THREE.Math.degToRad(225);
-			scene1.add(groupScene1);
-			
-			const groupScene2 = new THREE.Group();
-			groupScene2.add(model2_1,model2_2,model2_3,model2_4,model2_5);
-			groupScene2.scale.set(sf, sf, sf);
-			groupScene2.position.setFromMatrixPosition(fixedReticle.matrix);
-			groupScene2.quaternion.setFromRotationMatrix(fixedReticle.matrix);
-			groupScene2.rotation.y = THREE.Math.degToRad(225);
-			scene2.add(groupScene2); */
-
 
     }
 
