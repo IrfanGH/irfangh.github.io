@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Concrete</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<meta name="author" content="ETH Zurich - kfm Research">
+	<link type="text/css" rel="stylesheet" href="file:///D:/Diverse/GitHub/irfangh.github.io/style.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet"> 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r126/three.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js"></script>
+	<script src="https://unpkg.com/three@0.126.0/examples/js/loaders/OBJLoader.js"></script>
+	<link rel="icon" href="https://irfangh.github.io/assets/img/favicon/favicon_32x32.png" sizes="32x32" />
+	<link rel="icon" href="https://irfangh.github.io/assets/img/favicon/favicon_192x192.png" sizes="192x192" />
+	<link rel="apple-touch-icon" href="https://irfangh.github.io/assets/img/favicon/favicon_180x180.png" />
+	<meta name="msapplication-TileImage" content="https://irfangh.github.io/assets/img/favicon/favicon_270x270.png" />
+
+	<!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script type='text/javascript' src='https://concrete.ethz.ch/wp-includes/js/jquery/jquery.min.js?ver=3.6.0' id='jquery-core-js'></script>  
+	
+</head>
+
+<body>
+	<div class="arjs-loader" id="loader-screen">
+		<div>Modell wird geladen,<br>bitte warten...</div>
+	</div>
+	<div id="overlay">
+		<div id="xrTitle">
+			<a href="https://irfangh.github.io/">Concrete</a>
+		</div>
+
+		<div id="xrUpperNav">
+			<div id="instructionOverlay">
+				<span>Gerät bewegen, um zu starten.<br>Sobald eine Oberfläche erkannt wird, tippen sie auf den Bildschirm, um das Modell zu platzieren.</span>
+			</div>
+			<!-- <ul id="sceneNavigation">
+				<li id="scene1" class="active">Initial geometry</li>
+				<li id="scene2">Reinforcement</li>
+			</ul> -->
+
+		</div>
+		<div id="xrLowerNav-wrapper">
+      <div id="xrLowerNav">
+        <ul class="extended" id="listScenes">
+          <li>
+            <span>Wandscheibe</span>
+            <ul class="extendedSub">
+              <li>A</li><li>B</li><li>C</li><li>D</li><li>E</li><li>F</li>
+            </ul>
+          </li>
+          <li>
+            <span>Torsionsträger</span>
+          </li>
+        </ul>
+        <ul class="extended" id="listSettings">
+          <li>
+            <span>Skalierung</span>
+            <ul class="extendedSub">
+              <li><i class="bi bi-dash"></i></li>
+              <li><i class="bi bi-plus-lg"></i></li>
+            </ul>
+          </li>
+          <li>
+            <span>Drehung</span>
+            <ul class="extendedSub">
+              <li><i class="bi bi-arrow-clockwise"></i></li>
+              <li><i class="bi bi-arrow-counterclockwise"></i></li>
+            </ul>
+          </li>
+        </ul>
+        <ul id="icons">
+          <li id="iconScenes"><i class="bi bi-chevron-left"></i></li>
+          <li id="iconSettings"><i class="bi bi-card-list"></i></li>
+          <li><i class="bi bi-gear"></i></li>
+        </ul>
+      </div>
+    </div>
+	</div>
+
+
+
+
+
+  <script>
+
+            var xrTitleHeight = document.getElementById("xrTitle").offsetHeight;
+						var xrLowerNavHeight = document.getElementById("xrLowerNav-wrapper").offsetHeight;
+						document.getElementById("xrLowerNav-wrapper").style.bottom = - window.innerHeight + xrTitleHeight*2 + "px";
+	</script>
+</body>
+
+</html>
