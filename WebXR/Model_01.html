@@ -204,7 +204,11 @@
         const geometry = new THREE.RingBufferGeometry(0.05, 0.1, 32).rotateX(
           -Math.PI / 2
         );
-        const material = new THREE.MeshBasicMaterial();
+        var material = new THREE.MeshBasicMaterial({
+						color: "rgb(87,171,78)",
+						transparent: true,
+						opacitiy: 0.3,
+				});
 
         reticle = new THREE.Mesh(geometry, material);
 
