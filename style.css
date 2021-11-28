@@ -196,7 +196,7 @@ a, button, input, select {
 	border-radius: 10px;
 	background: #000000ab;
 	color: #959595;
-	border: 2px solid 000000ab;
+	border: 2px solid #0000;
 }
 
 #xrLowerNav ul.extended#listScenes > li.active span {

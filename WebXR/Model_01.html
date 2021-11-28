@@ -101,19 +101,22 @@
 		});
 
 
+		jQuery( "#listScenes li").click(function() {
+			jQuery("#listScenes li").removeClass("active");
+			jQuery(this).addClass("active");
+		});
+
 		jQuery( "#scheibe1").click(function() {
-			jQuery( "#scheibe1").removeClass("active");
-			jQuery( "#scheibe2").removeClass("active");
-			jQuery( "#scheibe3").removeClass("active");
-			jQuery( "#scheibe4").removeClass("active");
-			jQuery( "#scheibe1").addClass("active");
+			scene = scene1;
 		});
 		jQuery( "#scheibe2").click(function() {
-			jQuery( "#scheibe1").removeClass("active");
-			jQuery( "#scheibe2").removeClass("active");
-			jQuery( "#scheibe3").removeClass("active");
-			jQuery( "#scheibe4").removeClass("active");
-			jQuery( "#scheibe2").addClass("active");
+			scene = scene2;
+		});
+		jQuery( "#scheibe2").click(function() {
+			scene = scene3;
+		});
+		jQuery( "#scheibe2").click(function() {
+			scene = scene4;
 		});
 		
 
@@ -249,21 +252,28 @@
 			groupScene1.scale.set(sf, sf, sf);
 			groupScene1.position.setFromMatrixPosition(fixedReticle.matrix);
 			groupScene1.quaternion.setFromRotationMatrix(fixedReticle.matrix);
+			groupScene1.rotation.y = THREE.Math.degToRad(180);
 
 			groupScene2.scale.set(sf, sf, sf);
 			groupScene2.position.setFromMatrixPosition(fixedReticle.matrix);
 			groupScene2.quaternion.setFromRotationMatrix(fixedReticle.matrix);
+			groupScene2.rotation.y = THREE.Math.degToRad(180);
 
 			groupScene3.scale.set(sf, sf, sf);
 			groupScene3.position.setFromMatrixPosition(fixedReticle.matrix);
 			groupScene3.quaternion.setFromRotationMatrix(fixedReticle.matrix);
+			groupScene3.rotation.y = THREE.Math.degToRad(180);
 
 			groupScene4.scale.set(sf, sf, sf);
 			groupScene4.position.setFromMatrixPosition(fixedReticle.matrix);
 			groupScene4.quaternion.setFromRotationMatrix(fixedReticle.matrix);
+			groupScene4.rotation.y = THREE.Math.degToRad(180);
+
+
 			/* groupScene1.quaternion.setFromRotationMatrix(camera.matrix); */
 			/* groupScene1.rotateOnWorldAxis(c, angle); */
 			/* groupScene1.rotation.y = THREE.Math.degToRad(0); */
+
 			scene1.add(groupScene1);
 			scene2.add(groupScene2);
 			scene3.add(groupScene3);
