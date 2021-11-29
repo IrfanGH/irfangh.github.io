@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Concrete</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<meta name="author" content="ETH Zurich - kfm Research">
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet"> 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r126/three.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js"></script>
+	<script src="https://unpkg.com/three@0.126.0/examples/js/loaders/OBJLoader.js"></script>
+	<link rel="icon" href="https://irfangh.github.io/assets/img/favicon/favicon_32x32.png" sizes="32x32" />
+	<link rel="icon" href="https://irfangh.github.io/assets/img/favicon/favicon_192x192.png" sizes="192x192" />
+	<link rel="apple-touch-icon" href="https://irfangh.github.io/assets/img/favicon/favicon_180x180.png" />
+	<meta name="msapplication-TileImage" content="https://irfangh.github.io/assets/img/favicon/favicon_270x270.png" />
+
+	<!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script type='text/javascript' src='https://concrete.ethz.ch/wp-includes/js/jquery/jquery.min.js?ver=3.6.0' id='jquery-core-js'></script>  
+	
+	<link type="text/css" rel="stylesheet" href="https://irfangh.github.io/style.css">
+</head>
+
+<body>
+	<div class="arjs-loader" id="loader-screen">
+		<div>Modell wird geladen,<br>bitte warten...</div>
+	</div>
+	<div id="overlay">
+		<div id="xrTitle">
+			<a href="https://irfangh.github.io/">Concrete</a>
+		</div>
+
+		<div id="xrUpperNav">
+			<div id="instructionOverlay">
+				<span>Gerät bewegen, um zu starten.<br>Tippen Sie auf den Bildschirm, sobald eine Oberfläche erkannt wird, um das Modell zu platzieren.</span>
+			</div>
+			<!-- <ul id="sceneNavigation">
+				<li id="scene1" class="active">Initial geometry</li>
+				<li id="scene2">Reinforcement</li>
+			</ul> -->
+
+		</div>
+		<div id="xrLowerNav-wrapper">
+      <div id="xrLowerNav">
+        <ul class="extended" id="listScenes">
+          <li id="scheibe1" class="active"><span>Scheibe 1</span></li>
+					<li id="scheibe2"><span>Scheibe 2</span></li>
+					<li id="scheibe3"><span>Scheibe 3</span></li>
+					<li id="scheibe4"><span>Scheibe 4</span></li>
+					<!-- <li>
+            <span>Wandscheibe</span>
+            <ul class="extendedSub">
+              <li>A</li><li>B</li><li>C</li><li>D</li><li>E</li><li>F</li>
+            </ul>
+          </li>
+          <li>
+            <span>Torsionsträger</span>
+          </li> -->
+        </ul>
+        <ul class="extended" id="listSettings">
+          <li>
+            <span>Skalierung:</span>
+            <ul class="extendedSub">
+              <li><i class="bi bi-dash"></i></li>
+              <li><i class="bi bi-plus-lg"></i></li>
+            </ul>
+          </li>
+          <li>
+            <span>Rotation:</span>
+            <ul class="extendedSub">
+              <li><i class="bi bi-arrow-clockwise"></i></li>
+              <li><i class="bi bi-arrow-counterclockwise"></i></li>
+            </ul>
+          </li>
+        </ul>
+        <ul id="icons">
+          <li id="iconBack"><i class="bi bi-chevron-left"></i></li>
+          <li id="iconScenes"><i class="bi bi-card-list"></i></li>
+          <li id="iconSettings"><i class="bi bi-gear"></i></li>
+        </ul>
+      </div>
+    </div>
+	</div>
+	<script type="module">	
+
+    import { ARButton } from 'https://unpkg.com/three@0.126.0/examples/jsm/webxr/ARButton.js';
+
+		let container;
+		let camera, scene, scene1, scene2, scene3, scene4, renderer;
+		let groupScene1, groupScene2, groupScene3, groupScene4;
+		let reticle;
+		let controller;
+	
+		let locationSet = false; // Check wether the user has defined the inital position of the model
+		let objHidden = true;
+
+		var concreteMaterial = new THREE.MeshBasicMaterial( { color: "rgb(195,195,195)" } );
+		var elastomerMaterial = new THREE.MeshBasicMaterial( { color: "rgb(0,0,0)" } );
+		var dimensioningMaterial = new THREE.MeshBasicMaterial( { color: "rgb(255,0,0)" } );
+		var reinforcementMaterial = new THREE.MeshBasicMaterial( { color: "rgb(84,37,37)" } );
+		var grayMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,155,155)" } );
+		var orangeMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,128,0)" } );
+
+		var highlightMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,128,0)" } );
+
+		var activeScene = 1;
+
+		const sf = 1/1000;
+
+		init();
+		animate();
+
+		var instructionElement = document.getElementById("instructionOverlay");
+
+		async function init() {
+
+			var loaderElement = document.getElementById("loader-screen");
+			loaderElement.style.display = "flex";
+
+			const container = document.createElement('div');
+			document.body.appendChild(container);
+
+			scene = new THREE.Scene();
+			scene1 = new THREE.Scene();
+			scene2 = new THREE.Scene();
+			scene3 = new THREE.Scene();
+			scene4 = new THREE.Scene();
+
+			scene = scene1;
+
+			camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 40);
+
+			renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+			renderer.setPixelRatio(window.devicePixelRatio);
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			renderer.xr.enabled = true; // we have to enable the renderer for webxr
+			container.appendChild(renderer.domElement);
+
+			var light1 = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
+			light1.position.set(0.5, 1, 0.25);
+			var light2 = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
+			light2.position.set(0.5, 1, 0.25);
+			var light3 = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
+			light3.position.set(0.5, 1, 0.25);
+			var light4 = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
+			light4.position.set(0.5, 1, 0.25);
+
+			scene1.add(light1);
+			scene2.add(light2);
+			scene3.add(light3);
+			scene4.add(light4);
+
+			controller = renderer.xr.getController(0);
+			controller.addEventListener('select', onSelect);
+			scene.add(controller);
+
+			groupScene1 = new THREE.Group();
+			groupScene2 = new THREE.Group();
+			groupScene3 = new THREE.Group();
+			groupScene4 = new THREE.Group();
+
+			
+			console.log("Modelle werden geladen...");
+
+			const gltfLoader = new THREE.GLTFLoader().setPath( 'https://irfangh.github.io/Models/' );
+			const [ gltf1, gltf2, gltf3, gltf4 ] = await Promise.all( [
+				gltfLoader.loadAsync( '03_TT_01_Scheibe_1.gltf' ),
+				gltfLoader.loadAsync( '03_TT_02_Scheibe_2.gltf' ),
+				gltfLoader.loadAsync( '03_TT_03_Scheibe_3.gltf' ),
+				gltfLoader.loadAsync( '03_TT_04_Scheibe_4.gltf' ),
+			] );
+
+			loaderElement.style.display = "none";
+			console.log("Modelle wurden geladen.");
+
+			
+
+			highlightElement(gltf1.scene);
+
+			groupScene1.add( gltf1.scene );
+			groupScene2.add( gltf2.scene );	
+			groupScene3.add( gltf3.scene );	
+			groupScene4.add( gltf4.scene );	
+
+			addReticleToScene();
+
+			document.body.appendChild( ARButton.createButton( renderer, {
+					requiredFeatures: ["hit-test"],
+					optionalFeatures: [ 'dom-overlay' ],
+					domOverlay: {
+						root: document.getElementById("overlay")
+					}
+					} )
+			);
+			renderer.domElement.style.display = "none";
+
+			window.addEventListener('resize', onWindowResize, false);
+		}
+
+    function placeModel(fixedReticle) {
+/* 			console.log(camera.matrix);
+			var a = new THREE.Vector3( 0, 1, 0 );
+			var b = new THREE.Vector3( 0, 1, 0 );
+			var c = new THREE.Vector3( 0, 1, 0 );
+			var z = new THREE.Vector3( 0, 0, 1 );
+			camera.getWorldDirection(a);
+			console.log("a",a);
+			b = a.clone();
+			b.setComponent(1,0);
+			console.log("a",a);
+			console.log("b",b);
+			
+			var angle = z.angleTo(b);
+			console.log("angle",angle); */
+
+			groupScene1.scale.set(sf, sf, sf);
+			groupScene1.position.setFromMatrixPosition(fixedReticle.matrix);
+			groupScene1.quaternion.setFromRotationMatrix(fixedReticle.matrix);
+			groupScene1.rotation.y = THREE.Math.degToRad(180);
+
+			groupScene2.scale.set(sf, sf, sf);
+			groupScene2.position.setFromMatrixPosition(fixedReticle.matrix);
+			groupScene2.quaternion.setFromRotationMatrix(fixedReticle.matrix);
+			groupScene2.rotation.y = THREE.Math.degToRad(180);
+
+			groupScene3.scale.set(sf, sf, sf);
+			groupScene3.position.setFromMatrixPosition(fixedReticle.matrix);
+			groupScene3.quaternion.setFromRotationMatrix(fixedReticle.matrix);
+			groupScene3.rotation.y = THREE.Math.degToRad(180);
+
+			groupScene4.scale.set(sf, sf, sf);
+			groupScene4.position.setFromMatrixPosition(fixedReticle.matrix);
+			groupScene4.quaternion.setFromRotationMatrix(fixedReticle.matrix);
+			groupScene4.rotation.y = THREE.Math.degToRad(180);
+
+
+			/* groupScene1.quaternion.setFromRotationMatrix(camera.matrix); */
+			/* groupScene1.rotateOnWorldAxis(c, angle); */
+			/* groupScene1.rotation.y = THREE.Math.degToRad(0); */
+
+			scene1.add(groupScene1);
+			scene2.add(groupScene2);
+			scene3.add(groupScene3);
+			scene4.add(groupScene4);
+			
+			console.log(fixedReticle.matrix);
+			
+			console.log("Model added to scene");
+
+    }
+
+		function highlightElement(elementToHighlight) {
+			elementToHighlight.traverse((child, i) => {
+				if (child.isMesh) {
+					child.material = highlightMaterial;
+					/* child.material.side = THREE.DoubleSide; */
+				}
+			});
+		}
+
+		function addReticleToScene() {
+			const reticleGeometry = new THREE.RingBufferGeometry(0.05, 0.1, 32).rotateX(
+				-Math.PI / 2
+			);
+			var reticleMaterial = new THREE.MeshBasicMaterial({color: "rgb(87,171,78)"});
+
+			reticle = new THREE.Mesh(reticleGeometry, reticleMaterial);
+			// enable transparency
+			reticle.material.transparent = true;
+			// set opacity to 50%
+			reticle.material.opacity = 0.3; 
+
+			// we will calculate the position and rotation of this reticle every frame manually
+			// in the render() function so matrixAutoUpdate is set to false
+			reticle.matrixAutoUpdate = false;
+			reticle.visible = false; // we start with the reticle not visible
+			scene.add(reticle);
+
+			// optional axis helper you can add to an object
+			// reticle.add(new THREE.AxesHelper(1));
+			
+		}
+
+		function onSelect() {        
+			if (reticle.visible) {
+				if (!locationSet){
+					placeModel(reticle);
+					locationSet = true;
+					reticle.visible = false; // we end with the reticle not visible
+					document.getElementById("xrUpperNav").style.display = "block";
+					document.getElementById("xrLowerNav").style.display = "inline-block";
+					instructionElement.style.display = "none";
+					var xrTitleHeight = document.getElementById("xrTitle").offsetHeight;
+					var xrLowerNavHeight = document.getElementById("xrLowerNav-wrapper").offsetHeight;
+					document.getElementById("xrLowerNav-wrapper").style.bottom = - window.innerHeight + xrTitleHeight*2 + "px";
+				}
+			}
+		}
+
+		function onWindowResize() {
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+
+			renderer.setSize(window.innerWidth, window.innerHeight);
+		}
+
+		function animate() {
+			renderer.setAnimationLoop(render);
+		}
+
+
+		let hitTestSource = null;
+		let localSpace = null;
+		let hitTestSourceInitialized = false;
+
+		// This function gets called just once to initialize a hitTestSource
+		// The purpose of this function is to get a) a hit test source and b) a reference space
+		async function initializeHitTestSource() {
+			const session = renderer.xr.getSession(); // XRSession
+			
+			// Reference spaces express relationships between an origin and the world.
+
+			// For hit testing, we use the "viewer" reference space,
+			// which is based on the device's pose at the time of the hit test.
+			const viewerSpace = await session.requestReferenceSpace("viewer");
+			hitTestSource = await session.requestHitTestSource({ space: viewerSpace });
+
+			// We're going to use the reference space of "local" for drawing things.
+			// which gives us stability in terms of the environment.
+			// read more here: https://developer.mozilla.org/en-US/docs/Web/API/XRReferenceSpace
+			localSpace = await session.requestReferenceSpace("local");
+
+			// set this to true so we don't request another hit source for the rest of the session
+			hitTestSourceInitialized = true;
+			
+			// In case we close the AR session by hitting the button "End AR"
+			session.addEventListener("end", () => {
+				hitTestSourceInitialized = false;
+				hitTestSource = null;
+			});
+		}
+
+		// the callback from 'setAnimationLoop' can also return a timestamp
+		// and an XRFrame, which provides access to the information needed in
+		// order to render a single frame of animation for an XRSession describing
+		// a VR or AR sccene.
+		function render(timestamp, frame) {
+			if (frame) {
+				if (!locationSet){
+
+					instructionElement.style.display = "inline-block";
+
+					// 1. create a hit test source once and keep it for all the frames
+					// this gets called only once
+					if (!hitTestSourceInitialized) {
+						initializeHitTestSource();
+					}
+
+					// 2. get hit test results
+					if (hitTestSourceInitialized) {
+						// we get the hit test results for a particular frame
+						const hitTestResults = frame.getHitTestResults(hitTestSource);
+
+						// XRHitTestResults The hit test may find multiple surfaces. The first one in the array is the one closest to the camera.
+						if (hitTestResults.length > 0) {
+							const hit = hitTestResults[0];
+							// Get a pose from the hit test result. The pose represents the pose of a point on a surface.
+							const pose = hit.getPose(localSpace);
+
+							reticle.visible = true;
+							// Transform/move the reticle image to the hit test position
+							reticle.matrix.fromArray(pose.transform.matrix);
+						} else {
+							reticle.visible = false;
+						}
+					}
+				}
+				renderer.render(scene, camera);
+			}
+		}
+
+
+
+
+		
+		jQuery( "#iconBack" ).click(function() {
+			window.location.href = "https://irfangh.github.io/WebXR/";
+		});
+		jQuery( "#iconScenes").click(function() {
+			jQuery( ".extended#listSettings").hide();
+			jQuery( ".extended#listScenes").toggle();
+		});
+		jQuery( "#iconSettings").click(function() {
+			jQuery( ".extended#listScenes").hide();
+			jQuery( ".extended#listSettings").toggle();
+		});
+
+
+		jQuery( "#listScenes li").click(function() {
+			jQuery("#listScenes li").removeClass("active");
+			jQuery(this).addClass("active");
+		});
+
+		jQuery( "#scheibe1").click(function() {
+			scene = scene1;
+		});
+		jQuery( "#scheibe2").click(function() {
+			scene = scene2;
+		});
+		jQuery( "#scheibe3").click(function() {
+			scene = scene3;
+		});
+		jQuery( "#scheibe4").click(function() {
+			scene = scene4;
+		});
+
+	</script>
+</body>
+
+</html>
