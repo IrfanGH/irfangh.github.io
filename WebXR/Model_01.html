@@ -36,23 +36,11 @@
 	<div id="overlay">
 		<div id="xrTitle">
 			<a href="https://irfangh.github.io/">Concrete</a>
-			<ul id="icons">
-				<li id="iconBack"><i class="bi bi-x-lg"></i></li>
-				<li ><i class="bi bi-x-lg"></i></li>
-				<li ><i class="bi bi-x-lg"></i></li>
-				<li ><i class="bi bi-x-lg"></i></li>
-				<li ><i class="bi bi-x-lg"></i></li>
-				<li ><i class="bi bi-x-lg"></i></li>
-				<li ><i class="bi bi-x-lg"></i></li>
-				<li id="iconScenes"><a href="https://irfangh.github.io/">M</a></li>
-				<li id="iconSettings"><i class="bi bi-gear"></i></li>
-			</ul>
 		</div>
 
 		<div id="xrUpperNav">
 			<div id="instructionOverlay">
 				<span>Gerät bewegen, um zu starten.<br>Tippen Sie auf den Bildschirm, sobald eine Oberfläche erkannt wird, um das Modell zu platzieren.</span>
-				<a href="https://irfangh.github.io/">M</a>
 			</div>
 		</div>
 		<div id="xrLowerNav-wrapper">
@@ -84,11 +72,11 @@
             </ul>
           </li>
         </ul>
-        <!-- <ul id="icons">
-          <li id="iconBack"><i class="bi bi-x-lg"></i></li>
-          <li id="iconScenes"><a href="https://irfangh.github.io/">M</a></li>
+        <ul id="icons">
+          <li id="iconBack"><i class="bi bi-chevron-left"></i></li>
+          <!-- <li id="iconScenes"><i class="bi bi-layers-half"></i></li> -->
           <li id="iconSettings"><i class="bi bi-gear"></i></li>
-        </ul> -->
+        </ul>
       </div>
     </div>
 	</div>
@@ -270,7 +258,7 @@
 					var xrLowerNavHeight = document.getElementById("xrLowerNav-wrapper").offsetHeight;
 					console.log("window.innerHeight",window.innerHeight);
 					console.log("xrTitleHeight",xrTitleHeight);
-					document.getElementById("xrLowerNav-wrapper").style.bottom = - window.innerHeight + overlayHeight + 200 + "px";
+					document.getElementById("xrLowerNav-wrapper").style.bottom = - window.innerHeight + overlayHeight + "px";
 				}
 			}
 		}
@@ -378,7 +366,6 @@
 		/* ------------------------------------------------------------------------- */
 
 		jQuery( "#iconBack" ).click(function() {
-			alert("Test");
 			window.location.href = "https://irfangh.github.io/WebXR/";
 		});
 /* 		jQuery( "#iconScenes").click(function() {
