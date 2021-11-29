@@ -86,39 +86,7 @@
       </div>
     </div>
 	</div>
-	<script type="module">
-
-		jQuery( "#iconBack" ).click(function() {
-			window.location.href = "https://irfangh.github.io/WebXR/";
-		});
-		jQuery( "#iconScenes").click(function() {
-			jQuery( ".extended#listSettings").hide();
-			jQuery( ".extended#listScenes").toggle();
-		});
-		jQuery( "#iconSettings").click(function() {
-			jQuery( ".extended#listScenes").hide();
-			jQuery( ".extended#listSettings").toggle();
-		});
-
-
-		jQuery( "#listScenes li").click(function() {
-			jQuery("#listScenes li").removeClass("active");
-			jQuery(this).addClass("active");
-		});
-
-		jQuery( "#scheibe1").click(function() {
-			scene = scene1;
-		});
-		jQuery( "#scheibe2").click(function() {
-			scene = scene2;
-		});
-		jQuery( "#scheibe3").click(function() {
-			scene = scene3;
-		});
-		jQuery( "#scheibe4").click(function() {
-			scene = scene4;
-		});
-		
+	<script type="module">	
 
 
     import { ARButton } from 'https://unpkg.com/three@0.126.0/examples/jsm/webxr/ARButton.js';
@@ -140,7 +108,7 @@
 		var grayMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,155,155)" } );
 		var orangeMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,128,0)" } );
 
-		var activeScene = 2;
+		var activeScene = 1;
 
 		const sf = 1/1000;
 
@@ -394,6 +362,41 @@
 				renderer.render(scene, camera);
 			}
 		}
+
+
+
+
+		
+		jQuery( "#iconBack" ).click(function() {
+			window.location.href = "https://irfangh.github.io/WebXR/";
+		});
+		jQuery( "#iconScenes").click(function() {
+			jQuery( ".extended#listSettings").hide();
+			jQuery( ".extended#listScenes").toggle();
+		});
+		jQuery( "#iconSettings").click(function() {
+			jQuery( ".extended#listScenes").hide();
+			jQuery( ".extended#listSettings").toggle();
+		});
+
+
+		jQuery( "#listScenes li").click(function() {
+			jQuery("#listScenes li").removeClass("active");
+			jQuery(this).addClass("active");
+		});
+
+		jQuery( "#scheibe1").click(function() {
+			scene = scene1;
+		});
+		jQuery( "#scheibe2").click(function() {
+			scene = scene2;
+		});
+		jQuery( "#scheibe3").click(function() {
+			scene = scene3;
+		});
+		jQuery( "#scheibe4").click(function() {
+			scene = scene4;
+		});
 
 	</script>
 </body>
