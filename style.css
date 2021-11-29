@@ -12,6 +12,10 @@ a {
 	text-decoration: none !important;
 }
 
+a.alert-link {
+	text-decoration: underline !important;
+}
+
 a:hover {
 	text-decoration: none;
 }
