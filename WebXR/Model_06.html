@@ -229,6 +229,10 @@
 			/* groupScene1.rotateOnWorldAxis(c, angle); */
 			/* groupScene1.rotation.y = THREE.Math.degToRad(0); */
 
+			groupScene3.visible = false;
+			groupScene4.visible = false;
+			groupScene5.visible = false;
+
 			scene1.add(groupScene1);
 			scene1.add(groupScene2);
 			scene1.add(groupScene3);
@@ -369,6 +373,8 @@
 			groupScene1.scale.set(resizeFactor * sf, resizeFactor * sf, resizeFactor * sf);
 			groupScene2.scale.set(resizeFactor * sf, resizeFactor * sf, resizeFactor * sf);
 			groupScene3.scale.set(resizeFactor * sf, resizeFactor * sf, resizeFactor * sf);
+			groupScene5.scale.set(resizeFactor * sf, resizeFactor * sf, resizeFactor * sf);
+			groupScene6.scale.set(resizeFactor * sf, resizeFactor * sf, resizeFactor * sf);
 		}
 
 		function rotateMesh(rof) {
@@ -377,6 +383,8 @@
 			groupScene1.rotation.y = rotationFactorRad;
 			groupScene2.rotation.y = rotationFactorRad;
 			groupScene3.rotation.y = rotationFactorRad;
+			groupScene4.rotation.y = rotationFactorRad;
+			groupScene5.rotation.y = rotationFactorRad;
 		}
 
 
@@ -416,6 +424,9 @@
 
 		jQuery( "#scheibe1").click(function() {
 			jQuery(this).toggleClass("active");
+			jQuery("#scheibe2").removeClass("active");
+			jQuery("#scheibe3").removeClass("active");
+			jQuery("#scheibe4").removeClass("active");
 			groupScene3.visible = false;
 			groupScene4.visible = false;
 			groupScene5.visible = false;
@@ -427,6 +438,9 @@
 		});
 		jQuery( "#scheibe2").click(function() {
 			jQuery(this).toggleClass("active");
+			jQuery("#scheibe1").removeClass("active");
+			jQuery("#scheibe3").removeClass("active");
+			jQuery("#scheibe4").removeClass("active");
 			groupScene2.visible = false;
 			groupScene4.visible = false;
 			groupScene5.visible = false;
@@ -438,6 +452,9 @@
 		});
 		jQuery( "#scheibe3").click(function() {
 			jQuery(this).toggleClass("active");
+			jQuery("#scheibe1").removeClass("active");
+			jQuery("#scheibe2").removeClass("active");
+			jQuery("#scheibe4").removeClass("active");
 			groupScene2.visible = false;
 			groupScene3.visible = false;
 			groupScene5.visible = false;
@@ -449,6 +466,9 @@
 		});
 		jQuery( "#scheibe4").click(function() {
 			jQuery(this).toggleClass("active");
+			jQuery("#scheibe2").removeClass("active");
+			jQuery("#scheibe3").removeClass("active");
+			jQuery("#scheibe4").removeClass("active");
 			groupScene2.visible = false;
 			groupScene3.visible = false;
 			groupScene4.visible = false;
