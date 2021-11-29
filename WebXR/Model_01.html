@@ -125,12 +125,13 @@
 			const container = document.createElement('div');
 			document.body.appendChild(container);
 
+			scene = new THREE.Scene();
 			scene1 = new THREE.Scene();
 			scene2 = new THREE.Scene();
 			scene3 = new THREE.Scene();
 			scene4 = new THREE.Scene();
 
-			scene = scene2;
+			scene = scene1;
 
 			camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 40);
 
