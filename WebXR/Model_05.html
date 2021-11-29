@@ -329,16 +329,12 @@
 		function resizeMesh(ref) {
 			resizeFactor = resizeFactor + ref;
 			groupScene1.scale.set(resizeFactor * sf, resizeFactor * sf, resizeFactor * sf);
-			groupScene2.scale.set(resizeFactor * sf, resizeFactor * sf, resizeFactor * sf);
-			groupScene3.scale.set(resizeFactor * sf, resizeFactor * sf, resizeFactor * sf);
 		}
 
 		function rotateMesh(rof) {
 			rotationFactor = rotationFactor + rof;
 			rotationFactorRad = THREE.Math.degToRad(rotationFactor);
 			groupScene1.rotation.y = rotationFactorRad;
-			groupScene2.rotation.y = rotationFactorRad;
-			groupScene3.rotation.y = rotationFactorRad;
 		}
 
 
