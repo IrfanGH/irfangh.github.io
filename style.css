@@ -231,19 +231,21 @@ a, button, input, select {
 
 #xrLowerNav ul.extended#listSettings > li span {
 	display: inline-block;
-	width: calc(100% - 115px);
+	width: calc(100% - 125px);
 	float: left;
 	padding: 10px;
 	border-radius: 10px;
-	background: #000000ab;
+	background: none;
 	color: #fff;
+	text-align: right;
 }
+
 #xrLowerNav ul.extended#listSettings > li .extendedSub {
 	list-style: none;
 	float: left;
 	margin: 0 0;
 	padding: 0;
-	width: 115px;
+	width: 125px;
 	text-align: right;
 }
 
@@ -254,6 +256,7 @@ a, button, input, select {
 	border-radius: 10px;
 	/* float: left; */
 	display: inline-block;
+	margin-left: 5px;
 }
 
 
