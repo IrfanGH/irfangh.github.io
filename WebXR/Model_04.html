@@ -83,7 +83,7 @@
 
 		let container;
 		let camera, scene, scene1, scene2, scene3, scene4, renderer;
-		let groupScene1, groupScene2, groupScene3, groupScene4;
+		let groupScene1, groupScene2, groupScene3, groupScene3A, groupScene3B, groupScene3C, groupScene3D, groupScene3E, groupScene3F, groupScene4;
 		let reticle;
 		let controller;
 	
@@ -93,14 +93,22 @@
 		var concreteMaterial = new THREE.MeshBasicMaterial( { color: "rgb(195,195,195)" } );
 		var elastomerMaterial = new THREE.MeshBasicMaterial( { color: "rgb(0,0,0)" } );
 		var dimensioningMaterial = new THREE.MeshBasicMaterial( { color: "rgb(255,0,0)" } );
-		var reinforcementMaterial = new THREE.MeshBasicMaterial( { color: "rgb(84,37,37)" } );
+		var reinforcementMaterial = new THREE.MeshBasicMaterial( { color: "rgb(124,0,7)" } );
 		var grayMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,155,155)" } );
 		var orangeMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,128,0)" } );
 
 		var highlightMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,128,0)" } );
+		
+		var highlight_04_02_01 = false;
+		var highlight_04_02_02 = false;
+		var highlight_04_02_03 = false;
+		var highlight_04_02_04 = false;
+		var highlight_04_02_05 = false;
+		var highlight_04_02_06 = false;
+		var highlight_04_02_07 = false;
 
-		var activeScene = 1;
 
+		
 		const sf = 1/1000;
 
 		init();
@@ -153,9 +161,14 @@
 			groupScene1 = new THREE.Group();
 			groupScene2 = new THREE.Group();
 			groupScene3 = new THREE.Group();
+			groupScene3A = new THREE.Group();
+			groupScene3B = new THREE.Group();
+			groupScene3C = new THREE.Group();
+			groupScene3D = new THREE.Group();
+			groupScene3E = new THREE.Group();
+			groupScene3F = new THREE.Group();
 			groupScene4 = new THREE.Group();
 
-			
 			console.log("Modelle werden geladen...");
 
 			const gltfLoader = new THREE.GLTFLoader().setPath( 'https://irfangh.github.io/Models/' );
@@ -184,13 +197,21 @@
 			groupScene2.add(gltf_01_V.scene);	
 
 			groupScene3.add( gltf_02_01.scene );
-			groupScene3.add( gltf_02_02.scene );
-			groupScene3.add( gltf_02_03.scene );
-			groupScene3.add( gltf_02_04.scene );
-			groupScene3.add( gltf_02_05.scene );
-			groupScene3.add( gltf_02_06.scene );
-			groupScene3.add( gltf_02_07.scene );
+			groupScene3A.add( gltf_02_02.scene );
+			groupScene3B.add( gltf_02_03.scene );
+			groupScene3C.add( gltf_02_04.scene );
+			groupScene3D.add( gltf_02_05.scene );
+			groupScene3E.add( gltf_02_06.scene );
+			groupScene3F.add( gltf_02_07.scene );
 
+			groupScene3.add( groupScene3A );
+			groupScene3.add( groupScene3B );
+			groupScene3.add( groupScene3C );
+			groupScene3.add( groupScene3D );
+			groupScene3.add( groupScene3E );
+			groupScene3.add( groupScene3F );
+
+			updateReinforcement();
 
 			addReticleToScene();
 
@@ -246,18 +267,11 @@
 			scene1.add(groupScene2);
 			scene1.add(groupScene3);
 			
+			console.log("3A",groupScene3A.children[0]);
+
 			console.log("Model added to scene");
 
     }
-
-		function highlightElement(elementToHighlight) {
-			elementToHighlight.traverse((child, i) => {
-				if (child.isMesh) {
-					child.material = highlightMaterial;
-					/* child.material.side = THREE.DoubleSide; */
-				}
-			});
-		}
 
 		function addReticleToScene() {
 			const reticleGeometry = new THREE.RingBufferGeometry(0.05, 0.1, 32).rotateX(
@@ -380,6 +394,57 @@
 			}
 		}
 
+		
+		function resetReinforcement(groupScene) {
+			var elementToReset = groupScene.children[0];
+			elementToReset.traverse((child, i) => {
+				if (child.isMesh) {
+					child.material = reinforcementMaterial;
+				}
+			});
+		}
+
+		function highlightReinforcement(groupScene) {
+			var elementToHighlight = groupScene.children[0];
+			elementToHighlight.traverse((child, i) => {
+				if (child.isMesh) {
+					child.material = highlightMaterial;
+				}
+			});
+		}
+
+		function updateReinforcement() {
+			if (highlight_04_02_01) {
+				highlightReinforcement(groupScene3A)
+			} else {
+				resetReinforcement(groupScene3A);
+			}
+			if (highlight_04_02_02) {
+				highlightReinforcement(groupScene3B)
+			} else {
+				resetReinforcement(groupScene3B);
+			}
+			if (highlight_04_02_03) {
+				highlightReinforcement(groupScene3C)
+			} else {
+				resetReinforcement(groupScene3C);
+			}
+			if (highlight_04_02_04) {
+				highlightReinforcement(groupScene3D)
+			} else {
+				resetReinforcement(groupScene3D);
+			}
+			if (highlight_04_02_05) {
+				highlightReinforcement(groupScene3E)
+			} else {
+				resetReinforcement(groupScene3E);
+			}
+			if (highlight_04_02_06) {
+				highlightReinforcement(groupScene3F)
+			} else {
+				resetReinforcement(groupScene3F);
+			}
+		}
 
 
 
@@ -396,6 +461,7 @@
 			jQuery( ".extended#listSettings").toggle();
 		});
 
+
 		jQuery( "#torsionsbalken").click(function() {
 			jQuery(this).toggleClass("active");
 			if (groupScene2.visible) {
@@ -407,26 +473,76 @@
 		jQuery( "#wandscheibe").click(function() {
 			jQuery(this).toggleClass("active");
 			if (groupScene3.visible) {
+				jQuery(".extended#listScenes .extendedSub li").removeClass("active");
+				highlight_04_02_01 = false;
+				highlight_04_02_02 = false;
+				highlight_04_02_03 = false;
+				highlight_04_02_04 = false;
+				highlight_04_02_05 = false;
+				highlight_04_02_06 = false;
+				updateReinforcement();
 				groupScene3.visible = false;
 			} else {
 				groupScene3.visible = true;
 			}
 		});
+		jQuery( ".extended#listScenes .extendedSub li").click(function() {
+			jQuery("#wandscheibe").addClass("active");
+			jQuery(this).toggleClass("active");
+			if (!groupScene3.visible) {
+				groupScene3.visible = true;
+			}
+		});
+		
 
-
-		jQuery( "#scheibe1").click(function() {
-			scene = scene1;
+		jQuery( "#wandscheibeA").click(function() {
+			if (!highlight_04_02_01) {
+				highlight_04_02_01 = true;
+			} else {
+				highlight_04_02_01 = false;
+			}
+			updateReinforcement();
 		});
-		jQuery( "#scheibe2").click(function() {
-			scene = scene2;
+		jQuery( "#wandscheibeB").click(function() {
+			if (!highlight_04_02_02) {
+				highlight_04_02_02 = true;
+			} else {
+				highlight_04_02_02 = false;
+			}
+			updateReinforcement();
 		});
-		jQuery( "#scheibe3").click(function() {
-			scene = scene3;
+		jQuery( "#wandscheibeC").click(function() {
+			if (!highlight_04_02_03) {
+				highlight_04_02_03 = true;
+			} else {
+				highlight_04_02_03 = false;
+			}
+			updateReinforcement();
 		});
-		jQuery( "#scheibe4").click(function() {
-			scene = scene4;
+		jQuery( "#wandscheibeD").click(function() {
+			if (!highlight_04_02_04) {
+				highlight_04_02_04 = true;
+			} else {
+				highlight_04_02_04 = false;
+			}
+			updateReinforcement();
 		});
-
+		jQuery( "#wandscheibeE").click(function() {
+			if (!highlight_04_02_05) {
+				highlight_04_02_05 = true;
+			} else {
+				highlight_04_02_05 = false;
+			}
+			updateReinforcement();
+		});
+		jQuery( "#wandscheibeF").click(function() {
+			if (!highlight_04_02_06) {
+				highlight_04_02_06 = true;
+			} else {
+				highlight_04_02_06 = false;
+			}
+			updateReinforcement();
+		});
 
 
 	</script>
