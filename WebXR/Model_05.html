@@ -42,7 +42,7 @@
 		</div>
 		<div id="xrLowerNav-wrapper">
       <div id="xrLowerNav">
-        <ul class="extended" id="listScenes">
+        <!-- <ul class="extended" id="listScenes">
 					<li>
             <span id="torsionsbalken" class="active">Torsionsbalken</span>
           </li>
@@ -52,7 +52,7 @@
               <li id="wandscheibeA">A</li><li id="wandscheibeB">B</li><li id="wandscheibeC">C</li><li id="wandscheibeD">D</li><li id="wandscheibeE">E</li><li id="wandscheibeF">F</li>
             </ul>
           </li>
-        </ul>
+        </ul> -->
         <ul class="extended" id="listSettings">
           <li>
             <span>Skalierung:</span>
@@ -71,7 +71,7 @@
         </ul>
         <ul id="icons">
           <li id="iconBack"><i class="bi bi-chevron-left"></i></li>
-          <li id="iconScenes"><i class="bi bi-card-list"></i></li>
+          <!-- <li id="iconScenes"><i class="bi bi-card-list"></i></li> -->
           <li id="iconSettings"><i class="bi bi-gear"></i></li>
         </ul>
       </div>
@@ -98,14 +98,6 @@
 		var orangeMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,128,0)" } );
 
 		var highlightMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,128,0)" } );
-		
-		var highlight_04_02_01 = false;
-		var highlight_04_02_02 = false;
-		var highlight_04_02_03 = false;
-		var highlight_04_02_04 = false;
-		var highlight_04_02_05 = false;
-		var highlight_04_02_06 = false;
-		var highlight_04_02_07 = false;
 
 		const sf = 1/1000;
 		var resizeFactor = 1;
@@ -148,59 +140,18 @@
 			scene.add(controller);
 
 			groupScene1 = new THREE.Group();
-			groupScene2 = new THREE.Group();
-			groupScene3 = new THREE.Group();
-			groupScene3A = new THREE.Group();
-			groupScene3B = new THREE.Group();
-			groupScene3C = new THREE.Group();
-			groupScene3D = new THREE.Group();
-			groupScene3E = new THREE.Group();
-			groupScene3F = new THREE.Group();
-			groupScene4 = new THREE.Group();
 
 			console.log("Modelle werden geladen...");
 
 			const gltfLoader = new THREE.GLTFLoader().setPath( 'https://irfangh.github.io/Models/' );
-			const [ gltf_00, gltf_01_H, gltf_01_L, gltf_01_V, gltf_02_01, gltf_02_02, gltf_02_03, gltf_02_04, gltf_02_05, gltf_02_06, gltf_02_07 ] = await Promise.all( [
-				gltfLoader.loadAsync('04_00_Umrahmung.gltf'),
-				gltfLoader.loadAsync('04_01_Bewehrung_Torsionsbalken_Horizontal.gltf'),
-				gltfLoader.loadAsync('04_01_Bewehrung_Torsionsbalken_Laengs.gltf'),
-				gltfLoader.loadAsync('04_01_Bewehrung_Torsionsbalken_Vertikal.gltf'),
-
-				gltfLoader.loadAsync('04_02_01_Bewehrung_WS_Konstruktiv.gltf'),
-				gltfLoader.loadAsync('04_02_02_Bewehrung_WS_A.gltf'),
-				gltfLoader.loadAsync('04_02_03_Bewehrung_WS_B.gltf'),
-				gltfLoader.loadAsync('04_02_04_Bewehrung_WS_C.gltf'),
-				gltfLoader.loadAsync('04_02_05_Bewehrung_WS_D.gltf'),
-				gltfLoader.loadAsync('04_02_06_Bewehrung_WS_E.gltf'),
-				gltfLoader.loadAsync('04_02_07_Bewehrung_WS_F.gltf'),
+			const [ gltf_00 ] = await Promise.all( [
+				gltfLoader.loadAsync('05_FEM_Verformung.gltf'),
 			] );
 
 			loaderElement.style.display = "none";
 			console.log("Modelle wurden geladen.");
 
 			groupScene1.add(gltf_00.scene);
-
-			groupScene2.add(gltf_01_H.scene);	
-			groupScene2.add(gltf_01_L.scene);	
-			groupScene2.add(gltf_01_V.scene);	
-
-			groupScene3.add(gltf_02_01.scene);
-			groupScene3A.add(gltf_02_02.scene);
-			groupScene3B.add(gltf_02_03.scene);
-			groupScene3C.add(gltf_02_04.scene);
-			groupScene3D.add(gltf_02_05.scene);
-			groupScene3E.add(gltf_02_06.scene);
-			groupScene3F.add(gltf_02_07.scene);
-
-			groupScene3.add(groupScene3A);
-			groupScene3.add(groupScene3B);
-			groupScene3.add(groupScene3C);
-			groupScene3.add(groupScene3D);
-			groupScene3.add(groupScene3E);
-			groupScene3.add(groupScene3F);
-
-			updateReinforcement();
 
 			addReticleToScene();
 
@@ -237,16 +188,6 @@
 			groupScene1.position.setFromMatrixPosition(fixedReticle.matrix);
 			groupScene1.quaternion.setFromRotationMatrix(fixedReticle.matrix);
 			groupScene1.rotation.y = THREE.Math.degToRad(rotationFactor);
-
-			groupScene2.scale.set(sf, sf, sf);
-			groupScene2.position.setFromMatrixPosition(fixedReticle.matrix);
-			groupScene2.quaternion.setFromRotationMatrix(fixedReticle.matrix);
-			groupScene2.rotation.y = THREE.Math.degToRad(rotationFactor);
-
-			groupScene3.scale.set(sf, sf, sf);
-			groupScene3.position.setFromMatrixPosition(fixedReticle.matrix);
-			groupScene3.quaternion.setFromRotationMatrix(fixedReticle.matrix);
-			groupScene3.rotation.y = THREE.Math.degToRad(rotationFactor);
 
 			/* groupScene1.quaternion.setFromRotationMatrix(camera.matrix); */
 			/* groupScene1.rotateOnWorldAxis(c, angle); */
@@ -384,33 +325,6 @@
 		/* ------------------------------------------------------------------------- */
 		/* Mesh adjustment functions */
 		/* ------------------------------------------------------------------------- */
-		
-		function resetReinforcement(groupScene) {
-			var elementToReset = groupScene.children[0];
-			elementToReset.traverse((child, i) => {
-				if (child.isMesh) {
-					child.material = reinforcementMaterial;
-				}
-			});
-		}
-
-		function highlightReinforcement(groupScene) {
-			var elementToHighlight = groupScene.children[0];
-			elementToHighlight.traverse((child, i) => {
-				if (child.isMesh) {
-					child.material = highlightMaterial;
-				}
-			});
-		}
-
-		function updateReinforcement() {
-			if (highlight_04_02_01) {highlightReinforcement(groupScene3A)} else {resetReinforcement(groupScene3A);}
-			if (highlight_04_02_02) {highlightReinforcement(groupScene3B)} else {resetReinforcement(groupScene3B);}
-			if (highlight_04_02_03) {highlightReinforcement(groupScene3C)} else {resetReinforcement(groupScene3C);}
-			if (highlight_04_02_04) {highlightReinforcement(groupScene3D)} else {resetReinforcement(groupScene3D);}
-			if (highlight_04_02_05) {highlightReinforcement(groupScene3E)} else {resetReinforcement(groupScene3E);}
-			if (highlight_04_02_06) {highlightReinforcement(groupScene3F)} else {resetReinforcement(groupScene3F);}
-		}
 
 		function resizeMesh(ref) {
 			resizeFactor = resizeFactor + ref;
@@ -435,12 +349,12 @@
 		jQuery( "#iconBack" ).click(function() {
 			window.location.href = "https://irfangh.github.io/WebXR/";
 		});
-		jQuery( "#iconScenes").click(function() {
+		/* jQuery( "#iconScenes").click(function() {
 			jQuery( "#iconSettings").removeClass("active");
 			jQuery( ".extended#listSettings").hide();
 			jQuery(this).toggleClass("active");
 			jQuery( ".extended#listScenes").toggle();
-		});
+		}); */
 		jQuery( "#iconSettings").click(function() {
 			jQuery( "#iconScenes").removeClass("active");
 			jQuery( ".extended#listScenes").hide();
@@ -461,7 +375,7 @@
 			rotateMesh(+10);
 		});
 
-
+/* 
 		jQuery( "#torsionsbalken").click(function() {
 			jQuery(this).toggleClass("active");
 			if (groupScene2.visible) {
@@ -542,7 +456,7 @@
 				highlight_04_02_06 = false;
 			}
 			updateReinforcement();
-		});
+		}); */
 
 	</script>
 </body>
