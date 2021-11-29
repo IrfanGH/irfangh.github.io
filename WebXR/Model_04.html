@@ -107,8 +107,6 @@
 		var highlight_04_02_06 = false;
 		var highlight_04_02_07 = false;
 
-
-		
 		const sf = 1/1000;
 
 		init();
@@ -126,9 +124,6 @@
 
 			scene = new THREE.Scene();
 			scene1 = new THREE.Scene();
-			scene2 = new THREE.Scene();
-			scene3 = new THREE.Scene();
-			scene4 = new THREE.Scene();
 
 			scene = scene1;
 
@@ -142,17 +137,8 @@
 
 			var light1 = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
 			light1.position.set(0.5, 1, 0.25);
-			var light2 = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
-			light2.position.set(0.5, 1, 0.25);
-			var light3 = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
-			light3.position.set(0.5, 1, 0.25);
-			var light4 = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
-			light4.position.set(0.5, 1, 0.25);
 
 			scene1.add(light1);
-			scene2.add(light2);
-			scene3.add(light3);
-			scene4.add(light4);
 
 			controller = renderer.xr.getController(0);
 			controller.addEventListener('select', onSelect);
@@ -266,8 +252,6 @@
 			scene1.add(groupScene1);
 			scene1.add(groupScene2);
 			scene1.add(groupScene3);
-			
-			console.log("3A",groupScene3A.children[0]);
 
 			console.log("Model added to scene");
 
@@ -493,7 +477,7 @@
 				groupScene3.visible = true;
 			}
 		});
-		
+
 
 		jQuery( "#wandscheibeA").click(function() {
 			if (!highlight_04_02_01) {
