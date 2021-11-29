@@ -275,9 +275,12 @@
 					document.getElementById("xrUpperNav").style.display = "block";
 					document.getElementById("xrLowerNav").style.display = "inline-block";
 					instructionElement.style.display = "none";
+					var overlayHeight = document.getElementById("overlay").offsetHeight;
 					var xrTitleHeight = document.getElementById("xrTitle").offsetHeight;
 					var xrLowerNavHeight = document.getElementById("xrLowerNav-wrapper").offsetHeight;
-					document.getElementById("xrLowerNav-wrapper").style.bottom = - window.innerHeight + xrTitleHeight*2 + "px";
+					console.log("window.innerHeight",window.innerHeight);
+					console.log("xrTitleHeight",xrTitleHeight);
+					document.getElementById("xrLowerNav-wrapper").style.bottom = - window.innerHeight + overlayHeight + "px";
 				}
 			}
 		}
