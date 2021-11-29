@@ -248,8 +248,6 @@
 			scene3.add(groupScene3);
 			scene4.add(groupScene4);
 			
-			console.log(fixedReticle.matrix);
-			
 			console.log("Model added to scene");
 
     }
@@ -272,7 +270,7 @@
 			reticle = new THREE.Mesh(reticleGeometry, reticleMaterial);
 			// enable transparency
 			reticle.material.transparent = true;
-			// set opacity to 50%
+			// set opacity to 30%
 			reticle.material.opacity = 0.3; 
 
 			// we will calculate the position and rotation of this reticle every frame manually
