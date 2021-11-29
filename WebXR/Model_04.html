@@ -57,15 +57,15 @@
           <li>
             <span>Skalierung:</span>
             <ul class="extendedSub">
-              <li><i class="bi bi-dash"></i></li>
-              <li><i class="bi bi-plus-lg"></i></li>
+              <li id="smaller"><i class="bi bi-dash"></i></li>
+              <li id="larger"><i class="bi bi-plus-lg"></i></li>
             </ul>
           </li>
           <li>
             <span>Rotation:</span>
             <ul class="extendedSub">
-              <li><i class="bi bi-arrow-clockwise"></i></li>
-              <li><i class="bi bi-arrow-counterclockwise"></i></li>
+              <li id="cw"><i class="bi bi-arrow-clockwise"></i></li>
+              <li id="ccw"><i class="bi bi-arrow-counterclockwise"></i></li>
             </ul>
           </li>
         </ul>
@@ -108,6 +108,9 @@
 		var highlight_04_02_07 = false;
 
 		const sf = 1/1000;
+		var resizeFactor = 1;
+		var rotationFactor = 180;
+		var rotationFactorRad;
 
 		init();
 		animate();
@@ -159,18 +162,18 @@
 
 			const gltfLoader = new THREE.GLTFLoader().setPath( 'https://irfangh.github.io/Models/' );
 			const [ gltf_00, gltf_01_H, gltf_01_L, gltf_01_V, gltf_02_01, gltf_02_02, gltf_02_03, gltf_02_04, gltf_02_05, gltf_02_06, gltf_02_07 ] = await Promise.all( [
-				gltfLoader.loadAsync( '04_00_Umrahmung.gltf' ),
-				gltfLoader.loadAsync( '04_01_Bewehrung_Torsionsbalken_Horizontal.gltf' ),
-				gltfLoader.loadAsync( '04_01_Bewehrung_Torsionsbalken_Laengs.gltf' ),
-				gltfLoader.loadAsync( '04_01_Bewehrung_Torsionsbalken_Vertikal.gltf' ),
+				gltfLoader.loadAsync('04_00_Umrahmung.gltf'),
+				gltfLoader.loadAsync('04_01_Bewehrung_Torsionsbalken_Horizontal.gltf'),
+				gltfLoader.loadAsync('04_01_Bewehrung_Torsionsbalken_Laengs.gltf'),
+				gltfLoader.loadAsync('04_01_Bewehrung_Torsionsbalken_Vertikal.gltf'),
 
-				gltfLoader.loadAsync( '04_02_01_Bewehrung_WS_Konstruktiv.gltf' ),
-				gltfLoader.loadAsync( '04_02_02_Bewehrung_WS_A.gltf' ),
-				gltfLoader.loadAsync( '04_02_03_Bewehrung_WS_B.gltf' ),
-				gltfLoader.loadAsync( '04_02_04_Bewehrung_WS_C.gltf' ),
-				gltfLoader.loadAsync( '04_02_05_Bewehrung_WS_D.gltf' ),
-				gltfLoader.loadAsync( '04_02_06_Bewehrung_WS_E.gltf' ),
-				gltfLoader.loadAsync( '04_02_07_Bewehrung_WS_F.gltf' ),
+				gltfLoader.loadAsync('04_02_01_Bewehrung_WS_Konstruktiv.gltf'),
+				gltfLoader.loadAsync('04_02_02_Bewehrung_WS_A.gltf'),
+				gltfLoader.loadAsync('04_02_03_Bewehrung_WS_B.gltf'),
+				gltfLoader.loadAsync('04_02_04_Bewehrung_WS_C.gltf'),
+				gltfLoader.loadAsync('04_02_05_Bewehrung_WS_D.gltf'),
+				gltfLoader.loadAsync('04_02_06_Bewehrung_WS_E.gltf'),
+				gltfLoader.loadAsync('04_02_07_Bewehrung_WS_F.gltf'),
 			] );
 
 			loaderElement.style.display = "none";
@@ -182,20 +185,20 @@
 			groupScene2.add(gltf_01_L.scene);	
 			groupScene2.add(gltf_01_V.scene);	
 
-			groupScene3.add( gltf_02_01.scene );
-			groupScene3A.add( gltf_02_02.scene );
-			groupScene3B.add( gltf_02_03.scene );
-			groupScene3C.add( gltf_02_04.scene );
-			groupScene3D.add( gltf_02_05.scene );
-			groupScene3E.add( gltf_02_06.scene );
-			groupScene3F.add( gltf_02_07.scene );
+			groupScene3.add(gltf_02_01.scene);
+			groupScene3A.add(gltf_02_02.scene);
+			groupScene3B.add(gltf_02_03.scene);
+			groupScene3C.add(gltf_02_04.scene);
+			groupScene3D.add(gltf_02_05.scene);
+			groupScene3E.add(gltf_02_06.scene);
+			groupScene3F.add(gltf_02_07.scene);
 
-			groupScene3.add( groupScene3A );
-			groupScene3.add( groupScene3B );
-			groupScene3.add( groupScene3C );
-			groupScene3.add( groupScene3D );
-			groupScene3.add( groupScene3E );
-			groupScene3.add( groupScene3F );
+			groupScene3.add(groupScene3A);
+			groupScene3.add(groupScene3B);
+			groupScene3.add(groupScene3C);
+			groupScene3.add(groupScene3D);
+			groupScene3.add(groupScene3E);
+			groupScene3.add(groupScene3F);
 
 			updateReinforcement();
 
@@ -233,17 +236,17 @@
 			groupScene1.scale.set(sf, sf, sf);
 			groupScene1.position.setFromMatrixPosition(fixedReticle.matrix);
 			groupScene1.quaternion.setFromRotationMatrix(fixedReticle.matrix);
-			groupScene1.rotation.y = THREE.Math.degToRad(180);
+			groupScene1.rotation.y = THREE.Math.degToRad(rotationFactor);
 
 			groupScene2.scale.set(sf, sf, sf);
 			groupScene2.position.setFromMatrixPosition(fixedReticle.matrix);
 			groupScene2.quaternion.setFromRotationMatrix(fixedReticle.matrix);
-			groupScene2.rotation.y = THREE.Math.degToRad(180);
+			groupScene2.rotation.y = THREE.Math.degToRad(rotationFactor);
 
 			groupScene3.scale.set(sf, sf, sf);
 			groupScene3.position.setFromMatrixPosition(fixedReticle.matrix);
 			groupScene3.quaternion.setFromRotationMatrix(fixedReticle.matrix);
-			groupScene3.rotation.y = THREE.Math.degToRad(180);
+			groupScene3.rotation.y = THREE.Math.degToRad(rotationFactor);
 
 			/* groupScene1.quaternion.setFromRotationMatrix(camera.matrix); */
 			/* groupScene1.rotateOnWorldAxis(c, angle); */
@@ -378,6 +381,9 @@
 			}
 		}
 
+		/* ------------------------------------------------------------------------- */
+		/* Mesh adjustment functions */
+		/* ------------------------------------------------------------------------- */
 		
 		function resetReinforcement(groupScene) {
 			var elementToReset = groupScene.children[0];
@@ -398,41 +404,34 @@
 		}
 
 		function updateReinforcement() {
-			if (highlight_04_02_01) {
-				highlightReinforcement(groupScene3A)
-			} else {
-				resetReinforcement(groupScene3A);
-			}
-			if (highlight_04_02_02) {
-				highlightReinforcement(groupScene3B)
-			} else {
-				resetReinforcement(groupScene3B);
-			}
-			if (highlight_04_02_03) {
-				highlightReinforcement(groupScene3C)
-			} else {
-				resetReinforcement(groupScene3C);
-			}
-			if (highlight_04_02_04) {
-				highlightReinforcement(groupScene3D)
-			} else {
-				resetReinforcement(groupScene3D);
-			}
-			if (highlight_04_02_05) {
-				highlightReinforcement(groupScene3E)
-			} else {
-				resetReinforcement(groupScene3E);
-			}
-			if (highlight_04_02_06) {
-				highlightReinforcement(groupScene3F)
-			} else {
-				resetReinforcement(groupScene3F);
-			}
+			if (highlight_04_02_01) {highlightReinforcement(groupScene3A)} else {resetReinforcement(groupScene3A);}
+			if (highlight_04_02_02) {highlightReinforcement(groupScene3B)} else {resetReinforcement(groupScene3B);}
+			if (highlight_04_02_03) {highlightReinforcement(groupScene3C)} else {resetReinforcement(groupScene3C);}
+			if (highlight_04_02_04) {highlightReinforcement(groupScene3D)} else {resetReinforcement(groupScene3D);}
+			if (highlight_04_02_05) {highlightReinforcement(groupScene3E)} else {resetReinforcement(groupScene3E);}
+			if (highlight_04_02_06) {highlightReinforcement(groupScene3F)} else {resetReinforcement(groupScene3F);}
+		}
+
+		function resizeMesh(ref) {
+			resizeFactor = resizeFactor + ref;
+			groupScene1.scale.set(resizeFactor * sf, resizeFactor * sf, resizeFactor * sf);
+			groupScene2.scale.set(resizeFactor * sf, resizeFactor * sf, resizeFactor * sf);
+			groupScene3.scale.set(resizeFactor * sf, resizeFactor * sf, resizeFactor * sf);
+		}
+
+		function rotateMesh(rof) {
+			rotationFactor = rotationFactor + rof;
+			rotationFactorRad = THREE.Math.degToRad(rotationFactor);
+			groupScene1.rotation.y = rotationFactorRad;
+			groupScene2.rotation.y = rotationFactorRad;
+			groupScene3.rotation.y = rotationFactorRad;
 		}
 
 
+		/* ------------------------------------------------------------------------- */
+		/* User Interaction Control */
+		/* ------------------------------------------------------------------------- */
 
-		
 		jQuery( "#iconBack" ).click(function() {
 			window.location.href = "https://irfangh.github.io/WebXR/";
 		});
@@ -443,6 +442,19 @@
 		jQuery( "#iconSettings").click(function() {
 			jQuery( ".extended#listScenes").hide();
 			jQuery( ".extended#listSettings").toggle();
+		});
+
+		jQuery( "#smaller").click(function() {
+			resizeMesh(-0.1);
+		});
+		jQuery( "#larger").click(function() {
+			resizeMesh(0.1);
+		});
+		jQuery( "#cw").click(function() {
+			rotateMesh(-10);
+		});
+		jQuery( "#ccw").click(function() {
+			rotateMesh(+10);
 		});
 
 
@@ -527,7 +539,6 @@
 			}
 			updateReinforcement();
 		});
-
 
 	</script>
 </body>
