@@ -39,48 +39,39 @@
 			<div id="instructionOverlay">
 				<span>Gerät bewegen, um zu starten.<br>Tippen Sie auf den Bildschirm, sobald eine Oberfläche erkannt wird, um das Modell zu platzieren.</span>
 			</div>
-			<!-- <ul id="sceneNavigation">
-				<li id="scene1" class="active">Initial geometry</li>
-				<li id="scene2">Reinforcement</li>
-			</ul> -->
-
 		</div>
 		<div id="xrLowerNav-wrapper">
       <div id="xrLowerNav">
-        <ul class="extended" id="listScenes">
-          <li id="scheibe1" class="active"><span>Scheibe 1</span></li>
-					<li id="scheibe2"><span>Scheibe 2</span></li>
-					<li id="scheibe3"><span>Scheibe 3</span></li>
-					<li id="scheibe4"><span>Scheibe 4</span></li>
-					<!-- <li>
-            <span>Wandscheibe</span>
+        <!-- <ul class="extended" id="listScenes">
+					<li>
+            <span id="torsionsbalken" class="active">Torsionsbalken</span>
+          </li>
+					<li>
+            <span id="wandscheibe" class="active">Wandscheibe</span>
             <ul class="extendedSub">
-              <li>A</li><li>B</li><li>C</li><li>D</li><li>E</li><li>F</li>
+              <li id="wandscheibeA">A</li><li id="wandscheibeB">B</li><li id="wandscheibeC">C</li><li id="wandscheibeD">D</li><li id="wandscheibeE">E</li><li id="wandscheibeF">F</li>
             </ul>
           </li>
-          <li>
-            <span>Torsionsträger</span>
-          </li> -->
-        </ul>
+        </ul> -->
         <ul class="extended" id="listSettings">
           <li>
             <span>Skalierung:</span>
             <ul class="extendedSub">
-              <li><i class="bi bi-dash"></i></li>
-              <li><i class="bi bi-plus-lg"></i></li>
+              <li id="smaller"><i class="bi bi-dash"></i></li>
+              <li id="larger"><i class="bi bi-plus-lg"></i></li>
             </ul>
           </li>
           <li>
             <span>Rotation:</span>
             <ul class="extendedSub">
-              <li><i class="bi bi-arrow-clockwise"></i></li>
-              <li><i class="bi bi-arrow-counterclockwise"></i></li>
+              <li id="cw"><i class="bi bi-arrow-clockwise"></i></li>
+              <li id="ccw"><i class="bi bi-arrow-counterclockwise"></i></li>
             </ul>
           </li>
         </ul>
         <ul id="icons">
           <li id="iconBack"><i class="bi bi-chevron-left"></i></li>
-          <li id="iconScenes"><i class="bi bi-card-list"></i></li>
+          <!-- <li id="iconScenes"><i class="bi bi-card-list"></i></li> -->
           <li id="iconSettings"><i class="bi bi-gear"></i></li>
         </ul>
       </div>
@@ -92,7 +83,7 @@
 
 		let container;
 		let camera, scene, scene1, scene2, scene3, scene4, renderer;
-		let groupScene1, groupScene2, groupScene3, groupScene4;
+		let groupScene1, groupScene2, groupScene3, groupScene3A, groupScene3B, groupScene3C, groupScene3D, groupScene3E, groupScene3F, groupScene4;
 		let reticle;
 		let controller;
 	
@@ -102,15 +93,24 @@
 		var concreteMaterial = new THREE.MeshBasicMaterial( { color: "rgb(195,195,195)" } );
 		var elastomerMaterial = new THREE.MeshBasicMaterial( { color: "rgb(0,0,0)" } );
 		var dimensioningMaterial = new THREE.MeshBasicMaterial( { color: "rgb(255,0,0)" } );
-		var reinforcementMaterial = new THREE.MeshBasicMaterial( { color: "rgb(84,37,37)" } );
+		var reinforcementMaterial = new THREE.MeshBasicMaterial( { color: "rgb(124,0,7)" } );
 		var grayMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,155,155)" } );
 		var orangeMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,128,0)" } );
 
 		var highlightMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,128,0)" } );
-
-		var activeScene = 1;
+		
+		/* var highlight_04_02_01 = false;
+		var highlight_04_02_02 = false;
+		var highlight_04_02_03 = false;
+		var highlight_04_02_04 = false;
+		var highlight_04_02_05 = false;
+		var highlight_04_02_06 = false;
+		var highlight_04_02_07 = false; */
 
 		const sf = 1/1000;
+		var resizeFactor = 1;
+		var rotationFactor = 180;
+		var rotationFactorRad;
 
 		init();
 		animate();
@@ -127,9 +127,6 @@
 
 			scene = new THREE.Scene();
 			scene1 = new THREE.Scene();
-			scene2 = new THREE.Scene();
-			scene3 = new THREE.Scene();
-			scene4 = new THREE.Scene();
 
 			scene = scene1;
 
@@ -143,50 +140,38 @@
 
 			var light1 = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
 			light1.position.set(0.5, 1, 0.25);
-			var light2 = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
-			light2.position.set(0.5, 1, 0.25);
-			var light3 = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
-			light3.position.set(0.5, 1, 0.25);
-			var light4 = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
-			light4.position.set(0.5, 1, 0.25);
 
 			scene1.add(light1);
-			scene2.add(light2);
-			scene3.add(light3);
-			scene4.add(light4);
 
 			controller = renderer.xr.getController(0);
 			controller.addEventListener('select', onSelect);
 			scene.add(controller);
 
 			groupScene1 = new THREE.Group();
-			groupScene2 = new THREE.Group();
+/* 			groupScene2 = new THREE.Group();
 			groupScene3 = new THREE.Group();
-			groupScene4 = new THREE.Group();
+			groupScene3A = new THREE.Group();
+			groupScene3B = new THREE.Group();
+			groupScene3C = new THREE.Group();
+			groupScene3D = new THREE.Group();
+			groupScene3E = new THREE.Group();
+			groupScene3F = new THREE.Group();
+			groupScene4 = new THREE.Group(); */
 
-			
 			console.log("Modelle werden geladen...");
 
 			const gltfLoader = new THREE.GLTFLoader().setPath( 'https://irfangh.github.io/Models/' );
-			const [ gltf1, gltf2, gltf3, gltf4 ] = await Promise.all( [
-				gltfLoader.loadAsync( '03_TT_01_Scheibe_1.gltf' ),
-				gltfLoader.loadAsync( '03_TT_02_Scheibe_2.gltf' ),
-				gltfLoader.loadAsync( '03_TT_03_Scheibe_3.gltf' ),
-				gltfLoader.loadAsync( '03_TT_04_Scheibe_4.gltf' ),
+			const [ gltf_01 ] = await Promise.all( [
+				gltfLoader.loadAsync('01_Global_Geometrie.gltf'),
 			] );
 
 			loaderElement.style.display = "none";
 			console.log("Modelle wurden geladen.");
 
-			
+			groupScene1.add(gltf_01.scene);
 
-			highlightElement(gltf1.scene);
-
-			groupScene1.add( gltf1.scene );
-			groupScene2.add( gltf2.scene );	
-			groupScene3.add( gltf3.scene );	
-			groupScene4.add( gltf4.scene );	
-
+			/* updateReinforcement();
+ */
 			addReticleToScene();
 
 			document.body.appendChild( ARButton.createButton( renderer, {
@@ -221,22 +206,7 @@
 			groupScene1.scale.set(sf, sf, sf);
 			groupScene1.position.setFromMatrixPosition(fixedReticle.matrix);
 			groupScene1.quaternion.setFromRotationMatrix(fixedReticle.matrix);
-			groupScene1.rotation.y = THREE.Math.degToRad(180);
-
-			groupScene2.scale.set(sf, sf, sf);
-			groupScene2.position.setFromMatrixPosition(fixedReticle.matrix);
-			groupScene2.quaternion.setFromRotationMatrix(fixedReticle.matrix);
-			groupScene2.rotation.y = THREE.Math.degToRad(180);
-
-			groupScene3.scale.set(sf, sf, sf);
-			groupScene3.position.setFromMatrixPosition(fixedReticle.matrix);
-			groupScene3.quaternion.setFromRotationMatrix(fixedReticle.matrix);
-			groupScene3.rotation.y = THREE.Math.degToRad(180);
-
-			groupScene4.scale.set(sf, sf, sf);
-			groupScene4.position.setFromMatrixPosition(fixedReticle.matrix);
-			groupScene4.quaternion.setFromRotationMatrix(fixedReticle.matrix);
-			groupScene4.rotation.y = THREE.Math.degToRad(180);
+			groupScene1.rotation.y = THREE.Math.degToRad(rotationFactor);
 
 
 			/* groupScene1.quaternion.setFromRotationMatrix(camera.matrix); */
@@ -244,24 +214,10 @@
 			/* groupScene1.rotation.y = THREE.Math.degToRad(0); */
 
 			scene1.add(groupScene1);
-			scene2.add(groupScene2);
-			scene3.add(groupScene3);
-			scene4.add(groupScene4);
-			
-			console.log(fixedReticle.matrix);
-			
+
 			console.log("Model added to scene");
 
     }
-
-		function highlightElement(elementToHighlight) {
-			elementToHighlight.traverse((child, i) => {
-				if (child.isMesh) {
-					child.material = highlightMaterial;
-					/* child.material.side = THREE.DoubleSide; */
-				}
-			});
-		}
 
 		function addReticleToScene() {
 			const reticleGeometry = new THREE.RingBufferGeometry(0.05, 0.1, 32).rotateX(
@@ -272,7 +228,7 @@
 			reticle = new THREE.Mesh(reticleGeometry, reticleMaterial);
 			// enable transparency
 			reticle.material.transparent = true;
-			// set opacity to 50%
+			// set opacity to 30%
 			reticle.material.opacity = 0.3; 
 
 			// we will calculate the position and rotation of this reticle every frame manually
@@ -384,41 +340,54 @@
 			}
 		}
 
-
-
-
+		/* ------------------------------------------------------------------------- */
+		/* Mesh adjustment functions */
+		/* ------------------------------------------------------------------------- */
 		
+		function resizeMesh(ref) {
+			resizeFactor = resizeFactor + ref;
+			groupScene1.scale.set(resizeFactor * sf, resizeFactor * sf, resizeFactor * sf);
+		}
+
+		function rotateMesh(rof) {
+			rotationFactor = rotationFactor + rof;
+			rotationFactorRad = THREE.Math.degToRad(rotationFactor);
+			groupScene1.rotation.y = rotationFactorRad;
+		}
+
+
+		/* ------------------------------------------------------------------------- */
+		/* User Interaction Control */
+		/* ------------------------------------------------------------------------- */
+
 		jQuery( "#iconBack" ).click(function() {
 			window.location.href = "https://irfangh.github.io/WebXR/";
 		});
-		jQuery( "#iconScenes").click(function() {
+/* 		jQuery( "#iconScenes").click(function() {
+			jQuery( "#iconSettings").removeClass("active");
 			jQuery( ".extended#listSettings").hide();
+			jQuery(this).toggleClass("active");
 			jQuery( ".extended#listScenes").toggle();
-		});
+		}); */
 		jQuery( "#iconSettings").click(function() {
-			jQuery( ".extended#listScenes").hide();
+			/* jQuery( "#iconScenes").removeClass("active"); */
+			/* jQuery( ".extended#listScenes").hide(); */
+			jQuery(this).toggleClass("active");
 			jQuery( ".extended#listSettings").toggle();
 		});
 
-
-		jQuery( "#listScenes li").click(function() {
-			jQuery("#listScenes li").removeClass("active");
-			jQuery(this).addClass("active");
+		jQuery( "#smaller").click(function() {
+			resizeMesh(-0.1);
 		});
-
-		jQuery( "#scheibe1").click(function() {
-			scene = scene1;
+		jQuery( "#larger").click(function() {
+			resizeMesh(0.1);
 		});
-		jQuery( "#scheibe2").click(function() {
-			scene = scene2;
+		jQuery( "#cw").click(function() {
+			rotateMesh(-10);
 		});
-		jQuery( "#scheibe3").click(function() {
-			scene = scene3;
+		jQuery( "#ccw").click(function() {
+			rotateMesh(+10);
 		});
-		jQuery( "#scheibe4").click(function() {
-			scene = scene4;
-		});
-
 	</script>
 </body>
 

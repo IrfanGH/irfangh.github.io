@@ -39,42 +39,36 @@
 			<div id="instructionOverlay">
 				<span>Gerät bewegen, um zu starten.<br>Tippen Sie auf den Bildschirm, sobald eine Oberfläche erkannt wird, um das Modell zu platzieren.</span>
 			</div>
-			<!-- <ul id="sceneNavigation">
-				<li id="scene1" class="active">Initial geometry</li>
-				<li id="scene2">Reinforcement</li>
-			</ul> -->
-
 		</div>
 		<div id="xrLowerNav-wrapper">
       <div id="xrLowerNav">
         <ul class="extended" id="listScenes">
-          <li id="scheibe1" class="active"><span>Scheibe 1</span></li>
-					<li id="scheibe2"><span>Scheibe 2</span></li>
-					<li id="scheibe3"><span>Scheibe 3</span></li>
-					<li id="scheibe4"><span>Scheibe 4</span></li>
-					<!-- <li>
-            <span>Wandscheibe</span>
-            <ul class="extendedSub">
-              <li>A</li><li>B</li><li>C</li><li>D</li><li>E</li><li>F</li>
-            </ul>
+					<li>
+            <span id="scheibe1" class="active">Scheibe 1</span>
           </li>
-          <li>
-            <span>Torsionsträger</span>
-          </li> -->
+					<li>
+            <span id="scheibe2" class="">Scheibe 2</span>
+          </li>
+					<li>
+            <span id="scheibe3" class="">Scheibe 3</span>
+          </li>
+					<li>
+            <span id="scheibe4" class="">Scheibe 4</span>
+          </li>
         </ul>
         <ul class="extended" id="listSettings">
           <li>
             <span>Skalierung:</span>
             <ul class="extendedSub">
-              <li><i class="bi bi-dash"></i></li>
-              <li><i class="bi bi-plus-lg"></i></li>
+              <li id="smaller"><i class="bi bi-dash"></i></li>
+              <li id="larger"><i class="bi bi-plus-lg"></i></li>
             </ul>
           </li>
           <li>
             <span>Rotation:</span>
             <ul class="extendedSub">
-              <li><i class="bi bi-arrow-clockwise"></i></li>
-              <li><i class="bi bi-arrow-counterclockwise"></i></li>
+              <li id="cw"><i class="bi bi-arrow-clockwise"></i></li>
+              <li id="ccw"><i class="bi bi-arrow-counterclockwise"></i></li>
             </ul>
           </li>
         </ul>
@@ -92,7 +86,7 @@
 
 		let container;
 		let camera, scene, scene1, scene2, scene3, scene4, renderer;
-		let groupScene1, groupScene2, groupScene3, groupScene4;
+		let groupScene1, groupScene2, groupScene3, groupScene3A, groupScene3B, groupScene3C, groupScene3D, groupScene3E, groupScene3F, groupScene4, groupScene5;
 		let reticle;
 		let controller;
 	
@@ -102,15 +96,17 @@
 		var concreteMaterial = new THREE.MeshBasicMaterial( { color: "rgb(195,195,195)" } );
 		var elastomerMaterial = new THREE.MeshBasicMaterial( { color: "rgb(0,0,0)" } );
 		var dimensioningMaterial = new THREE.MeshBasicMaterial( { color: "rgb(255,0,0)" } );
-		var reinforcementMaterial = new THREE.MeshBasicMaterial( { color: "rgb(84,37,37)" } );
+		var reinforcementMaterial = new THREE.MeshBasicMaterial( { color: "rgb(124,0,7)" } );
 		var grayMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,155,155)" } );
 		var orangeMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,128,0)" } );
 
 		var highlightMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,128,0)" } );
-
-		var activeScene = 1;
+		
 
 		const sf = 1/1000;
+		var resizeFactor = 1;
+		var rotationFactor = 180;
+		var rotationFactorRad;
 
 		init();
 		animate();
@@ -127,9 +123,6 @@
 
 			scene = new THREE.Scene();
 			scene1 = new THREE.Scene();
-			scene2 = new THREE.Scene();
-			scene3 = new THREE.Scene();
-			scene4 = new THREE.Scene();
 
 			scene = scene1;
 
@@ -143,17 +136,8 @@
 
 			var light1 = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
 			light1.position.set(0.5, 1, 0.25);
-			var light2 = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
-			light2.position.set(0.5, 1, 0.25);
-			var light3 = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
-			light3.position.set(0.5, 1, 0.25);
-			var light4 = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
-			light4.position.set(0.5, 1, 0.25);
 
 			scene1.add(light1);
-			scene2.add(light2);
-			scene3.add(light3);
-			scene4.add(light4);
 
 			controller = renderer.xr.getController(0);
 			controller.addEventListener('select', onSelect);
@@ -163,27 +147,27 @@
 			groupScene2 = new THREE.Group();
 			groupScene3 = new THREE.Group();
 			groupScene4 = new THREE.Group();
+			groupScene5 = new THREE.Group();
 
-			
 			console.log("Modelle werden geladen...");
 
 			const gltfLoader = new THREE.GLTFLoader().setPath( 'https://irfangh.github.io/Models/' );
-			const [ gltf1, gltf2, gltf3, gltf4 ] = await Promise.all( [
-				gltfLoader.loadAsync( '06_TT_01_Scheibe_1.gltf' ),
-				gltfLoader.loadAsync( '06_TT_02_Scheibe_2.gltf' ),
-				gltfLoader.loadAsync( '06_TT_03_Scheibe_3.gltf' ),
-				gltfLoader.loadAsync( '06_TT_04_Scheibe_4.gltf' ),
+			const [ gltf_00, gltf_01, gltf_02, gltf_03, gltf_04 ] = await Promise.all( [
+				gltfLoader.loadAsync('06_00_Umrahmung.gltf'),
+				gltfLoader.loadAsync('06_01_Scheibe_1.gltf'),
+				gltfLoader.loadAsync('06_02_Scheibe_2.gltf'),
+				gltfLoader.loadAsync('06_03_Scheibe_3.gltf'),
+				gltfLoader.loadAsync('06_04_Scheibe_4.gltf'),
 			] );
 
 			loaderElement.style.display = "none";
 			console.log("Modelle wurden geladen.");
 
-			
-
-			groupScene1.add( gltf1.scene );
-			groupScene2.add( gltf2.scene );	
-			groupScene3.add( gltf3.scene );	
-			groupScene4.add( gltf4.scene );	
+			groupScene1.add(gltf_00.scene);
+			groupScene2.add(gltf_01.scene);
+			groupScene3.add(gltf_02.scene);	
+			groupScene4.add(gltf_03.scene);
+			groupScene5.add(gltf_04.scene)
 
 			addReticleToScene();
 
@@ -219,47 +203,41 @@
 			groupScene1.scale.set(sf, sf, sf);
 			groupScene1.position.setFromMatrixPosition(fixedReticle.matrix);
 			groupScene1.quaternion.setFromRotationMatrix(fixedReticle.matrix);
-			groupScene1.rotation.y = THREE.Math.degToRad(180);
+			groupScene1.rotation.y = THREE.Math.degToRad(rotationFactor);
 
 			groupScene2.scale.set(sf, sf, sf);
 			groupScene2.position.setFromMatrixPosition(fixedReticle.matrix);
 			groupScene2.quaternion.setFromRotationMatrix(fixedReticle.matrix);
-			groupScene2.rotation.y = THREE.Math.degToRad(180);
+			groupScene2.rotation.y = THREE.Math.degToRad(rotationFactor);
 
 			groupScene3.scale.set(sf, sf, sf);
 			groupScene3.position.setFromMatrixPosition(fixedReticle.matrix);
 			groupScene3.quaternion.setFromRotationMatrix(fixedReticle.matrix);
-			groupScene3.rotation.y = THREE.Math.degToRad(180);
+			groupScene3.rotation.y = THREE.Math.degToRad(rotationFactor);
 
 			groupScene4.scale.set(sf, sf, sf);
 			groupScene4.position.setFromMatrixPosition(fixedReticle.matrix);
 			groupScene4.quaternion.setFromRotationMatrix(fixedReticle.matrix);
-			groupScene4.rotation.y = THREE.Math.degToRad(180);
+			groupScene4.rotation.y = THREE.Math.degToRad(rotationFactor);
 
+			groupScene5.scale.set(sf, sf, sf);
+			groupScene5.position.setFromMatrixPosition(fixedReticle.matrix);
+			groupScene5.quaternion.setFromRotationMatrix(fixedReticle.matrix);
+			groupScene5.rotation.y = THREE.Math.degToRad(rotationFactor);
 
 			/* groupScene1.quaternion.setFromRotationMatrix(camera.matrix); */
 			/* groupScene1.rotateOnWorldAxis(c, angle); */
 			/* groupScene1.rotation.y = THREE.Math.degToRad(0); */
 
 			scene1.add(groupScene1);
-			scene2.add(groupScene2);
-			scene3.add(groupScene3);
-			scene4.add(groupScene4);
-			
-			console.log(fixedReticle.matrix);
-			
+			scene1.add(groupScene2);
+			scene1.add(groupScene3);
+			scene1.add(groupScene4);
+			scene1.add(groupScene5);
+
 			console.log("Model added to scene");
 
     }
-
-		function highlightElement(elementToHighlight) {
-			elementToHighlight.traverse((child, i) => {
-				if (child.isMesh) {
-					child.material = highlightMaterial;
-					/* child.material.side = THREE.DoubleSide; */
-				}
-			});
-		}
 
 		function addReticleToScene() {
 			const reticleGeometry = new THREE.RingBufferGeometry(0.05, 0.1, 32).rotateX(
@@ -270,7 +248,7 @@
 			reticle = new THREE.Mesh(reticleGeometry, reticleMaterial);
 			// enable transparency
 			reticle.material.transparent = true;
-			// set opacity to 50%
+			// set opacity to 30%
 			reticle.material.opacity = 0.3; 
 
 			// we will calculate the position and rotation of this reticle every frame manually
@@ -382,40 +360,105 @@
 			}
 		}
 
-
-
-
+		/* ------------------------------------------------------------------------- */
+		/* Mesh adjustment functions */
+		/* ------------------------------------------------------------------------- */
 		
+		function resizeMesh(ref) {
+			resizeFactor = resizeFactor + ref;
+			groupScene1.scale.set(resizeFactor * sf, resizeFactor * sf, resizeFactor * sf);
+			groupScene2.scale.set(resizeFactor * sf, resizeFactor * sf, resizeFactor * sf);
+			groupScene3.scale.set(resizeFactor * sf, resizeFactor * sf, resizeFactor * sf);
+		}
+
+		function rotateMesh(rof) {
+			rotationFactor = rotationFactor + rof;
+			rotationFactorRad = THREE.Math.degToRad(rotationFactor);
+			groupScene1.rotation.y = rotationFactorRad;
+			groupScene2.rotation.y = rotationFactorRad;
+			groupScene3.rotation.y = rotationFactorRad;
+		}
+
+
+		/* ------------------------------------------------------------------------- */
+		/* User Interaction Control */
+		/* ------------------------------------------------------------------------- */
+
 		jQuery( "#iconBack" ).click(function() {
 			window.location.href = "https://irfangh.github.io/WebXR/";
 		});
 		jQuery( "#iconScenes").click(function() {
+			jQuery( "#iconSettings").removeClass("active");
 			jQuery( ".extended#listSettings").hide();
+			jQuery(this).toggleClass("active");
 			jQuery( ".extended#listScenes").toggle();
 		});
 		jQuery( "#iconSettings").click(function() {
+			jQuery( "#iconScenes").removeClass("active");
 			jQuery( ".extended#listScenes").hide();
+			jQuery(this).toggleClass("active");
 			jQuery( ".extended#listSettings").toggle();
 		});
 
-
-		jQuery( "#listScenes li").click(function() {
-			jQuery("#listScenes li").removeClass("active");
-			jQuery(this).addClass("active");
+		jQuery( "#smaller").click(function() {
+			resizeMesh(-0.1);
 		});
+		jQuery( "#larger").click(function() {
+			resizeMesh(0.1);
+		});
+		jQuery( "#cw").click(function() {
+			rotateMesh(-10);
+		});
+		jQuery( "#ccw").click(function() {
+			rotateMesh(+10);
+		});
+
 
 		jQuery( "#scheibe1").click(function() {
-			scene = scene1;
+			jQuery(this).toggleClass("active");
+			groupScene3.visible = false;
+			groupScene4.visible = false;
+			groupScene5.visible = false;
+			if (groupScene2.visible) {
+				groupScene2.visible = false;
+			} else {
+				groupScene2.visible = true;
+			}
 		});
 		jQuery( "#scheibe2").click(function() {
-			scene = scene2;
+			jQuery(this).toggleClass("active");
+			groupScene2.visible = false;
+			groupScene4.visible = false;
+			groupScene5.visible = false;
+			if (groupScene3.visible) {
+				groupScene3.visible = false;
+			} else {
+				groupScene3.visible = true;
+			}
 		});
 		jQuery( "#scheibe3").click(function() {
-			scene = scene3;
+			jQuery(this).toggleClass("active");
+			groupScene2.visible = false;
+			groupScene3.visible = false;
+			groupScene5.visible = false;
+			if (groupScene4.visible) {
+				groupScene4.visible = false;
+			} else {
+				groupScene4.visible = true;
+			}
 		});
 		jQuery( "#scheibe4").click(function() {
-			scene = scene4;
+			jQuery(this).toggleClass("active");
+			groupScene2.visible = false;
+			groupScene3.visible = false;
+			groupScene4.visible = false;
+			if (groupScene5.visible) {
+				groupScene5.visible = false;
+			} else {
+				groupScene5.visible = true;
+			}
 		});
+
 
 	</script>
 </body>

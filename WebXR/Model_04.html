@@ -436,11 +436,15 @@
 			window.location.href = "https://irfangh.github.io/WebXR/";
 		});
 		jQuery( "#iconScenes").click(function() {
+			jQuery( "#iconSettings").removeClass("active");
 			jQuery( ".extended#listSettings").hide();
+			jQuery(this).toggleClass("active");
 			jQuery( ".extended#listScenes").toggle();
 		});
 		jQuery( "#iconSettings").click(function() {
+			jQuery( "#iconScenes").removeClass("active");
 			jQuery( ".extended#listScenes").hide();
+			jQuery(this).toggleClass("active");
 			jQuery( ".extended#listSettings").toggle();
 		});
 
