@@ -8,10 +8,6 @@ body {
 	overscroll-behavior: none;
 }
 
-#ARButton {
-	z-index:99999 !important;
-}
-
 a {
 	text-decoration: none !important;
 }
