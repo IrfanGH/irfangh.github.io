@@ -88,8 +88,7 @@
     </div>
 	</div>
 	<script type="module">	
-    /* import { ARButton } from 'https://unpkg.com/three@0.135.0/examples/jsm/webxr/ARButton.js'; */
-		import { ARButton } from 'https://irfangh.github.io/ARButton.js';
+    import { ARButton } from 'https://unpkg.com/three@0.135.0/examples/jsm/webxr/ARButton.js';
 
 		let container;
 		let camera, scene, scene1, scene2, scene3, scene4, renderer;
@@ -158,15 +157,6 @@
 			scene.add(controller);
 
 			groupScene1 = new THREE.Group();
-/* 			groupScene2 = new THREE.Group();
-			groupScene3 = new THREE.Group();
-			groupScene3A = new THREE.Group();
-			groupScene3B = new THREE.Group();
-			groupScene3C = new THREE.Group();
-			groupScene3D = new THREE.Group();
-			groupScene3E = new THREE.Group();
-			groupScene3F = new THREE.Group();
-			groupScene4 = new THREE.Group(); */
 
 			console.log("Modelle werden geladen...");
 
@@ -217,6 +207,7 @@
 			groupScene1.position.setFromMatrixPosition(fixedReticle.matrix);
 			groupScene1.quaternion.setFromRotationMatrix(fixedReticle.matrix);
 			groupScene1.rotation.y = THREE.Math.degToRad(rotationFactor);
+			moveMeshY(1);
 
 
 			/* groupScene1.quaternion.setFromRotationMatrix(camera.matrix); */
