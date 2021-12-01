@@ -23,7 +23,7 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
   <script type='text/javascript' src='https://concrete.ethz.ch/wp-includes/js/jquery/jquery.min.js?ver=3.6.0' id='jquery-core-js'></script>  
 	
-	<link type="text/css" rel="stylesheet" href="https://irfangh.github.io/style.css">
+	<link type="text/css" rel="stylesheet" href="https://irfangh.github.io/styleFrei.css">
 </head>
 
 <body>
@@ -33,9 +33,9 @@
 			<div class="text">Modell wird geladen</div>
 		</div>
 	</div>
-	<div id="overlay">
+	<div id="overlay" height="100% !important">
 		<div id="xrTitle">
-			<a href="https://irfangh.github.io/">Concrete</a>
+			<a href="https://irfangh.github.io/Frei">Concrete (F)</a>
 		</div>
 
 		<div id="xrUpperNav">
@@ -44,17 +44,14 @@
 			</div>
 		</div>
 		<div id="xrLowerNav-wrapper">
-      <div id="xrLowerNav">
+      <div id="xrLowerNav"  style="display: block !important;">
         <ul class="extended" id="listScenes">
-					<!-- <li>
-            <span id="torsionsbalken" class="active">Torsionsbalken</span>
+					<li>
+            <span id="torsionsbalken" class="">Torsionsbalken</span>
           </li>
 					<li>
             <span id="wandscheibe" class="active">Wandscheibe</span>
-            <ul class="extendedSub">
-              <li id="wandscheibeA">A</li><li id="wandscheibeB">B</li><li id="wandscheibeC">C</li><li id="wandscheibeD">D</li><li id="wandscheibeE">E</li><li id="wandscheibeF">F</li>
-            </ul>
-          </li> -->
+          </li>
         </ul>
         <ul class="extended" id="listSettings">
 					<li>
@@ -81,7 +78,7 @@
         </ul>
         <ul id="icons">
           <li id="iconBack"><i class="bi bi-x-lg"></i></li>
-          <!-- <li id="iconScenes"><i class="bi bi-layers-half"></i></li> -->
+          <li id="iconScenes"><i class="bi bi-layers-half"></i></li>
           <li id="iconSettings"><i class="bi bi-gear"></i></li>
         </ul>
       </div>
@@ -109,6 +106,14 @@
 
 		var highlightMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,128,0)" } );
 		
+		var highlight_04_02_01 = false;
+		var highlight_04_02_02 = false;
+		var highlight_04_02_03 = false;
+		var highlight_04_02_04 = false;
+		var highlight_04_02_05 = false;
+		var highlight_04_02_06 = false;
+		var highlight_04_02_07 = false;
+
 		const sf = 1/1000;
 		var resizeFactor = 1;
 		var rotationFactor = 180;
@@ -150,29 +155,23 @@
 			scene.add(controller);
 
 			groupScene1 = new THREE.Group();
+			groupScene2 = new THREE.Group();
+			groupScene3 = new THREE.Group();
 
 			console.log("Modelle werden geladen...");
 
 			const gltfLoader = new THREE.GLTFLoader().setPath( 'https://irfangh.github.io/Models/' );
-			const [ gltf_00, gltf_01 ] = await Promise.all( [
+			const [ gltf_00, gltf_02_02 ] = await Promise.all( [
 				gltfLoader.loadAsync('02_00_Umrahmung.gltf'),
-				gltfLoader.loadAsync('03_FEM_Spannungen.gltf'),
+				gltfLoader.loadAsync('02_02_Fachwerk_WS.gltf'),
 			] );
 
 			loaderElement.style.display = "none";
 			console.log("Modelle wurden geladen.");
-			console.log("gltf_01.scene.position", gltf_01.scene.position);
-			gltf_01.scene.scale.set(100, 100, 100);	
-			gltf_01.scene.rotation.y = THREE.Math.degToRad(90);
-			console.log("gltf_01.scene.position", gltf_01.scene.position);
-			/* gltf_01.scene.translateX(+5); */
-			gltf_01.scene.translateY(-40);
-			gltf_01.scene.translateZ(-730);
-			console.log("gltf_01.scene.position", gltf_01.scene.position);
 
 			groupScene1.add(gltf_00.scene);
-			groupScene1.add(gltf_01.scene);
 
+			groupScene3.add(gltf_02_02.scene);
 
 			addReticleToScene();
 
@@ -210,11 +209,20 @@
 			groupScene1.quaternion.setFromRotationMatrix(fixedReticle.matrix);
 			groupScene1.rotation.y = THREE.Math.degToRad(rotationFactor);
 
-			/* groupScene1.quaternion.setFromRotationMatrix(camera.matrix); */
-			/* groupScene1.rotateOnWorldAxis(c, angle); */
-			/* groupScene1.rotation.y = THREE.Math.degToRad(0); */
+			groupScene2.scale.set(sf, sf, sf);
+			groupScene2.position.setFromMatrixPosition(fixedReticle.matrix);
+			groupScene2.quaternion.setFromRotationMatrix(fixedReticle.matrix);
+			groupScene2.rotation.y = THREE.Math.degToRad(rotationFactor);
+
+			groupScene3.scale.set(sf, sf, sf);
+			groupScene3.position.setFromMatrixPosition(fixedReticle.matrix);
+			groupScene3.quaternion.setFromRotationMatrix(fixedReticle.matrix);
+			groupScene3.rotation.y = THREE.Math.degToRad(rotationFactor);
 
 			scene1.add(groupScene1);
+			scene1.add(groupScene2);
+			scene1.add(groupScene3);
+
 			console.log("Model added to scene");
 
     }
@@ -251,12 +259,12 @@
 					document.getElementById("xrUpperNav").style.display = "block";
 					document.getElementById("xrLowerNav").style.display = "inline-block";
 					instructionElement.style.display = "none";
-					var overlayHeight = document.getElementById("overlay").offsetHeight;
+/* 					var overlayHeight = document.getElementById("overlay").offsetHeight;
 					var xrTitleHeight = document.getElementById("xrTitle").offsetHeight;
 					var xrLowerNavHeight = document.getElementById("xrLowerNav-wrapper").offsetHeight;
 					console.log("window.innerHeight",window.innerHeight);
 					console.log("xrTitleHeight",xrTitleHeight);
-					document.getElementById("xrLowerNav-wrapper").style.bottom = - window.innerHeight + overlayHeight + "px";
+					document.getElementById("xrLowerNav-wrapper").style.bottom = - window.innerHeight + overlayHeight + "px"; */
 				}
 			}
 		}
@@ -347,20 +355,25 @@
 		/* Mesh adjustment functions */
 		/* ------------------------------------------------------------------------- */
 
-
 		function moveMeshY(yf) {
 			groupScene1.translateY(yf);
+			groupScene2.translateY(yf);
+			groupScene3.translateY(yf);
 		}
 
 		function resizeMesh(ref) {
 			resizeFactor = resizeFactor + ref;
 			groupScene1.scale.set(resizeFactor * sf, resizeFactor * sf, resizeFactor * sf);
+			groupScene2.scale.set(resizeFactor * sf, resizeFactor * sf, resizeFactor * sf);
+			groupScene3.scale.set(resizeFactor * sf, resizeFactor * sf, resizeFactor * sf);
 		}
 
 		function rotateMesh(rof) {
 			rotationFactor = rotationFactor + rof;
 			rotationFactorRad = THREE.Math.degToRad(rotationFactor);
 			groupScene1.rotation.y = rotationFactorRad;
+			groupScene2.rotation.y = rotationFactorRad;
+			groupScene3.rotation.y = rotationFactorRad;
 		}
 
 
@@ -371,12 +384,12 @@
 		jQuery( "#iconBack" ).click(function() {
 			window.location.href = "https://irfangh.github.io/WebXR/";
 		});
-	/* 	jQuery( "#iconScenes").click(function() {
+		jQuery( "#iconScenes").click(function() {
 			jQuery( "#iconSettings").removeClass("active");
 			jQuery( ".extended#listSettings").hide();
 			jQuery(this).toggleClass("active");
 			jQuery( ".extended#listScenes").toggle();
-		}); */
+		});
 		jQuery( "#iconSettings").click(function() {
 			jQuery( "#iconScenes").removeClass("active");
 			jQuery( ".extended#listScenes").hide();
@@ -401,6 +414,24 @@
 		});
 		jQuery( "#ccw").click(function() {
 			rotateMesh(+10);
+		});
+
+
+		jQuery( "#torsionsbalken").click(function() {
+			/* jQuery(this).toggleClass("active");
+			if (groupScene2.visible) {
+				groupScene2.visible = false;
+			} else {
+				groupScene2.visible = true;
+			} */
+		});
+		jQuery( "#wandscheibe").click(function() {
+			jQuery(this).toggleClass("active");
+			if (groupScene3.visible) {
+				groupScene3.visible = false;
+			} else {
+				groupScene3.visible = true;
+			}
 		});
 
 	</script>
