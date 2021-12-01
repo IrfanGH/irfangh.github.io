@@ -33,9 +33,9 @@
 			<div class="text">Modell wird geladen</div>
 		</div>
 	</div>
-	<div id="overlay" style="height: 100% !important">
+	<div id="overlay">
 		<div id="xrTitle">
-			<a href="https://irfangh.github.io/Frei">Concrete (F3x)</a>
+			<a href="https://irfangh.github.io/Frei">Concrete (F3+)</a>
 		</div>
 
 		<div id="xrUpperNav">
@@ -44,7 +44,7 @@
 			</div>
 		</div>
 		<div id="xrLowerNav-wrapper">
-      <div id="xrLowerNav"  style="display: block !important;">
+      <div id="xrLowerNav">
         <ul class="extended" id="listScenes">
 					<li>
             <span id="torsionsbalken" class="">Torsionsbalken</span>
@@ -256,8 +256,8 @@
 					placeModel(reticle);
 					locationSet = true;
 					reticle.visible = false; // we end with the reticle not visible
-					document.getElementById("xrUpperNav").style.display = "block";
-					document.getElementById("xrLowerNav").style.display = "inline-block";
+/* 					document.getElementById("xrUpperNav").style.display = "block";
+					document.getElementById("xrLowerNav").style.display = "inline-block"; */
 					instructionElement.style.display = "none";
 /* 					var overlayHeight = document.getElementById("overlay").offsetHeight;
 					var xrTitleHeight = document.getElementById("xrTitle").offsetHeight;
@@ -318,6 +318,8 @@
 		// a VR or AR sccene.
 		function render(timestamp, frame) {
 			if (frame) {
+				document.getElementById("xrUpperNav").style.display = "block";
+				document.getElementById("xrLowerNav").style.display = "inline-block";
 				if (!locationSet){
 
 					instructionElement.style.display = "inline-block";
@@ -385,16 +387,20 @@
 			window.location.href = "https://irfangh.github.io/WebXR/";
 		});
 		jQuery( "#iconScenes").click(function() {
-			jQuery( "#iconSettings").removeClass("active");
-			jQuery( ".extended#listSettings").hide();
-			jQuery(this).toggleClass("active");
-			jQuery( ".extended#listScenes").toggle();
+			if (locationSet){
+				jQuery( "#iconSettings").removeClass("active");
+				jQuery( ".extended#listSettings").hide();
+				jQuery(this).toggleClass("active");
+				jQuery( ".extended#listScenes").toggle();
+			};
 		});
 		jQuery( "#iconSettings").click(function() {
-			jQuery( "#iconScenes").removeClass("active");
-			jQuery( ".extended#listScenes").hide();
-			jQuery(this).toggleClass("active");
-			jQuery( ".extended#listSettings").toggle();
+			if (locationSet){
+				jQuery( "#iconScenes").removeClass("active");
+				jQuery( ".extended#listScenes").hide();
+				jQuery(this).toggleClass("active");
+				jQuery( ".extended#listSettings").toggle();
+			};
 		});
 
 		jQuery( "#moveDown").click(function() {
