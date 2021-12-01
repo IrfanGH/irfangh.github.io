@@ -125,6 +125,7 @@ a, button, input, select {
 	text-align: center;
 	width: 100%;
 	box-sizing: border-box;
+	display: none;
 }
 
 #instructionOverlay {
@@ -154,6 +155,7 @@ a, button, input, select {
 #xrLowerNav {
 	width: 300px;
 	display: block;
+	display: none;
 }
 
 #xrLowerNav ul#icons {
