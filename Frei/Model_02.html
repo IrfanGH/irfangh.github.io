@@ -33,9 +33,9 @@
 			<div class="text">Modell wird geladen</div>
 		</div>
 	</div>
-	<div id="overlay">
+	<div id="overlay" style="height: 100% !important">
 		<div id="xrTitle">
-			<a href="https://irfangh.github.io/Frei">Concrete (F)</a>
+			<a href="https://irfangh.github.io/Frei">Concrete (F2)</a>
 		</div>
 
 		<div id="xrUpperNav">
@@ -256,8 +256,8 @@
 					placeModel(reticle);
 					locationSet = true;
 					reticle.visible = false; // we end with the reticle not visible
-					document.getElementById("xrUpperNav").style.display = "block";
-					document.getElementById("xrLowerNav").style.display = "inline-block";
+/* 					document.getElementById("xrUpperNav").style.display = "block";
+					document.getElementById("xrLowerNav").style.display = "inline-block"; */
 					instructionElement.style.display = "none";
 /* 					var overlayHeight = document.getElementById("overlay").offsetHeight;
 					var xrTitleHeight = document.getElementById("xrTitle").offsetHeight;
@@ -318,6 +318,8 @@
 		// a VR or AR sccene.
 		function render(timestamp, frame) {
 			if (frame) {
+				document.getElementById("xrUpperNav").style.display = "block";
+				document.getElementById("xrLowerNav").style.display = "inline-block";
 				if (!locationSet){
 
 					instructionElement.style.display = "inline-block";
