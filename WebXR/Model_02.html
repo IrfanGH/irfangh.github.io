@@ -47,7 +47,10 @@
       <div id="xrLowerNav">
         <ul class="extended" id="listScenes">
 					<li>
-            <span id="torsionsbalken" class="">Torsionsbalken</span>
+            <span id="torsionsbalken" class="active">Torsionsbalken</span>
+						<ul class="extendedSub">
+              <li id="biegung" class="active">Biegung</li><li id="torsion" class="active">Torsion</li>
+            </ul>
           </li>
 					<li>
             <span id="wandscheibe" class="active">Wandscheibe</span>
@@ -90,7 +93,7 @@
 
 		let container;
 		let camera, scene, scene1, scene2, scene3, scene4, renderer;
-		let groupScene1, groupScene2, groupScene3, groupScene3A, groupScene3B, groupScene3C, groupScene3D, groupScene3E, groupScene3F, groupScene4;
+		let groupScene1, groupScene2, groupScene3, groupScene4;
 		let reticle;
 		let controller;
 	
@@ -157,12 +160,15 @@
 			groupScene1 = new THREE.Group();
 			groupScene2 = new THREE.Group();
 			groupScene3 = new THREE.Group();
+			groupScene4 = new THREE.Group();
 
 			console.log("Modelle werden geladen...");
 
 			const gltfLoader = new THREE.GLTFLoader().setPath( 'https://irfangh.github.io/Models/' );
-			const [ gltf_00, gltf_02_02 ] = await Promise.all( [
+			const [ gltf_00, gltf_01_01, gltf_01_02, gltf_02_02 ] = await Promise.all( [
 				gltfLoader.loadAsync('02_00_Umrahmung.gltf'),
+				gltfLoader.loadAsync('02_01_01_Fachwerk_TT_Biegung.gltf'),
+				gltfLoader.loadAsync('02_01_02_Fachwerk_TT_Torsion.gltf'),
 				gltfLoader.loadAsync('02_02_Fachwerk_WS.gltf'),
 			] );
 
@@ -170,8 +176,9 @@
 			console.log("Modelle wurden geladen.");
 
 			groupScene1.add(gltf_00.scene);
-
-			groupScene3.add(gltf_02_02.scene);
+			groupScene2.add(gltf_01_01.scene);
+			groupScene3.add(gltf_01_02.scene);
+			groupScene4.add(gltf_02_02.scene);
 
 			addReticleToScene();
 
@@ -219,9 +226,15 @@
 			groupScene3.quaternion.setFromRotationMatrix(fixedReticle.matrix);
 			groupScene3.rotation.y = THREE.Math.degToRad(rotationFactor);
 
+			groupScene4.scale.set(sf, sf, sf);
+			groupScene4.position.setFromMatrixPosition(fixedReticle.matrix);
+			groupScene4.quaternion.setFromRotationMatrix(fixedReticle.matrix);
+			groupScene4.rotation.y = THREE.Math.degToRad(rotationFactor);
+
 			scene1.add(groupScene1);
 			scene1.add(groupScene2);
 			scene1.add(groupScene3);
+			scene1.add(groupScene4);
 
 			console.log("Model added to scene");
 
@@ -359,6 +372,7 @@
 			groupScene1.translateY(yf);
 			groupScene2.translateY(yf);
 			groupScene3.translateY(yf);
+			groupScene4.translateY(yf);
 		}
 
 		function resizeMesh(ref) {
@@ -369,6 +383,7 @@
 			groupScene1.scale.set(resizeFactor * sf, resizeFactor * sf, resizeFactor * sf);
 			groupScene2.scale.set(resizeFactor * sf, resizeFactor * sf, resizeFactor * sf);
 			groupScene3.scale.set(resizeFactor * sf, resizeFactor * sf, resizeFactor * sf);
+			groupScene4.scale.set(resizeFactor * sf, resizeFactor * sf, resizeFactor * sf);
 		}
 
 		function rotateMesh(rof) {
@@ -377,6 +392,7 @@
 			groupScene1.rotation.y = rotationFactorRad;
 			groupScene2.rotation.y = rotationFactorRad;
 			groupScene3.rotation.y = rotationFactorRad;
+			groupScene4.rotation.y = rotationFactorRad;
 		}
 
 
@@ -421,19 +437,40 @@
 
 
 		jQuery( "#torsionsbalken").click(function() {
-			/* jQuery(this).toggleClass("active");
+			jQuery(this).toggleClass("active");
 			if (groupScene2.visible) {
 				groupScene2.visible = false;
 			} else {
 				groupScene2.visible = true;
-			} */
+			}
+			if (groupScene3.visible) {
+				groupScene3.visible = false;
+			} else {
+				groupScene3.visible = true;
+			}
 		});
-		jQuery( "#wandscheibe").click(function() {
+		jQuery( "#biegung").click(function() {
+			jQuery(this).toggleClass("active");
+			if (groupScene2.visible) {
+				groupScene2.visible = false;
+			} else {
+				groupScene2.visible = true;
+			}
+		});
+		jQuery( "#torsion").click(function() {
 			jQuery(this).toggleClass("active");
 			if (groupScene3.visible) {
 				groupScene3.visible = false;
 			} else {
 				groupScene3.visible = true;
+			}
+		});
+		jQuery( "#wandscheibe").click(function() {
+			jQuery(this).toggleClass("active");
+			if (groupScene4.visible) {
+				groupScene4.visible = false;
+			} else {
+				groupScene4.visible = true;
 			}
 		});
 

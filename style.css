@@ -239,6 +239,11 @@ a, button, input, select {
 	border: 2px solid #0000;
 }
 
+#xrLowerNav ul.extended#listScenes > li .extendedSub li#biegung,
+#xrLowerNav ul.extended#listScenes > li .extendedSub li#torsion {
+	width: 135px;
+}
+
 #xrLowerNav ul.extended#listScenes > li .extendedSub li.active {
 	border-color: orange;
 }
