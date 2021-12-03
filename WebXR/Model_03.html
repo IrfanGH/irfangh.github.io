@@ -190,29 +190,13 @@
 		}
 
     function placeModel(fixedReticle) {
-/* 			console.log(camera.matrix);
-			var a = new THREE.Vector3( 0, 1, 0 );
-			var b = new THREE.Vector3( 0, 1, 0 );
-			var c = new THREE.Vector3( 0, 1, 0 );
-			var z = new THREE.Vector3( 0, 0, 1 );
-			camera.getWorldDirection(a);
-			console.log("a",a);
-			b = a.clone();
-			b.setComponent(1,0);
-			console.log("a",a);
-			console.log("b",b);
-			
-			var angle = z.angleTo(b);
-			console.log("angle",angle); */
 
 			groupScene1.scale.set(sf, sf, sf);
 			groupScene1.position.setFromMatrixPosition(fixedReticle.matrix);
 			groupScene1.quaternion.setFromRotationMatrix(fixedReticle.matrix);
 			groupScene1.rotation.y = THREE.Math.degToRad(rotationFactor);
 
-			/* groupScene1.quaternion.setFromRotationMatrix(camera.matrix); */
-			/* groupScene1.rotateOnWorldAxis(c, angle); */
-			/* groupScene1.rotation.y = THREE.Math.degToRad(0); */
+			moveMeshY(1);
 
 			scene1.add(groupScene1);
 			console.log("Model added to scene");
