@@ -242,6 +242,7 @@ a, button, input, select {
 #xrLowerNav ul.extended#listScenes > li .extendedSub li#biegung,
 #xrLowerNav ul.extended#listScenes > li .extendedSub li#torsion {
 	width: 135px;
+	color: #959595;
 }
 
 #xrLowerNav ul.extended#listScenes > li .extendedSub li.active {
@@ -251,6 +252,7 @@ a, button, input, select {
 #xrLowerNav ul.extended#listScenes > li .extendedSub li#biegung.active,
 #xrLowerNav ul.extended#listScenes > li .extendedSub li#torsion.active {
 	border-color: white;
+	color: white;
 }
 
 #xrLowerNav ul.extended#listScenes > li .extendedSub li:first-of-type  {
