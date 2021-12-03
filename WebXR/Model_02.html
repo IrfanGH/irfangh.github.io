@@ -109,13 +109,7 @@
 
 		var highlightMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,128,0)" } );
 		
-		var highlight_04_02_01 = false;
-		var highlight_04_02_02 = false;
-		var highlight_04_02_03 = false;
-		var highlight_04_02_04 = false;
-		var highlight_04_02_05 = false;
-		var highlight_04_02_06 = false;
-		var highlight_04_02_07 = false;
+		var ttVisible = true;
 
 		const sf = 1/1000;
 		var resizeFactor = 1;
@@ -438,15 +432,18 @@
 
 		jQuery( "#torsionsbalken").click(function() {
 			jQuery(this).toggleClass("active");
-			if (groupScene2.visible) {
+			if (ttVisible) {
 				groupScene2.visible = false;
+				groupScene3.visible = false;
+				ttVisible = false;
+				jQuery("#biegung").removeClass("active");
+				jQuery("#torsion").removeClass("active");
 			} else {
 				groupScene2.visible = true;
-			}
-			if (groupScene3.visible) {
-				groupScene3.visible = false;
-			} else {
 				groupScene3.visible = true;
+				ttVisible = true;
+				jQuery("#biegung").addClass("active");
+				jQuery("#torsion").addClass("active");
 			}
 		});
 		jQuery( "#biegung").click(function() {
@@ -455,6 +452,7 @@
 				groupScene2.visible = false;
 			} else {
 				groupScene2.visible = true;
+				ttVisible = false;
 			}
 		});
 		jQuery( "#torsion").click(function() {
@@ -463,6 +461,8 @@
 				groupScene3.visible = false;
 			} else {
 				groupScene3.visible = true;
+				ttVisible = false;
+				jQuery( "#torsionsbalken").addClass("active");
 			}
 		});
 		jQuery( "#wandscheibe").click(function() {
