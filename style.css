@@ -248,6 +248,11 @@ a, button, input, select {
 	border-color: orange;
 }
 
+#xrLowerNav ul.extended#listScenes > li .extendedSub li#biegung.active,
+#xrLowerNav ul.extended#listScenes > li .extendedSub li#torsion.active {
+	border-color: white;
+}
+
 #xrLowerNav ul.extended#listScenes > li .extendedSub li:first-of-type  {
 	margin-left: 0;
 }
