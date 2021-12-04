@@ -108,16 +108,6 @@
 		let locationSet = false; // Check wether the user has defined the inital position of the model
 		let objHidden = true;
 
-		var concreteMaterial = new THREE.MeshBasicMaterial( { color: "rgb(195,195,195)" } );
-		var elastomerMaterial = new THREE.MeshBasicMaterial( { color: "rgb(0,0,0)" } );
-		var dimensioningMaterial = new THREE.MeshBasicMaterial( { color: "rgb(255,0,0)" } );
-		var reinforcementMaterial = new THREE.MeshBasicMaterial( { color: "rgb(124,0,7)" } );
-		var grayMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,155,155)" } );
-		var orangeMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,128,0)" } );
-
-		var highlightMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,128,0)" } );
-		
-
 		const sf = 1/1000;
 		var resizeFactor = 1;
 		var rotationFactor = 180;
@@ -168,7 +158,7 @@
 
 			const gltfLoader = new THREE.GLTFLoader().setPath( 'https://irfangh.github.io/Models/' );
 			const [ gltf_00, gltf_01, gltf_02, gltf_03, gltf_04 ] = await Promise.all( [
-				gltfLoader.loadAsync('06_00_Umrahmung.gltf'),
+				gltfLoader.loadAsync('00_Umrahmung.gltf'),
 				gltfLoader.loadAsync('06_01_Scheibe_1.gltf'),
 				gltfLoader.loadAsync('06_02_Scheibe_2.gltf'),
 				gltfLoader.loadAsync('06_03_Scheibe_3.gltf'),

@@ -105,13 +105,7 @@
 		let locationSet = false; // Check wether the user has defined the inital position of the model
 		let objHidden = true;
 
-		var concreteMaterial = new THREE.MeshBasicMaterial( { color: "rgb(195,195,195)" } );
-		var elastomerMaterial = new THREE.MeshBasicMaterial( { color: "rgb(0,0,0)" } );
-		var dimensioningMaterial = new THREE.MeshBasicMaterial( { color: "rgb(255,0,0)" } );
 		var reinforcementMaterial = new THREE.MeshBasicMaterial( { color: "rgb(124,0,7)" } );
-		var grayMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,155,155)" } );
-		var orangeMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,128,0)" } );
-
 		var highlightMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,128,0)" } );
 		
 		var highlight_04_02_01 = false;
@@ -177,7 +171,7 @@
 
 			const gltfLoader = new THREE.GLTFLoader().setPath( 'https://irfangh.github.io/Models/' );
 			const [ gltf_00, gltf_01_H, gltf_01_L, gltf_01_V, gltf_02_01, gltf_02_02, gltf_02_03, gltf_02_04, gltf_02_05, gltf_02_06, gltf_02_07 ] = await Promise.all( [
-				gltfLoader.loadAsync('04_00_Umrahmung.gltf'),
+				gltfLoader.loadAsync('00_Umrahmung.gltf'),
 				gltfLoader.loadAsync('04_01_Bewehrung_Torsionsbalken_Horizontal.gltf'),
 				gltfLoader.loadAsync('04_01_Bewehrung_Torsionsbalken_Laengs.gltf'),
 				gltfLoader.loadAsync('04_01_Bewehrung_Torsionsbalken_Vertikal.gltf'),

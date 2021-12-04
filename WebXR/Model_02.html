@@ -103,15 +103,6 @@
 	
 		let locationSet = false; // Check wether the user has defined the inital position of the model
 		let objHidden = true;
-
-		var concreteMaterial = new THREE.MeshBasicMaterial( { color: "rgb(195,195,195)" } );
-		var elastomerMaterial = new THREE.MeshBasicMaterial( { color: "rgb(0,0,0)" } );
-		var dimensioningMaterial = new THREE.MeshBasicMaterial( { color: "rgb(255,0,0)" } );
-		var reinforcementMaterial = new THREE.MeshBasicMaterial( { color: "rgb(124,0,7)" } );
-		var grayMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,155,155)" } );
-		var orangeMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,128,0)" } );
-
-		var highlightMaterial = new THREE.MeshBasicMaterial( { color: "rgb(155,128,0)" } );
 		
 		var ttVisible = true;
 
@@ -164,7 +155,7 @@
 
 			const gltfLoader = new THREE.GLTFLoader().setPath( 'https://irfangh.github.io/Models/' );
 			const [ gltf_00, gltf_01_01, gltf_01_02, gltf_02_02 ] = await Promise.all( [
-				gltfLoader.loadAsync('02_00_Umrahmung.gltf'),
+				gltfLoader.loadAsync('00_Umrahmung.gltf'),
 				gltfLoader.loadAsync('02_01_01_Fachwerk_TT_Biegung.gltf'),
 				gltfLoader.loadAsync('02_01_02_Fachwerk_TT_Torsion.gltf'),
 				gltfLoader.loadAsync('02_02_Fachwerk_WS.gltf'),
