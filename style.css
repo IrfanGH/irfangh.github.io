@@ -294,6 +294,14 @@ a, button, input, select {
 	margin-left: 5px;
 }
 
+#ARButton {
+	font-weight: 700 !important;
+	font-size: 20px !important;
+	width: 200px !important;
+	left: calc(50% - 100px) !important;
+	opacity: 1 !important;
+}
+
 
 
 
