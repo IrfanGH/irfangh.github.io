@@ -239,6 +239,12 @@ a, button, input, select {
 	border-color: #fff;
 }
 
+#xrLowerNav ul.extended#listScenes > li span.caption {
+	background: #0000;
+	color: #fff;
+	padding-bottom: 0;
+}
+
 #xrLowerNav ul.extended#listScenes > li .extendedSub {
 	list-style: none;
 	float: left;

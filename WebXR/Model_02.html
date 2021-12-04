@@ -51,7 +51,7 @@
       <div id="xrLowerNav">
         <ul class="extended" id="listScenes">
 					<li>
-            <span id="torsionsbalken" class="active">Torsionsbalken</span>
+            <span class="caption">Torsionsbalken:</span>
 						<ul class="extendedSub">
               <li id="biegung" class="active">Biegung</li><li id="torsion" class="active">Torsion</li>
             </ul>
@@ -413,30 +413,31 @@
 		});
 
 
-		jQuery( "#torsionsbalken").click(function() {
-			jQuery(this).toggleClass("active");
+		/* jQuery( "#torsionsbalken").click(function() {
 			if (ttVisible) {
 				groupScene2.visible = false;
 				groupScene3.visible = false;
 				ttVisible = false;
 				jQuery("#biegung").removeClass("active");
 				jQuery("#torsion").removeClass("active");
+				jQuery(this).removeClass("active");
 			} else {
 				groupScene2.visible = true;
 				groupScene3.visible = true;
 				ttVisible = true;
 				jQuery("#biegung").addClass("active");
 				jQuery("#torsion").addClass("active");
+				jQuery(this).addClass("active");
 			}
-		});
+		}); */
 		jQuery( "#biegung").click(function() {
 			jQuery(this).toggleClass("active");
 			if (groupScene2.visible) {
 				groupScene2.visible = false;
 			} else {
 				groupScene2.visible = true;
-				ttVisible = false;
-				jQuery( "#torsionsbalken").addClass("active");
+				/* ttVisible = false; */
+				/* jQuery( "#torsionsbalken").addClass("active"); */
 			}
 		});
 		jQuery( "#torsion").click(function() {
@@ -445,8 +446,8 @@
 				groupScene3.visible = false;
 			} else {
 				groupScene3.visible = true;
-				ttVisible = false;
-				jQuery( "#torsionsbalken").addClass("active");
+				/* ttVisible = false; */
+				/* jQuery( "#torsionsbalken").addClass("active"); */
 			}
 		});
 		jQuery( "#wandscheibe").click(function() {
