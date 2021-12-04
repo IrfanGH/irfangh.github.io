@@ -325,8 +325,8 @@
 
 		function resizeMesh(ref) {
 			resizeFactor = resizeFactor + ref;
-			if (resizeFactor < 0.1) {
-				resizefactor = 0.1;
+			if (resizeFactor < 0.2) {
+				resizeFactor = 0.2;
 			}
 			groupScene1.scale.set(resizeFactor * sf, resizeFactor * sf, resizeFactor * sf);
 		}
@@ -376,89 +376,6 @@
 		jQuery( "#ccw").click(function() {
 			rotateMesh(+10);
 		});
-
-/* 
-		jQuery( "#torsionsbalken").click(function() {
-			jQuery(this).toggleClass("active");
-			if (groupScene2.visible) {
-				groupScene2.visible = false;
-			} else {
-				groupScene2.visible = true;
-			}
-		});
-		jQuery( "#wandscheibe").click(function() {
-			jQuery(this).toggleClass("active");
-			if (groupScene3.visible) {
-				jQuery(".extended#listScenes .extendedSub li").removeClass("active");
-				highlight_04_02_01 = false;
-				highlight_04_02_02 = false;
-				highlight_04_02_03 = false;
-				highlight_04_02_04 = false;
-				highlight_04_02_05 = false;
-				highlight_04_02_06 = false;
-				updateReinforcement();
-				groupScene3.visible = false;
-			} else {
-				groupScene3.visible = true;
-			}
-		});
-		jQuery( ".extended#listScenes .extendedSub li").click(function() {
-			jQuery("#wandscheibe").addClass("active");
-			jQuery(this).toggleClass("active");
-			if (!groupScene3.visible) {
-				groupScene3.visible = true;
-			}
-		});
-
-
-		jQuery( "#wandscheibeA").click(function() {
-			if (!highlight_04_02_01) {
-				highlight_04_02_01 = true;
-			} else {
-				highlight_04_02_01 = false;
-			}
-			updateReinforcement();
-		});
-		jQuery( "#wandscheibeB").click(function() {
-			if (!highlight_04_02_02) {
-				highlight_04_02_02 = true;
-			} else {
-				highlight_04_02_02 = false;
-			}
-			updateReinforcement();
-		});
-		jQuery( "#wandscheibeC").click(function() {
-			if (!highlight_04_02_03) {
-				highlight_04_02_03 = true;
-			} else {
-				highlight_04_02_03 = false;
-			}
-			updateReinforcement();
-		});
-		jQuery( "#wandscheibeD").click(function() {
-			if (!highlight_04_02_04) {
-				highlight_04_02_04 = true;
-			} else {
-				highlight_04_02_04 = false;
-			}
-			updateReinforcement();
-		});
-		jQuery( "#wandscheibeE").click(function() {
-			if (!highlight_04_02_05) {
-				highlight_04_02_05 = true;
-			} else {
-				highlight_04_02_05 = false;
-			}
-			updateReinforcement();
-		});
-		jQuery( "#wandscheibeF").click(function() {
-			if (!highlight_04_02_06) {
-				highlight_04_02_06 = true;
-			} else {
-				highlight_04_02_06 = false;
-			}
-			updateReinforcement();
-		}); */
 
 	</script>
 </body>

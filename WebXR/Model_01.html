@@ -323,9 +323,10 @@
 		}
 
 		function resizeMesh(ref) {
-			console.log(resizeFactor);
 			resizeFactor = resizeFactor + ref;
-			console.log(resizeFactor);
+			if (resizeFactor < 0.2) {
+				resizeFactor = 0.2;
+			}
 			groupScene1.scale.set(resizeFactor * sf, resizeFactor * sf, resizeFactor * sf);
 		}
 
