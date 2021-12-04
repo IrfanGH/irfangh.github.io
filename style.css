@@ -8,6 +8,11 @@ body {
 	overscroll-behavior: none;
 }
 
+body.d-flex {
+	background-color: #fff;
+	color: #000;
+}
+
 a {
 	text-decoration: none !important;
 }
