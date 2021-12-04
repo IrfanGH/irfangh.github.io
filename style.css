@@ -297,39 +297,7 @@ a, button, input, select {
 #ARButton {
 	font-weight: 700 !important;
 	font-size: 20px !important;
-	width: 200px !important;
-	left: calc(50% - 100px) !important;
+	width: 150px !important;
+	left: calc(50% - 75px) !important;
 	opacity: 1 !important;
 }
-
-
-
-
-
-
-
-
-
-#sceneNavigation {
-	list-style: none;
-	padding: 0;
-	margin: 0;
-	width: 100%;
-}
-
-#sceneNavigation li {
-	display: inline-block;
-	padding: 10px;
-	background-color: rgb(223, 222, 222);
-	color: #000;
-	margin: 10px;
-	border-radius: 10px;
-	border: 3px solid #aaa;
-}
-
-#sceneNavigation li.active {
-	border-color: #326499;
-	background: #b3cde8;
-}
-
-
