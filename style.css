@@ -21,6 +21,22 @@ a:hover {
 	text-decoration: none;
 }
 
+#arBadge {
+position: relative;
+}
+
+#arBadge span {
+	padding: 2px 3px;
+	border-radius: 5px;
+	font-size: 12px;
+	font-weight: 700;
+	position: absolute;
+	bottom: 13px;
+	line-height: 1;
+	right: -28px;
+	border: 1px solid #fff;
+}
+
 canvas {
 	height: calc(100%-100px);
 }
