@@ -150,8 +150,7 @@
 			console.log("Modelle werden geladen...");
 
 			const gltfLoader = new THREE.GLTFLoader().setPath( 'https://irfangh.github.io/Models/' );
-			const [ gltf_00, gltf_01 ] = await Promise.all( [
-				gltfLoader.loadAsync('00_Umrahmung.gltf'),
+			const [ gltf_00 ] = await Promise.all( [
 				gltfLoader.loadAsync('05_FEM_Verformung.gltf'),
 			] );
 
@@ -159,7 +158,6 @@
 			console.log("Modelle wurden geladen.");
 
 			groupScene1.add(gltf_00.scene);
-			groupScene1.add(gltf_01.scene);
 
 			addReticleToScene();
 
