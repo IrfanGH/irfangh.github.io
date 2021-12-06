@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Quader</title>
+		<title>Pyramide</title>
 		<meta charset="utf-8">
 		<style>
 			body {
@@ -72,14 +72,14 @@
 					/* scene.add( new THREE.AxesHelper( 20 ) ); */
 
 					// geometry
-					var geometry = new THREE.BoxGeometry( 2, 4, 4 );
+					var geometry = new THREE.ConeGeometry( 2, 4, 4 );
 					const edges = new THREE.EdgesGeometry( geometry );
 					const line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial( { color: 0xffffff } ) );
 					scene.add( line );
 					
 					// material
 					var material = new THREE.MeshPhongMaterial( {
-							color: 0xcf0e0e, 
+							color: 0xc617c1, 
 							flatShading: true,
 							transparent: true,
 							opacity: 0.7,
