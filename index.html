@@ -4,17 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="AR Torsionsbalken">
-    <meta name="author" content="ETH Zurich - kfm Research">
-    <title>AR Torsionsbalken</title>
+    <meta name="author" content="ETH Zurich - kfm Research - Irfan Custovic, Dr. Michael A. Kraus">
+
+    <title>Augmented Reality (AR) Torsionsbalken</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet"> 
-
-<!--     <link rel="icon" href="https://irfangh.github.io/assets/img/favicon/favicon_32x32.png" sizes="32x32" />
-    <link rel="icon" href="https://irfangh.github.io/assets/img/favicon/favicon_192x192.png" sizes="192x192" />
-    <link rel="apple-touch-icon" href="https://irfangh.github.io/assets/img/favicon/favicon_180x180.png" />
-    <meta name="msapplication-TileImage" content="https://irfangh.github.io/assets/img/favicon/favicon_270x270.png" /> -->
 
     <link rel="icon" href="https://concrete.ethz.ch/assets/misc/cropped-favicon-32x32.png" sizes="32x32" />
     <link rel="icon" href="https://concrete.ethz.ch/assets/misc/cropped-favicon-192x192.png" sizes="192x192" />
@@ -26,7 +22,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script type='text/javascript' src='https://concrete.ethz.ch/wp-includes/js/jquery/jquery.min.js?ver=3.6.0' id='jquery-core-js'></script>  
     
-    <link type="text/css" rel="stylesheet" href="https://irfangh.github.io/style.css">
+    <link type="text/css" rel="stylesheet" href="https://concrete.ethz.ch/apps/ar/torsionsbalken/style.css">
     
   </head>
   <body class="d-flex flex-column h-100">
@@ -35,7 +31,7 @@
       <!-- Fixed navbar -->
       <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container-fluid">
-          <a class="navbar-brand" id="arBadge" href="https://irfangh.github.io/">Concrete<span>AR</span></a>
+          <a class="navbar-brand" id="arBadge" href="https://concrete.ethz.ch/apps/">Concrete<span>AR</span></a>
           </div>
         </div>
       </nav>
@@ -49,8 +45,8 @@
           Um die AR Inhalte auf iOS Geräten anzuzeigen, wird der kostenlose <a href="https://apps.apple.com/de/app/webxr-viewer/id1295998056" class="alert-link" target="blank">Mozilla WebXR Viewer <i class="bi bi-box-arrow-up-right"></i></a> benötigt.
         </div>
         <p class="lead">Wählen Sie ein Modell, um es in AR darzustellen:</p>
-        <div class="list-group">
-          <a href="https://irfangh.github.io/WebXR/Model_01.html" class="list-group-item list-group-item-action" aria-current="true">
+        <div class="list-group" style="margin-bottom: 20px">
+          <a href="/WebXR/Model_01.html" class="list-group-item list-group-item-action" aria-current="true">
             <div class="d-flex w-100 justify-content-between">
               <h5 class="mb-1">Systemgeometrie</h5>
               <small></small>
@@ -58,7 +54,7 @@
             <p class="mb-1">Modell 1</p>
             <small></small>
           </a>
-          <a href="https://irfangh.github.io/WebXR/Model_02.html" class="list-group-item list-group-item-action" aria-current="true">
+          <a href="/WebXR/Model_02.html" class="list-group-item list-group-item-action" aria-current="true">
             <div class="d-flex w-100 justify-content-between">
               <h5 class="mb-1">Fachwerkmodell</h5>
               <small></small>
@@ -66,7 +62,7 @@
             <p class="mb-1">Modell 2</p>
             <small></small>
           </a>
-          <a href="https://irfangh.github.io/WebXR/Model_03.html" class="list-group-item list-group-item-action" aria-current="true">
+          <a href="/WebXR/Model_03.html" class="list-group-item list-group-item-action" aria-current="true">
             <div class="d-flex w-100 justify-content-between">
               <h5 class="mb-1">FEM Spannungen</h5>
               <small></small>
@@ -74,7 +70,7 @@
             <p class="mb-1">Modell 3</p>
             <small></small>
           </a>
-          <a href="https://irfangh.github.io/WebXR/Model_04.html" class="list-group-item list-group-item-action" aria-current="true">
+          <a href="/WebXR/Model_04.html" class="list-group-item list-group-item-action" aria-current="true">
             <div class="d-flex w-100 justify-content-between">
               <h5 class="mb-1">Bewehrungsführung</h5>
               <small></small>
@@ -82,7 +78,7 @@
             <p class="mb-1">Modell 4</p>
             <small></small>
           </a>
-          <a href="https://irfangh.github.io/WebXR/Model_05.html" class="list-group-item list-group-item-action" aria-current="true">
+          <a href="/WebXR/Model_05.html" class="list-group-item list-group-item-action" aria-current="true">
             <div class="d-flex w-100 justify-content-between">
               <h5 class="mb-1">FEM Verformungen</h5>
               <small></small>
@@ -90,7 +86,7 @@
             <p class="mb-1">Modell 5</p>
             <small></small>
           </a>
-          <a href="https://irfangh.github.io/WebXR/Model_06.html" class="list-group-item list-group-item-action" aria-current="true">
+          <a href="/WebXR/Model_06.html" class="list-group-item list-group-item-action" aria-current="true">
             <div class="d-flex w-100 justify-content-between">
               <h5 class="mb-1">Schubfluss Torsionsträger</h5>
               <small></small>
